@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Supplies</title>
+	{% load supply_extras %}
+</head>
+<body>
+<form method="POST" enctype="multipart/form-data">
+	<!-- Security token  Make sure you put this immediately after the form tag-->
+	{% csrf_token %}
+	<p>Supply</p>
+			
+     <!-- Using the formset -->
+    {{ form.as_p }}
+
+	
+	<input type="submit" value="Submit"> 
+
+</form>
+
+<div>
+	 <a href="{% url 'get_supplies' %}"><p>Get supplies</p></a><br/>
+	 <a href="{% url 'view_supplies' %}"><p>View supplies</p></a><br/>
+
+
+</div>	
+</body>
+
+</html>
