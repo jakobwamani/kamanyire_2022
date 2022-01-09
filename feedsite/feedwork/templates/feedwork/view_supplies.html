@@ -5,7 +5,7 @@
 	{% load supply_extras %}
 </head>
 <body>
-  <form action="{% url 'view_supplies' %}" method="get">
+  <form action="{% url 'view_supply' %}" method="get">
                 <!-- <label>Childid</label>
                 <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
                 <label>From</label>
@@ -59,13 +59,12 @@
                         <td>{{ supply.pricing }} </td>
                         <td><a href="update_supply/?id={{ supply.id }}">Update</a></td>
                         <td><a href="delete_supply/?id={{ supply.id }}">Delete</a></td>
+                        <!-- <td><a href="update_supply/?id={{ supply.id }}">Update</a></td> -->
 
                     </tr>
                     {% endfor %}
                 
                 </table>
 </body>
- 	<a href="{% url 'get_supplies' %}"><p>Get supplies</p></a><br/>
-	<a href="{% url 'view_supplies' %}"><p>View supplies</p></a><br/>
-
+ 	
 </html>
