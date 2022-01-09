@@ -113,6 +113,77 @@ def compute_quantities():
             quantity_addition.pig_concentrate = total_quantity
             quantity_addition.save()
 
+         elif lastest_item_supplied == 'soya_bean':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.soya_bean
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.soya_bean = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'calcium':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.calcium
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.calcium = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'brown_salt':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.brown_salt
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.brown_salt = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'animal_salt':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.animal_salt
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.animal_salt = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'common_salt':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.common_salt
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.common_salt = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'coconut':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.coconut
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.coconut = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'pig_concentrate':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.pig_concentrate
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.pig_concentrate = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'wonder_pig':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.wonder_pig
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.wonder_pig = total_quantity
+            quantity_addition.save()
+
+         elif lastest_item_supplied == 'big_pig':
+            quantity_update = RawMaterialQuantities.objects.last()
+            current_quantity = quantity_update.big_pig
+            total_quantity = current_quantity + quantity_of_lastest_item
+            quantity_addition = RawMaterialQuantities.objects.last()
+            quantity_addition.big_pig = total_quantity
+            quantity_addition.save()
    elif check_row == 0:
       #create default quantities
      
@@ -223,14 +294,83 @@ def compute_quantities():
          addition.egg_boaster = total_quantity
          addition.save()
 
-def update_quantites(increment_value,decrement_value , form ):
+      elif item_of_supply == 'calcium':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.calcium
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.calcium = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'soya_bean':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.soya_bean
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.soya_bean = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'brown_salt':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.brown_salt
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.brown_salt = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'animal_salt':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.animal_salt
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.animal_salt = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'common_salt':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.common_salt
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.common_salt = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'coconut':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.coconut
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.coconut = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'pig_concentrate':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.pig_concentrate
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.pig_concentrate = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'wonder_pig':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.wonder_pig
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.wonder_pig = total_quantity
+         addition.save()
+
+      elif item_of_supply == 'big_pig':
+         update           = RawMaterialQuantities.objects.last()
+         quantity         = update.big_pig
+         total_quantity   = quantity + quantity_of_supply           
+         addition         = RawMaterialQuantities.objects.last()
+         addition.big_pig = total_quantity
+         addition.save()
+
+def increment_quantities(increment_value,form ):
    if increment_value > 0:
       #get the current quantity of raw material in the RMQ model
       #Get date from the form
       date_of_supply = form.cleaned_data['date']
-
-
-
 
       #identify the item that we want to update
       item_supplied = form.cleaned_data['item']
@@ -479,68 +619,11 @@ def update_quantites(increment_value,decrement_value , form ):
          else:
             print("move on with life")
 
-   else:
-      date_of_supply = form.cleaned_data['date']
-      #identify the item that we want to update
-      item_supplied = form.cleaned_data['item']
-      if item_supplied == 'egg_boaster':
+      elif item_supplied == 'calcium':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         #get amount supplied    
-         item_value = amount_of_supply.egg_boaster
-         #add the two together
-         incremented_value = item_value - decrement_value
-         #update the value 
-         amount_of_supply.egg_boaster = incremented_value
-         amount_of_supply.save()                 
-         # then also add the incremented value on the last instance
-         current_supply = RawMaterialQuantities.objects.last()
-         #latest_instance
-         #first check if the updated instance the lastest instance are
-         #of the same date or not
-         last_date = amount_of_supply.date
-         rear_date = last_date.strftime("%x")
-         current_date = current_supply.date
-         earlist_date = current_date.strftime("%x")
-         #code below is for incase the dates are not the same.
-         if rear_date != earlist_date:
-            current_egg_boaster_value = current_supply.egg_boaster
-            increased_value = current_egg_boaster_value - decrement_value
-            current_supply.egg_boaster = increased_value
-            current_supply.save()
-         else:
-            print("move on with life")
-
-      elif item_supplied == 'maize_bran':
-         #update the RMQ maize_bran quantity
-         amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.maize_bran
-         incremented_value = item_value - decrement_value
-         amount_of_supply.maize_bran = incremented_value
-         amount_of_supply.save()
-
-         #update the last instance
-         current_supply = RawMaterialQuantities.objects.last()
-         #latest_instance
-         #first check if the updated instance the lastest instance are
-         #of the same date or not
-         last_date = amount_of_supply.date
-         rear_date = last_date.strftime("%x")
-         current_date = current_supply.date
-         earlist_date = current_date.strftime("%x")
-
-         if rear_date != earlist_date:
-            current_maize_bran_value = current_supply.maize_bran
-            increased_value =  current_maize_bran_value + decrement_value
-            current_supply.maize_bran = increased_value
-            current_supply.save()
-         else:
-            print("move on with life")      
-
-      elif item_supplied == 'cotton':
-         amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.cotton
-         incremented_value = item_value - decrement_value
-         amount_of_supply.cotton = incremented_value
+         item_value = amount_of_supply.calcium
+         incremented_value = item_value + increment_value
+         amount_of_supply.calcium = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -553,18 +636,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_cotton_value = current_supply.cotton
-            increased_value =  current_cotton_value - decrement_value
-            current_supply.cotton = increased_value
+            current_calcium_value = current_supply.calcium
+            increased_value =  current_calcium_value + increment_value
+            current_supply.calcium = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'sun_flower':
+      elif item_supplied == 'soya_bean':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.sun_flower
-         incremented_value = item_value - decrement_value
-         amount_of_supply.sun_flower = incremented_value
+         item_value = amount_of_supply.soya_bean
+         incremented_value = item_value + increment_value
+         amount_of_supply.soya_bean = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -577,18 +660,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_sun_flower_value = current_supply.sun_flower
-            increased_value =  current_sun_flower_value - decrement_value
-            current_supply.sun_flower = increased_value
+            current_soya_bean_value = current_supply.soya_bean
+            increased_value =  current_soya_bean_value + increment_value
+            current_supply.soya_bean = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'fish':
+      elif item_supplied == 'brown_salt':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.fish
-         incremented_value = item_value - decrement_value
-         amount_of_supply.fish = incremented_value
+         item_value = amount_of_supply.brown_salt
+         incremented_value = item_value + increment_value
+         amount_of_supply.brown_salt = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -601,18 +684,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_fish_value = current_supply.fish
-            increased_value =  current_fish_value - decrement_value
-            current_supply.fish = increased_value
+            current_brown_salt_value = current_supply.brown_salt
+            increased_value =  current_brown_salt_value + increment_value
+            current_supply.brown_salt = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'salt':
+      elif item_supplied == 'animal_salt':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.salt
-         incremented_value = item_value - decrement_value
-         amount_of_supply.salt = incremented_value
+         item_value = amount_of_supply.animal_salt
+         incremented_value = item_value + increment_value
+         amount_of_supply.animal_salt = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -625,18 +708,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_salt_value = current_supply.salt
-            increased_value =  current_salt_value - decrement_value
-            current_supply.salt = increased_value
+            current_soya_bean_value = current_supply.animal_salt
+            increased_value =  current_soya_bean_value + increment_value
+            current_supply.animal_salt = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'layers_premix':
+      elif item_supplied == 'common_salt':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.layers_premix
-         incremented_value = item_value - decrement_value
-         amount_of_supply.layers_premix = incremented_value
+         item_value = amount_of_supply.common_salt
+         incremented_value = item_value + increment_value
+         amount_of_supply.common_salt = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -649,18 +732,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_layers_premix_value = current_supply.layers_premix
-            increased_value =  current_layers_premix_value - decrement_value
-            current_supply.layers_premix = increased_value
+            current_common_salt_value = current_supply.common_salt
+            increased_value =  current_common_salt_value + increment_value
+            current_supply.common_salt = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'general_purpose_premix':
+      elif item_supplied == 'coconut':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.general_purpose_premix
-         incremented_value = item_value - decrement_value
-         amount_of_supply.general_purpose_premix = incremented_value
+         item_value = amount_of_supply.coconut
+         incremented_value = item_value + increment_value
+         amount_of_supply.coconut = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -673,18 +756,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_general_purpose_premix_value = current_supply.general_purpose_premix
-            increased_value =  current_general_purpose_premix_value - increment_value
-            current_supply.general_purpose_premix = increased_value
+            current_coconut_value = current_supply.coconut
+            increased_value =  current_coconut_value + increment_value
+            current_supply.coconut = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'shells':
+      elif item_supplied == 'pig_concentrate':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.shells
-         incremented_value = item_value - decrement_value
-         amount_of_supply.shells = incremented_value
+         item_value = amount_of_supply.pig_concentrate
+         incremented_value = item_value + increment_value
+         amount_of_supply.coconut = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -697,18 +780,18 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_general_purpose_premix_value = current_supply.shells
-            increased_value =  current_shells_value - decrement_value
-            current_supply.shells = increased_value
+            current_pig_concentrate_value = current_supply.pig_concentrate
+            increased_value =  current_pig_concentrate_value + increment_value
+            current_supply.pig_concentrate = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
-      elif item_supplied == 'meat_boaster':
+      elif item_supplied == 'wonder_pig':
          amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.meat_boaster
-         incremented_value = item_value - decrement_value
-         amount_of_supply.meat_boaster = incremented_value
+         item_value = amount_of_supply.wonder_pig
+         incremented_value = item_value + increment_value
+         amount_of_supply.wonder_pig = incremented_value
          amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
@@ -721,13 +804,501 @@ def update_quantites(increment_value,decrement_value , form ):
          earlist_date = current_date.strftime("%x")
 
          if rear_date != earlist_date:
-            current_general_purpose_premix_value = current_supply.meat_boaster
-            increased_value =  current_shells_value - decrement_value
-            current_supply.meat_boaster = increased_value
+            current_wonder_pig_value = current_supply.wonder_pig
+            increased_value =  current_wonder_pig_value + increment_value
+            current_supply.animal_salt = increased_value
             current_supply.save()
          else:
             print("move on with life")
 
+      elif item_supplied == 'big_pig':
+         amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+         item_value = amount_of_supply.big_pig
+         incremented_value = item_value + increment_value
+         amount_of_supply.big_pig = incremented_value
+         amount_of_supply.save()
+
+         current_supply = RawMaterialQuantities.objects.last()
+         #latest_instance
+         #first check if the updated instance the lastest instance are
+         #of the same date or not
+         last_date = amount_of_supply.date
+         rear_date = last_date.strftime("%x")
+         current_date = current_supply.date
+         earlist_date = current_date.strftime("%x")
+
+         if rear_date != earlist_date:
+            current_big_pig_value = current_supply.big_pig
+            increased_value =  current_big_pig_value + increment_value
+            current_supply.big_pig = increased_value
+            current_supply.save()
+         else:
+            print("move on with life")
+
+def decrement_quantities(decrement_value , form):
+   date_of_supply = form.cleaned_data['date']
+   #identify the item that we want to update
+   item_supplied = form.cleaned_data['item']
+   if item_supplied == 'egg_boaster':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      #get amount supplied    
+      item_value = amount_of_supply.egg_boaster
+      #add the two together
+      incremented_value = item_value - decrement_value
+      #update the value 
+      amount_of_supply.egg_boaster = incremented_value
+      amount_of_supply.save()                 
+      # then also add the incremented value on the last instance
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+      #code below is for incase the dates are not the same.
+      if rear_date != earlist_date:
+         current_egg_boaster_value = current_supply.egg_boaster
+         increased_value = current_egg_boaster_value - decrement_value
+         current_supply.egg_boaster = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'maize_bran':
+      #update the RMQ maize_bran quantity
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.maize_bran
+      incremented_value = item_value - decrement_value
+      amount_of_supply.maize_bran = incremented_value
+      amount_of_supply.save()
+
+      #update the last instance
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_maize_bran_value = current_supply.maize_bran
+         increased_value =  current_maize_bran_value + decrement_value
+         current_supply.maize_bran = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")      
+
+   elif item_supplied == 'cotton':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.cotton
+      incremented_value = item_value - decrement_value
+      amount_of_supply.cotton = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_cotton_value = current_supply.cotton
+         increased_value =  current_cotton_value - decrement_value
+         current_supply.cotton = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'sun_flower':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.sun_flower
+      incremented_value = item_value - decrement_value
+      amount_of_supply.sun_flower = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_sun_flower_value = current_supply.sun_flower
+         increased_value =  current_sun_flower_value - decrement_value
+         current_supply.sun_flower = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'fish':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.fish
+      incremented_value = item_value - decrement_value
+      amount_of_supply.fish = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_fish_value = current_supply.fish
+         increased_value =  current_fish_value - decrement_value
+         current_supply.fish = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'salt':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.salt
+      incremented_value = item_value - decrement_value
+      amount_of_supply.salt = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_salt_value = current_supply.salt
+         increased_value =  current_salt_value - decrement_value
+         current_supply.salt = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'layers_premix':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.layers_premix
+      incremented_value = item_value - decrement_value
+      amount_of_supply.layers_premix = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_layers_premix_value = current_supply.layers_premix
+         increased_value =  current_layers_premix_value - decrement_value
+         current_supply.layers_premix = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'general_purpose_premix':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.general_purpose_premix
+      incremented_value = item_value - decrement_value
+      amount_of_supply.general_purpose_premix = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_general_purpose_premix_value = current_supply.general_purpose_premix
+         increased_value =  current_general_purpose_premix_value - increment_value
+         current_supply.general_purpose_premix = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'shells':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.shells
+      incremented_value = item_value - decrement_value
+      amount_of_supply.shells = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_general_purpose_premix_value = current_supply.shells
+         increased_value =  current_shells_value - decrement_value
+         current_supply.shells = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'meat_boaster':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.meat_boaster
+      incremented_value = item_value - decrement_value
+      amount_of_supply.meat_boaster = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_meat_boaster_value = current_supply.meat_boaster
+         increased_value =  current_meat_boaster_value - decrement_value
+         current_supply.meat_boaster = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'calcium':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.calcium
+      incremented_value = item_value - decrement_value
+      amount_of_supply.calcium = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_calcium_value = current_supply.calcium
+         increased_value =  current_calcium_value - decrement_value
+         current_supply.calcium = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'soya_bean':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.soya_bean
+      incremented_value = item_value - decrement_value
+      amount_of_supply.soya_bean = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_soya_bean_value = current_supply.soya_bean
+         increased_value =  current_soya_bean_value - decrement_value
+         current_supply.soya_bean = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'brown_salt':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.brown_salt
+      incremented_value = item_value - decrement_value
+      amount_of_supply.brown_salt = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_brown_salt_value = current_supply.soya_bean
+         increased_value =  current_brown_salt_value - decrement_value
+         current_supply.brown_salt = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'animal_salt':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.animal_salt
+      incremented_value = item_value - decrement_value
+      amount_of_supply.animal_salt = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_animal_salt_value = current_supply.animal_salt
+         increased_value =  current_animal_salt_value - decrement_value
+         current_supply.animal_salt = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'common_salt':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.common_salt
+      incremented_value = item_value - decrement_value
+      amount_of_supply.common_salt = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_common_salt_value = current_supply.common_salt
+         increased_value =  current_common_salt_value - decrement_value
+         current_supply.common_salt = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'coconut':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.coconut
+      incremented_value = item_value - decrement_value
+      amount_of_supply.coconut = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_coconut_value = current_supply.coconut
+         increased_value =  current_coconut_value - decrement_value
+         current_supply.coconut = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'pig_concentrate':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.pig_concentrate
+      incremented_value = item_value - decrement_value
+      amount_of_supply.pig_concentrate = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_pig_concentrate_value = current_supply.pig_concentrate
+         increased_value =  current_pig_concentrate_value - decrement_value
+         current_supply.coconut = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'wonder_pig':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.wonder_pig
+      incremented_value = item_value - decrement_value
+      amount_of_supply.wonder_pig = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_wonder_pig_value = current_supply.wonder_pig
+         increased_value =  current_wonder_pig_value - decrement_value
+         current_supply.wonder_pig = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
+
+   elif item_supplied == 'big_pig':
+      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      item_value = amount_of_supply.big_pig
+      incremented_value = item_value - decrement_value
+      amount_of_supply.big_pig = incremented_value
+      amount_of_supply.save()
+
+      current_supply = RawMaterialQuantities.objects.last()
+      #latest_instance
+      #first check if the updated instance the lastest instance are
+      #of the same date or not
+      last_date = amount_of_supply.date
+      rear_date = last_date.strftime("%x")
+      current_date = current_supply.date
+      earlist_date = current_date.strftime("%x")
+
+      if rear_date != earlist_date:
+         current_big_pig_value = current_supply.big_pig
+         increased_value =  current_big_pig_value - decrement_value
+         current_supply.big_pig = increased_value
+         current_supply.save()
+      else:
+         print("move on with life")
 
 def reduce_due_to_deletion(supply_item,supply_quantity):
    # maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
@@ -801,5 +1372,75 @@ def reduce_due_to_deletion(supply_item,supply_quantity):
       quantity_update = current_quantity - supply_quantity
       instance.egg_boaster = quantity_update
       instance.save()
+
+   elif supply_item == "calcium":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.calcium
+      quantity_update = current_quantity - supply_quantity
+      instance.calcium = quantity_update
+      instance.save()
+
+   elif supply_item == "soya_bean":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.soya_bean
+      quantity_update = current_quantity - supply_quantity
+      instance.soya_bean = quantity_update
+      instance.save()
+
+   elif supply_item == "brown_salt":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.brown_salt
+      quantity_update = current_quantity - supply_quantity
+      instance.brown_salt = quantity_update
+      instance.save()
+
+   elif supply_item == "animal_salt":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.animal_salt
+      quantity_update = current_quantity - supply_quantity
+      instance.animal_salt = quantity_update
+      instance.save()
+
+   elif supply_item == "common_salt":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.common_salt
+      quantity_update = current_quantity - supply_quantity
+      instance.common_salt = quantity_update
+      instance.save()
+
+   elif supply_item == "coconut":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.coconut
+      quantity_update = current_quantity - supply_quantity
+      instance.coconut = quantity_update
+      instance.save()
+
+   elif supply_item == "pig_concentrate":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.pig_concentrate
+      quantity_update = current_quantity - supply_quantity
+      instance.pig_concentrate = quantity_update
+      instance.save()
+
+   elif supply_item == "wonder_pig":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.wonder_pig
+      quantity_update = current_quantity - supply_quantity
+      instance.wonder_pig = quantity_update
+      instance.save()
+
+   elif supply_item == "big_pig":
+      instance = RawMaterialQuantities.objects.last()
+      current_quantity = instance.big_pig
+      quantity_update = current_quantity - supply_quantity
+      instance.big_pig = quantity_update
+      instance.save()
+
+
+
+
+
+
+
 
    return print("Numbers successfully reduced")
