@@ -44,8 +44,18 @@ class Product(models.Model):
 	egg_boaster = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	fish = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	calcium = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	soya_bean = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	brown_salt = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	animal_salt = models.DecimalField(max_digits=10 , decimal_places=2 ,default=0.0)
+	common_salt = models.DecimalField(max_digits=10 , decimal_places=2 ,default=0.0)
+	brown_salt = models.DecimalField(max_digits=10 , decimal_places=2 ,default=0.0)
+	coconut = models.DecimalField(max_digits=10 , decimal_places=2 ,default=0.0)
+	pig_concentrate = models.DecimalField(max_digits=10 , decimal_places=2 ,default=0.0)
+	wonder_pig = models.DecimalField(max_digits=10 , decimal_places=2 , default=0.0)
+	big_pig	= models.DecimalField(max_digits=10 , decimal_places=2 ,default=0.0)
 	def __str__(self):
-		return '{}'.format(self.product)
+		return '{}'.format(self.date)
 
 class RawMaterialQuantities(models.Model):
 	date = models.DateField()

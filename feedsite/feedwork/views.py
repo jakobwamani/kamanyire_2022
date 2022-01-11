@@ -230,4 +230,93 @@ def deleting_supplies(request):
         # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_supply.html",context=context_dict)
 
+def create_product(request):
+    context = {}
+    form = ProductForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
 
+            product = form.cleaned_data['product']  
+            maize_bran = form.cleaned_data['maize_bran']
+            cotton = form.cleaned_data['cotton']
+            sun_flower = form.cleaned_data['sun_flower']
+            fish = form.cleaned_data['fish']
+            salt = form.cleaned_data['salt']
+            general_purpose_premix = form.cleaned_data['general_purpose_premix']
+            layers_premix = form.cleaned_data['layers_premix']
+            shells = form.cleaned_data['shells']
+            meat_boaster = form.cleaned_data['meat_boaster']
+            egg_boaster = form.cleaned_data['egg_boaster']
+            # Raw Materials to be added
+            calcium = form.cleaned_data['calcium'] 
+            soya_bean = form.cleaned_data['soya_bean']
+            animal_salt = form.cleaned_data['animal_salt']
+            common_salt = form.cleaned_data['common_salt']
+            coconut = form.cleaned_data['coconut']
+            pig_concentrate = form.cleaned_data['pig_concentrate']
+            wonder_pig = form.cleaned_data['wonder_pig']
+            big_pig = form.cleaned_data['big_pig']
+
+            # maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+            # ,meat_boaster ,egg_boaster
+             
+            subtracting(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig)
+
+            #populate the product quantities model
+
+            adding(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig)
+
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/')
+    else:        
+        context['form'] = form
+    
+
+    return render(request,"product.html",context)
+
+def viewing_product(request):
+    #get the date from the user 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    # six_months.strftime('%Y%m%d')
+    # run a query to get all the supplies on that date
+    products = Product.objects.filter(date__range=[start_date, end_date])
+    print(type(products))   
+    return render(request, "view_products.html", {'products':products}) 
+
+def updating_product(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        product_record = Product.objects.get(id=clean_pk)
+        form = ProductForm(request.POST or None, instance=product_record)
+        if request.method == 'POST':
+            if form.is_valid():
+            
+                form.save()
+
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+            
+    return render(request,"update_products.html",context=context_dict)
+
+def deleting_product(request):
+    # book= get_object_or_404(Book, pk=pk)  
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        product_record_to_delete = Product.objects.get(id=cleaned_pk)  
+        if request.method=='POST':
+            product_record_to_delete.delete()
+            return HttpResponseRedirect('http://127.0.0.1:8000/')   
+
+    return render(request, "delete_products.html",context=context_dict)

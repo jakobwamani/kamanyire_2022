@@ -1436,11 +1436,121 @@ def reduce_due_to_deletion(supply_item,supply_quantity):
       instance.big_pig = quantity_update
       instance.save()
 
+   return print("Numbers successfully reduced") 
 
+def subtracting(a,mai,cot,sun,fis,sal,gpp,lyp,she,meb,egb,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig):
+   instance = RawMaterialQuantities.objects.last()
+   #subtract the current information , maize bran
+   current_maize = instance.maize_bran - mai
+   #
+   instance.maize_bran = current_maize
+   instance.save()
+   #cotton
+   current_cotton = instance.cotton - cot
+   instance.cotton = current_cotton
+   instance.save()
+   #sun_flower
+   current_sun_flower = instance.sun_flower - sun
+   instance.sun_flower = current_sun_flower
+   instance.save()
+   #fish
+   current_fish = instance.fish - fis
+   instance.fish = current_fish
+   instance.save()
+   #salt
+   current_salt = instance.salt - sal
+   instance.salt = current_salt
+   instance.save()
+   #general_purpose_premix
+   current_general_purpose_premix = instance.general_purpose_premix - gpp
+   instance.general_purpose_premix = current_general_purpose_premix
+   instance.save()
+   #layers_premix
+   current_layers_premix = instance.layers_premix - lyp
+   instance.layers_premix = current_layers_premix
+   instance.save()
+   #shells
+   current_shells = instance.shells - she
+   instance.shells = current_shells
+   instance.save()
+   #meat_boaster
+   current_meat_boaster = instance.meat_boaster - meb
+   instance.meat_boaster = current_meat_boaster
+   instance.save()
+   #egg_boaster
+   current_egg_boaster = instance.egg_boaster - egb
+   instance.egg_boaster = current_egg_boaster
+   instance.save()
+   #calcium
+   current_calcium = instance.calcium - calcium
+   instance.calcium = current_calcium
+   instance.save()
+   #soya_bean
+   current_soya_bean = instance.soya_bean - soya_bean
+   instance.soya_bean = current_soya_bean
+   instance.save()
+   #animal_salt
+   current_animal_salt = instance.animal_salt - animal_salt
+   instance.animal_salt = current_animal_salt
+   instance.save()
+   #common_salt
+   current_common_salt = instance.common_salt - common_salt
+   instance.common_salt = current_common_salt
+   instance.save()
+   #coconut
+   current_coconut = instance.coconut - coconut
+   instance.coconut = current_coconut
+   instance.save()
+   #pig_concentrate
+   current_pig_concentrate = instance.pig_concentrate - pig_concentrate
+   instance.pig_concentrate = current_pig_concentrate
+   instance.save()
+   #wonder_pig
+   current_wonder_pig = instance.wonder_pig - wonder_pig
+   instance.wonder_pig = current_wonder_pig
+   instance.save()
+   #big_pig
+   current_big_pig = instance.big_pig -big_pig
+   instance.big_pig = current_big_pig
+   instance.save()
 
+def adding(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig):   
+   #here we are getting the product from the form
+   #we could first add up all the rawmats and have one figure
+   total_quantity = maize_bran + cotton + sun_flower + fish + salt + general_purpose_premix + layers_premix + shells + meat_boaster + egg_boaster + calcium + soya_bean + animal_salt + common_salt + coconut + pig_concentrate + wonder_pig + big_pig
+   last_quantity = ProductQuantities.objects.last()
+   if product == "broilers_marsh":
+      item = last_quantity.broilers_marsh 
+      new_quantity = total_quantity + item
+      last_quantity.broilers_marsh = new_quantity
+      last_quantity.save()
 
+   elif product == "chick_marsh":
+      item = last_quantity.chick_marsh
+      new_quantity = total_quantity + item
+      last_quantity.chick_marsh = new_quantity
+      last_quantity.save()
 
+   elif product == "old_pig":
+      item = last_quantity.old_pig
+      new_quantity = total_quantity + item
+      last_quantity.old_pig = new_quantity
+      last_quantity.save()
 
+   elif product == "growers_marsh":
+      item = last_quantity.growers_marsh
+      new_quantity = total_quantity + item
+      last_quantity.growers_marsh = new_quantity
+      last_quantity.save()
 
+   elif product == "layers_marsh":
+      item = last_quantity.layers_marsh
+      new_quantity = total_quantity + item
+      last_quantity.layers_marsh = new_quantity
+      last_quantity.save()
 
-   return print("Numbers successfully reduced")
+   elif product == "young_pig":
+      item = last_quantity.young_pig
+      new_quantity = total_quantity + item 
+      last_quantity.young_pig = new_quantity
+      last_quantity.save()

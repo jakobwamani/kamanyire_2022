@@ -126,12 +126,22 @@ class ProductForm(forms.ModelForm):
 	general_purpose_premix = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 	shells = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 	meat_boaster = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	egg_boaster = forms.IntegerField( initial = 0)
+	egg_boaster = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	#added items
+	calcium = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	soya_bean = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	animal_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	common_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	brown_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	coconut = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	pig_concentrate = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	wonder_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	big_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 
 	class Meta:
 		model = Product
 
-		fields = ["date","product","maize_bran","cotton","sun_flower","salt","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish"]
+		fields = ["date","product","maize_bran","cotton","sun_flower","salt","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish","calcium","soya_bean","animal_salt","common_salt","brown_salt","coconut","pig_concentrate","wonder_pig","big_pig"]
 
 
 class ProductPriceForm(forms.ModelForm):
