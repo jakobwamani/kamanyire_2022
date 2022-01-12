@@ -13,6 +13,8 @@ urlpatterns = [
     path('view_products',views.viewing_product, name = 'view_product'),
     path('update_products/',views.updating_product, name = 'update_product'),
     path('delete_products/',views.deleting_product, name = 'delete_product'),
-    
-
+    path('create_raw_material_prices/',views.create_raw_material_prices, name = 'raw_material_prices'),
+    path('view_raw_material_prices/',views.viewing_raw_material_prices, name = 'view_raw_material_prices'),
+    path('update_raw_material_prices/',views.updating_raw_material_prices, name = 'update_raw_material_prices'),
+    path('delete_raw_material_prices/',views.deleting_raw_material_prices, name = 'delete_raw_material_prices'),
 ]

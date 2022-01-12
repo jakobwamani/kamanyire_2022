@@ -26,22 +26,22 @@ class RawMaterialForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
-	receipt_number = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	receipt_number = forms.IntegerField(initial = 0)
 	supplier = forms.CharField()
 	item = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
 	# item = forms.CharField()
 	quantity = forms.IntegerField(disabled=True)
 	increase_quantity = forms.IntegerField(initial=0)
 	reduce_quantity = forms.IntegerField(initial=0)
-	unit_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	unit_price = forms.IntegerField(initial = 0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
-	# amount = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	transport = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	onloading = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	offloading = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	grinding = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	# amount = forms.IntegerField(initial = 0)
+	transport = forms.IntegerField(initial = 0)
+	onloading = forms.IntegerField(initial = 0)
+	offloading = forms.IntegerField(initial = 0)
+	grinding = forms.IntegerField(initial = 0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
-	# fullamount = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	# fullamount = forms.IntegerField(initial = 0)
 	# pricing = forms.IntegerField(help_text='First check to cost of supply to update this')
    
 	# create meta class
@@ -65,20 +65,20 @@ class SupplyForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
-	receipt_number = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	receipt_number = forms.IntegerField(initial = 0)
 	supplier = forms.CharField()
 	item = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
 	# item = forms.CharField()
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	unit_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.IntegerField(initial = 0)
+	unit_price = forms.IntegerField(initial = 0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
-	# amount = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	transport = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	onloading = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	offloading = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	grinding = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	# amount = forms.IntegerField(initial = 0)
+	transport = forms.IntegerField(initial = 0)
+	onloading = forms.IntegerField(initial = 0)
+	offloading = forms.IntegerField(initial = 0)
+	grinding = forms.IntegerField(initial = 0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
-	# fullamount = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	# fullamount = forms.IntegerField(initial = 0)
 	# pricing = forms.IntegerField(help_text='First check to cost of supply to update this')
    
 	# create meta class
@@ -117,26 +117,26 @@ class ProductForm(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	# date = forms.DateField()
 	product = forms.ChoiceField(choices=PRODUCT_CHOICES)
-	fish = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	maize_bran = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	cotton = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	sun_flower = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	layers_premix = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	general_purpose_premix = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	shells = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	meat_boaster = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	egg_boaster = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	fish = forms.IntegerField(initial = 0)
+	maize_bran = forms.IntegerField(initial = 0)
+	cotton = forms.IntegerField(initial = 0)
+	sun_flower = forms.IntegerField(initial = 0)
+	salt = forms.IntegerField(initial = 0)
+	layers_premix = forms.IntegerField(initial = 0)
+	general_purpose_premix = forms.IntegerField(initial = 0)
+	shells = forms.IntegerField(initial = 0)
+	meat_boaster = forms.IntegerField(initial = 0)
+	egg_boaster = forms.IntegerField(initial = 0)
 	#added items
-	calcium = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	soya_bean = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	animal_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	common_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	brown_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	coconut = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	pig_concentrate = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	wonder_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	big_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	calcium = forms.IntegerField(initial = 0)
+	soya_bean = forms.IntegerField(initial = 0)
+	animal_salt = forms.IntegerField(initial = 0)
+	common_salt = forms.IntegerField(initial = 0)
+	brown_salt = forms.IntegerField(initial = 0)
+	coconut = forms.IntegerField(initial = 0)
+	pig_concentrate = forms.IntegerField(initial = 0)
+	wonder_pig = forms.IntegerField(initial = 0)
+	big_pig = forms.IntegerField(initial = 0)
 
 	class Meta:
 		model = Product
@@ -147,12 +147,12 @@ class ProductForm(forms.ModelForm):
 class ProductPriceForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
-	broilers_marsh = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	chick_marsh = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	old_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	growers_marsh = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	layers_marsh = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	young_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	broilers_marsh = forms.IntegerField(initial = 0)
+	chick_marsh = forms.IntegerField(initial = 0)
+	old_pig = forms.IntegerField(initial = 0)
+	growers_marsh = forms.IntegerField(initial = 0)
+	layers_marsh = forms.IntegerField(initial = 0)
+	young_pig = forms.IntegerField(initial = 0)
 
 	class Meta:
 		model = ProductPrices
@@ -166,21 +166,30 @@ class RawMaterialPricesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	# date = models.DateField()
-	maize_bran = forms.IntegerField(initial=0)
-	cotton = forms.IntegerField(initial=0)
-	sun_flower = forms.IntegerField(initial=0)
-	fish = forms.IntegerField(initial=0)
-	salt = forms.IntegerField(initial=0)
-	general_purpose_premix = forms.IntegerField(initial=0)
-	layers_premix = forms.IntegerField(initial=0)
-	shells = forms.IntegerField(initial=0)
-	meat_boaster = forms.IntegerField(initial=0)
-	egg_boaster = forms.IntegerField(initial=0)
+	maize_bran = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	cotton = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	sun_flower = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	fish = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	general_purpose_premix = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	layers_premix = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	shells = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	meat_boaster = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	egg_boaster = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	calcium = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	soya_bean = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	brown_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	animal_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	common_salt = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	pig_concentrate = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	coconut = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	wonder_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	big_pig = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 
 	class Meta:
 		model = RawMaterialPrices
 
-		fields = ["date","maize_bran","cotton","sun_flower","salt","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish"]
+		fields = ["date","maize_bran","cotton","sun_flower","salt","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish","calcium","soya_bean","brown_salt","animal_salt","pig_concentrate","coconut","wonder_pig","big_pig"]
 
 
 PRODUCT_CHOICES = (("broilers_marsh","broilers_marsh")
@@ -194,9 +203,9 @@ class ProductSalesForm(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	# date = models.DateField()
 	product = forms.ChoiceField(choices = PRODUCT_CHOICES)
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	selling_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	total = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.IntegerField(initial = 0)
+	selling_price = forms.IntegerField(initial = 0)
+	total = forms.IntegerField(initial = 0)
 
 	class Meta:
 		model = ProductSales
@@ -207,9 +216,9 @@ class RawMaterialSalesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	raw_material = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	selling_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	total = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.IntegerField(initial = 0)
+	selling_price = forms.IntegerField(initial = 0)
+	total = forms.IntegerField(initial = 0)
 
 	class Meta:
 		model = RawMaterialSales

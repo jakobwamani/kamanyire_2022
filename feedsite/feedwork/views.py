@@ -320,3 +320,86 @@ def deleting_product(request):
             return HttpResponseRedirect('http://127.0.0.1:8000/')   
 
     return render(request, "delete_products.html",context=context_dict)
+
+def create_raw_material_prices(request):
+    # dictionary for initial data with
+    # field names as keys
+    context = {}
+
+    # add the dictionary during initialization
+    form = RawMaterialPricesForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
+            #table
+            # we shall check if the "RawMaterialQuantities" table has atleast one row
+            # compute_quantities()  
+            return HttpResponseRedirect('http://127.0.0.1:8000/')       
+    else:
+        context['form'] = form
+
+    return render(request, "create_raw_material_prices.html",context)
+
+def viewing_raw_material_prices(request):
+    #get the date from the user 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    p_prices = RawMaterialPrices.objects.filter(date__range=[start_date, end_date])
+
+    # print(type(supplies))
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_raw_material_prices.html", {'p_prices':p_prices})
+
+def updating_raw_material_prices(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        product_prices = RawMaterialPrices.objects.get(id=clean_pk)
+        form = RawMaterialPricesForm(request.POST or None, instance=product_prices)
+        
+        if request == 'POST':
+            if form.is_valid():         
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                
+        else:
+            context_dict["form"] = form
+
+    return render(request,"update_raw_material_prices.html",context=context_dict)
+
+
+def deleting_raw_material_prices(request):
+     # book= get_object_or_404(Book, pk=pk)  
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        product_price_to_delete = RawMaterialPrices.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        product_price_to_delete.delete()
+
+        # return HttpResponseRedirect('http://127.0.0.1:8000/')
+        # redirect('view_product_prices.html')
+        # if request.method =='POST':
+        #   #we get to know the item 
+
+        #     supply_record_to_delete.delete()
+        #     return redirect('view_supply.html')
+
+        # context_dict["object"] = supply_record_to_delete
+    return render(request, "delete_raw_material_prices.html",context=context_dict)
