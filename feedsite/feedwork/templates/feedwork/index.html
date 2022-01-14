@@ -2,12 +2,110 @@
 <head>
 	<title>HOME</title>
 </head>
+<style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <body>
-	
+	<h1>Product Quantities</h1>
+    <table style="border:1px">
+                    <ul>
+        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+        meat_boaster ,egg_boaster  -->
+                    <tr>
+                        <th>Price Id</th>
+                        <th>Date</th>
+                        <th>Broilers_marsh</th>
+                        <th>Chick_marsh</th>
+                        <th>Growers_marsh</th>
+                        <th>Old_pig</th>
+                        <th>layers_marsh</th>
+                        <th>young_pig</th>
+                       
+                    </tr>
+                 
+                    <tr>
+                        <td>{{ lastproduct.id}} </td>
+                        <td>{{ lastproduct.date }} </td>
+                        <td>{{ lastproduct.broilers_marsh }}</td>
+                        <td>{{ lastproduct.chick_marsh }}</td>
+                        <td>{{ lastproduct.growers_marsh }}</td>
+                        <td>{{ lastproduct.old_pig }}</td>
+                        <td>{{ lastproduct.layers_marsh }}</td>                      
+                        <td>{{ lastproduct.young_pig }} </td>
+                        
+                    </tr>       
+                </table>
+
+    <h1>View Raw Material Quantities</h1>
+   
+     <table style="border:1px">
+                    <ul>
+        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+        meat_boaster ,egg_boaster  -->
+                    <tr>
+                        <th>price Id</th>
+                        <th>Date</th>
+                        <th>Maize_bran</th>
+                        <th>Cotton</th>
+                        <th>Sun_Flower</th>
+                        <th>Fish</th>
+                        <th>Salt</th>
+                        <th>General Purpose_Premix</th>
+                        <th>Layers_Premix</th>
+                        <th>Shells</th>
+                        <th>Meat Boaster</th>
+                        <th>Egg Boaster</th>
+                        <th>Calcium</th> 
+                        <th>Soya Bean</th>
+                        <th>Brown Salt</th>
+                        <th>Animal Salt</th>
+                        <th>Common Salt</th>
+                        <th>Coconut</th>
+                        <th>Pig concentrate</th>
+                        <th>wonder pig</th>
+                        <th>big pig</th>
+                    </tr>
+                 
+                    <tr>
+                        <td>{{ lastitem.id}} </td>
+                        <td>{{ lastitem.date }} </td>
+                        <td>{{ lastitem.maize_bran }}</td>
+                        <td>{{ lastitem.cotton }}</td>
+                        <td>{{ lastitem.sun_flower }}</td>
+                        <td>{{ lastitem.fish }}</td>
+                        <td>{{ lastitem.salt }}</td>                      
+                        <td>{{ lastitem.general_purpose_premix }} </td>
+                        <td>{{ lastitem.layers_premix }} </td>
+                        <td>{{ lastitem.shells }} </td>
+                        <td>{{ lastitem.meat_boaster }} </td>
+                        <td>{{ lastitem.egg_boaster }}</td> 
+                        <td>{{ lastitem.calcium }}</td>
+                        <td>{{ lastitem.soya_bean }}</td> 
+                        <td>{{ lastitem.brown_salt }}</td>   
+                        <td>{{ lastitem.animal_salt }}</td>
+                        <td>{{ lastitem.common_salt }}</td> 
+                        <td>{{ lastitem.coconut }}</td>  
+                        <td>{{ lastitem.pig_concentrate }}</td>  
+                        <td>{{ lastitem.wonder_pig }}</td> 
+                        <td>{{ lastitem.big_pig }}</td>    
+                    </tr>
+                               
+                </table>
+
+    <h1>Today's Gross Profit</h1>
 </body>
 <div>
+
+	<a href="{% url 'index' %}"><p>Home</p></a><br/>
 	<a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>
  	<a href="{% url 'view_supply' %}"><p>View supplies</p></a><br/>
+    <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
+        <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
+
  	<a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
  	<a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
  	<a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>

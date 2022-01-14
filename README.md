@@ -17,6 +17,8 @@ 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
 
 - Django documentation [Django Knowledge](https://www.djangoproject.com/)
 
+- Auto Calculations [Auto Calculation in html using javaScript](https://www.youtube.com/watch?v=1UAORTlaqLg&t=269s)
+
 ##### Creating project in Django
 ```shell
 django-admin startproject feedsite
@@ -132,3 +134,5 @@ STATIC_URL = 'static/'
 
 #### Mixture module
 
+#### Expenses module
+I have decided to leave the expenses module

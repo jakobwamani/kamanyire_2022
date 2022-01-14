@@ -29,4 +29,8 @@ urlpatterns = [
     path('view_raw_material_sales/',views.viewing_raw_material_sales, name = 'view_raw_material_sales'),
     path('update_raw_material_sales/',views.updating_raw_material_sales, name='update_raw_material_sales'),
     path('delete_raw_material_sales/',views.deleting_raw_material_sales, name ='delete_raw_material_sales'),
+    path('expense/',views.getting_expenses, name='expenses'),
+    path('view_expenses/',views.viewing_expenses, name='view_expenses'),
+    path('update_expenses/',views.updating_expenses, name='update_expenses'),
+    path('delete_expenses/',views.deleting_expenses, name='delete_expenses'),
     ]

@@ -34,12 +34,12 @@
                         <th>Quantity</th>
                         <th>Unit_Price</th>
                         <th>Amount</th>
-                        <th>Transport</th>
+                        <!-- <th>Transport</th>
                         <th>Onloading</th>
                         <th>Offloading</th>
                         <th>Grinding</th>
                         <th>Cost of Supply</th>
-                        <th>Pricing</th>
+                        <th>Pricing</th> -->
                         <th>Update</th>
                         <th>Delete</th>
 
@@ -58,12 +58,6 @@
                         
                         <td>{{ amount|work_on_amount:supply }} </td>
                         
-                        <td>{{ supply.transport}} </td>
-                        <td>{{ supply.onloading}} </td>
-                        <td>{{ supply.offloading }} </td>
-                        <td>{{ supply.grinding }} </td>
-                        <td>{{ cost_of_supply|work_on_the_full_amount:supply }} </td>
-                        <td>{{ supply.pricing }} </td>
                         <td><a href="update_supply/?id={{ supply.id }}">Update</a></td>
                         <td><a href="delete_supply/?id={{ supply.id }}">Delete</a></td>
                         <!-- <td><a href="update_supply/?id={{ supply.id }}">Update</a></td> -->
@@ -75,8 +69,14 @@
 </body>
  	
     <div>
+     <a href="{% url 'index' %}"><p>Home</p></a><br/>
+
      <a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>
      <a href="{% url 'view_supply' %}"><p>View supplies</p></a><br/>
+     <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
+    <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
+
+
      <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
      <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
      <a href="{% url 'raw_material_prices' %}"><p>Set Raw Material Prices</p></a><br/>

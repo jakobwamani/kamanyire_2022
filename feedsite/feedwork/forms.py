@@ -23,8 +23,6 @@ RAW_MATERIAL_CHOICES = (("maize_bran" , "maize_bran"),("cotton", "cotton")
 ,("egg_boaster" ,"egg_boaster"))
 # creating a form
 class RawMaterialForm(forms.ModelForm):
-
-  	
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
@@ -32,38 +30,46 @@ class RawMaterialForm(forms.ModelForm):
 	supplier = forms.CharField()
 	item = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
 	# item = forms.CharField()
-	quantity = forms.IntegerField(disabled=True)
-	increase_quantity = forms.IntegerField(initial=0)
-	reduce_quantity = forms.IntegerField(initial=0)
-	unit_price = forms.IntegerField(initial = 0)
-	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
-	# amount = forms.IntegerField(initial = 0)
-	transport = forms.IntegerField(initial = 0)
-	onloading = forms.IntegerField(initial = 0)
-	offloading = forms.IntegerField(initial = 0)
-	grinding = forms.IntegerField(initial = 0)
-	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
-	# fullamount = forms.IntegerField(initial = 0)
-	# pricing = forms.IntegerField(help_text='First check to cost of supply to update this')
-   
-	# create meta class
+	# quantity = forms.IntegerField(initial=0)
+	# increase_quantity = forms.IntegerField(initial=0)
+	# reduce_quantity = forms.IntegerField(initial=0)
+	# unit_price = forms.IntegerField(initial = 0)
+	quantity = forms.DecimalField()
+	unit_price = forms.DecimalField()
+	total = forms.DecimalField(
+        widget=calculation.FormulaInput('quantity*unit_price') # <- using single math expression
+    )
+	
 	class Meta:
 		# specify model to be used
 		model = RawMaterial
 
 		# exclude = ["amount","fullamount",]
 		fields = [
-			
 			"date",
 			"receipt_number",
 			"supplier",
-			"item","quantity","increase_quantity","reduce_quantity","unit_price", "transport","onloading","offloading","grinding",
+			"item","quantity","unit_price","total"
 		]
+
+class ExpenseForm(forms.ModelForm):
+
+	YEARS= [x for x in range(2000,2030)]
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+    #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
+	
+	transport = forms.DecimalField(initial = 0.0)	
+	grinding = forms.DecimalField( initial = 0.0)
+	total = forms.DecimalField( initial = 0.0,widget=calculation.FormulaInput('transport+grinding'))	
+
+	class Meta:
+		# specify model to be used
+		model = Expenses
+		# exclude = ["amount","fullamount",]
+		fields = ["date","transport","grinding","total"]
 
 #supply form
 class SupplyForm(forms.ModelForm):
-
-  	
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
@@ -71,14 +77,12 @@ class SupplyForm(forms.ModelForm):
 	supplier = forms.CharField()
 	item = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
 	# item = forms.CharField()
-	quantity = forms.IntegerField(initial = 0)
-	unit_price = forms.IntegerField(initial = 0)
+	quantity = forms.DecimalField(initial = 0.0)
+	unit_price = forms.DecimalField(initial = 0.0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
 	# amount = forms.IntegerField(initial = 0)
-	transport = forms.IntegerField(initial = 0)
-	onloading = forms.IntegerField(initial = 0)
-	offloading = forms.IntegerField(initial = 0)
-	grinding = forms.IntegerField(initial = 0)
+	total = forms.DecimalField( initial = 0.0,widget=calculation.FormulaInput('quantity+unit_price'))
+
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
 	# fullamount = forms.IntegerField(initial = 0)
 	# pricing = forms.IntegerField(help_text='First check to cost of supply to update this')
@@ -89,13 +93,7 @@ class SupplyForm(forms.ModelForm):
 		model = RawMaterial
 
 		# exclude = ["amount","fullamount",]
-		fields = [
-			"date",
-			"receipt_number",
-			"supplier",
-			"item","quantity","unit_price", "transport","onloading","offloading","grinding",
-		]
-
+		fields = ["date","receipt_number","supplier","item","quantity","unit_price","total"]
 
 # broilers_mash
 # brown_salt
@@ -145,7 +143,6 @@ class ProductForm(forms.ModelForm):
 
 		fields = ["date","product","maize_bran","cotton","sun_flower","salt","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish","calcium","soya_bean","animal_salt","common_salt","brown_salt","coconut","pig_concentrate","wonder_pig","big_pig"]
 
-
 class ProductPriceForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
@@ -160,8 +157,6 @@ class ProductPriceForm(forms.ModelForm):
 		model = ProductPrices
 
 		fields = ["date","broilers_marsh","chick_marsh","old_pig","growers_marsh","layers_marsh","young_pig"]
-
-
 
 class RawMaterialPricesForm(forms.ModelForm):
 	# quantity_id = models.AutoField(primary_key=True)
@@ -192,7 +187,6 @@ class RawMaterialPricesForm(forms.ModelForm):
 		model = RawMaterialPrices
 
 		fields = ["date","maize_bran","cotton","sun_flower","salt","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish","calcium","soya_bean","brown_salt","animal_salt","pig_concentrate","coconut","wonder_pig","big_pig"]
-
 
 PRODUCT_CHOICES = (("broilers_marsh","broilers_marsh")
 ,("chick_marsh","chick_marsh")

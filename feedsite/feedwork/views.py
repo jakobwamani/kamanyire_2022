@@ -140,30 +140,35 @@ def index(request):
     else:
         print("Just continue with life")
     
-
-
-    return render(request, "index.html",{})
+    #Viewing the product quantities
+    # last item represents the raw material quantities
+    # last product represent the product quantities
+    return render(request, "index.html",{'lastitem':lastitem,'lastproduct':lastproduct})
 
 def supplying(request):
     # dictionary for initial data with
     # field names as keys
     context = {}
 
-    form = SupplyForm(request.POST or None)
+
+    supply_form = SupplyForm(request.POST or None)
+    # expense_form = ExpenseForm(request.POST or None)
     if request.method == 'POST':
         # add the dictionary during initialization
 
-        if form.is_valid():
-            form.save()
+        if supply_form.is_valid():
+
+            supply_form.save()
+            # expense_form.save()
             #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
             #table
             # we shall check if the "RawMaterialQuantities" table has atleast one row
             compute_quantities()
             return HttpResponseRedirect('http://127.0.0.1:8000/')
     else:
-        context['form'] = form
-       
-    return render(request, "supply.html",context)
+        context['supply_form'] = supply_form
+        # context['expense_form'] = expense_form
+    return render(request, "supply.html",{'supply_form':supply_form})
 
 def viewing_supplies(request):
     #get the date from the user 
@@ -678,3 +683,79 @@ def deleting_raw_material_sales(request):
 
         # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_raw_material_sales.html",context=context_dict)
+
+def getting_expenses(request):
+    # dictionary for initial data with
+    # field names as keys
+    context = {}
+    # supply_form = SupplyForm(request.POST or None)
+    expense_form = ExpenseForm(request.POST or None)
+    if request.method == 'POST':
+        # add the dictionary during initialization
+        if expense_form.is_valid():
+            # supply_form.save()
+            expense_form.save()
+            #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
+            #table
+            # we shall check if the "RawMaterialQuantities" table has atleast one row
+            # compute_quantities()
+            return HttpResponseRedirect('http://127.0.0.1:8000/')
+    else:
+        # context['supply_form'] = supply_form
+        context['expense_form'] = expense_form
+    return render(request, "expense.html",{'expense_form':expense_form})
+
+def viewing_expenses(request):
+    #get the date from the user 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    daily_expenses = Expenses.objects.filter(date__range=[start_date, end_date])
+    # print(type(supplies))     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_expenses.html", {'daily_expenses':daily_expenses})
+
+def updating_expenses(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        expenses_record = Expenses.objects.get(id=clean_pk)
+        form = ExpenseForm(request.POST or None, instance=expenses_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+    return render(request,"update_expenses.html",context=context_dict)
+
+
+def deleting_expenses(request):
+    # book= get_object_or_404(Book, pk=pk)  
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        expense_to_delete = Expenses.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        expense_to_delete.delete()
+        
+        # if request.method =='POST':
+        #   #we get to know the item 
+
+        #     supply_record_to_delete.delete()
+        #     return redirect('view_supply.html')
+
+        # context_dict["object"] = supply_record_to_delete
+    return render(request, "delete_expenses.html",context=context_dict)
