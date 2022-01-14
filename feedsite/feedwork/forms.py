@@ -53,7 +53,6 @@ class RawMaterialForm(forms.ModelForm):
 		]
 
 class ExpenseForm(forms.ModelForm):
-
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))

@@ -143,7 +143,27 @@ def index(request):
     #Viewing the product quantities
     # last item represents the raw material quantities
     # last product represent the product quantities
-    return render(request, "index.html",{'lastitem':lastitem,'lastproduct':lastproduct})
+
+    #now we are going to get the profit 
+    # revenue = product_sales + raw_material_sales 
+    # profit = sales  - expenses
+    #Products
+    last_product_sale = ProductSales.objects.last()
+    last_sale = last_product_sale.total
+
+    #Raw materials
+    last_raw_material_sale = RawMaterialSales.objects.last()
+    last_r_m_sale = last_raw_material_sale.total
+
+    #expenses
+    last_expenses = Expenses.objects.last()
+    last_expense = last_expenses.total
+
+    sales = last_sale + last_r_m_sale
+
+    profit = sales - last_expense
+
+    return render(request, "index.html",{'lastitem':lastitem,'lastproduct':lastproduct,'profit':profit})
 
 def supplying(request):
     # dictionary for initial data with
