@@ -2,6 +2,8 @@ from django import forms
 from feedwork.models import *
 from django.utils import timezone
 
+import calculation
+
 RAW_MATERIAL_CHOICES = (("maize_bran" , "maize_bran"),("cotton", "cotton")
 ,("sun_flower" , "sun_flower")
 ,("fish" , "fish")
@@ -205,7 +207,10 @@ class ProductSalesForm(forms.ModelForm):
 	product = forms.ChoiceField(choices = PRODUCT_CHOICES)
 	quantity = forms.IntegerField(initial = 0)
 	selling_price = forms.IntegerField(initial = 0)
-	total = forms.IntegerField(initial = 0)
+	# total = forms.IntegerField(initial = 0)
+	total = forms.DecimalField(
+        widget=calculation.FormulaInput('quantity*selling_price') # <- using single math expression
+    )
 
 	class Meta:
 		model = ProductSales
@@ -218,7 +223,10 @@ class RawMaterialSalesForm(forms.ModelForm):
 	raw_material = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
 	quantity = forms.IntegerField(initial = 0)
 	selling_price = forms.IntegerField(initial = 0)
-	total = forms.IntegerField(initial = 0)
+	total = forms.DecimalField(
+        widget=calculation.FormulaInput('quantity*selling_price') # <- using single math expression
+    )
+	# total = forms.IntegerField(initial = 0)
 
 	class Meta:
 		model = RawMaterialSales

@@ -21,4 +21,12 @@ urlpatterns = [
     path('view_product_prices/',views.viewing_product_prices, name = 'view_product_prices'),
     path('update_product_prices/',views.updating_product_prices, name= 'update_product_prices'),
     path('delete_product_prices/',views.deleting_product_prices, name = 'delete_product_prices'),
-]
+    path('do_product_sales/',views.doing_product_sales, name = 'product_sales'),
+    path('view_product_sales/',views.viewing_product_sales, name = 'view_product_sales'),
+    path('update_product_sales/',views.updating_product_sales, name = 'update_product_sales'),
+    path('delete_product_sales/',views.deleting_product_sales,name = 'delete_product_sales'),
+    path('do_raw_material_sales/',views.doing_raw_material_sales, name = 'raw_material_sales'),
+    path('view_raw_material_sales/',views.viewing_raw_material_sales, name = 'view_raw_material_sales'),
+    path('update_raw_material_sales/',views.updating_raw_material_sales, name='update_raw_material_sales'),
+    path('delete_raw_material_sales/',views.deleting_raw_material_sales, name ='delete_raw_material_sales'),
+    ]

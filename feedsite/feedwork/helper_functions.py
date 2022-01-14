@@ -1554,3 +1554,113 @@ def adding(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix
       new_quantity = total_quantity + item 
       last_quantity.young_pig = new_quantity
       last_quantity.save()
+
+def product_sales_quantity_deduction(product,quantity):
+   #Reduce quantity of the product
+   #Quantity of the product being sold must subtracted from product inventory
+   #Access the sales quantity of the product
+   #Access the product inventory quantity
+   #identify the product that is being sold.
+
+   #get the last occurance of product quantity
+   #broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh,young_pig 
+   last_product_quantity = ProductQuantities.objects.last()
+   if product == "broilers_marsh":
+      current_quantity = last_product_quantity.broilers_marsh
+      new_quantity = current_quantity - quantity
+      last_product_quantity.broilers_marsh = new_quantity
+      last_product_quantity.save()
+
+   elif product == "chick_marsh":
+      current_quantity = last_product_quantity.chick_marsh
+      new_quantity = current_quantity - quantity
+      last_product_quantity.chick_marsh = new_quantity
+      last_product_quantity.save()
+
+   elif product == "old_pig":
+      current_quantity = last_product_quantity.old_pig
+      new_quantity = current_quantity - quantity
+      last_product_quantity.old_pig = new_quantity
+      last_product_quantity.save()
+
+   elif product == "growers_marsh":
+      current_quantity = last_product_quantity.growers_marsh
+      new_quantity = current_quantity - quantity
+      last_product_quantity.growers_marsh = new_quantity
+      last_product_quantity.save()
+
+   elif product == "layers_marsh":
+      current_quantity = last_product_quantity.layers_marsh
+      new_quantity = current_quantity - quantity
+      last_product_quantity.layers_marsh = new_quantity
+      last_product_quantity.save()
+
+   elif product == "young_pig":
+      current_quantity = last_product_quantity.young_pig
+      new_quantity = current_quantity - quantity
+      last_product_quantity.young_pig = new_quantity
+      last_product_quantity.save()      
+
+def raw_material_sales_quantity_deduction(raw_material,quantity):
+   # maize_bran,cotton,sun_flower,fish,salt,layers_premix,general_purpose_premix
+   # ,shells,meat_boaster,meat_boaster,egg_boaster,egg_boaster
+   last_raw_material = RawMaterialQuantities.objects.last()
+   if raw_material == "maize_bran":
+      current_quantity = last_raw_material.maize_bran
+      new_quantity = current_quantity - quantity
+      last_raw_material.maize_bran = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "general_purpose_premix":
+      current_quantity = last_raw_material.general_purpose_premix
+      new_quantity = current_quantity - quantity
+      last_raw_material.general_purpose_premix = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "shells":
+      current_quantity = last_raw_material.shells
+      new_quantity = current_quantity - quantity
+      last_raw_material.shells = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "meat_boaster":
+      current_quantity = last_raw_material.meat_boaster
+      new_quantity = current_quantity - quantity
+      last_raw_material.meat_boaster = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "egg_boaster":
+      current_quantity = last_raw_material.egg_boaster
+      new_quantity = current_quantity - quantity
+      last_raw_material.egg_boaster = new_quantity
+      last_raw_material.save()
+      
+   elif raw_material == "layers_premix":
+      current_quantity = last_raw_material.layers_premix
+      new_quantity = current_quantity - quantity
+      last_raw_material.layers_premix = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "cotton":
+      current_quantity = last_raw_material.cotton
+      new_quantity = current_quantity - quantity
+      last_raw_material.cotton = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "sun_flower":
+      current_quantity = last_raw_material.sun_flower
+      new_quantity = current_quantity - quantity
+      last_raw_material.sun_flower = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "fish":
+      current_quantity = last_raw_material.fish
+      new_quantity = current_quantity - quantity
+      last_raw_material.fish = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "salt":
+      current_quantity = last_product_quantity.salt
+      new_quantity = current_quantity - quantity
+      last_raw_material.salt = new_quantity
+      last_raw_material.save()

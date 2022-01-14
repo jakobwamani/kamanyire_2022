@@ -469,7 +469,7 @@ def updating_product_prices(request):
     return render(request,"update_product_prices.html",context=context_dict)
 
 def deleting_product_prices(request):
-     # book= get_object_or_404(Book, pk=pk)  
+    # book= get_object_or_404(Book, pk=pk)  
     context_dict = {}
     if 'id' in request.GET:
         pk = request.GET['id']
@@ -489,3 +489,192 @@ def deleting_product_prices(request):
 
         # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_product_prices.html",context=context_dict)
+
+def doing_product_sales(request):
+    #get the date from the user 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    p_q = ProductQuantities.objects.filter(date__range=[start_date, end_date])
+
+    l_p_q = ProductQuantities.objects.last()
+
+    l_p_p = ProductPrices.objects.last()
+
+    context = {}
+    # add the dictionary during initialization
+    form = ProductSalesForm(request.POST or None)
+
+    # if request.method == 'POST':
+    if form.is_valid():
+        #So here it means that if am deduct the quantity that has been bought,
+        #i must do it for every raw material , that's what it means 
+        # Get to know the particular product from the form
+        product = form.cleaned_data['product']
+        quantity = form.cleaned_data['quantity']    
+        print("Hello we are now here")
+        product_sales_quantity_deduction(product,quantity)        
+        form.save()
+        return HttpResponseRedirect('http://127.0.0.1:8000/')       
+
+
+
+        
+    #Adding items to the dictionary
+    context['form'] = form
+    context['p_q'] = p_q
+    context['l_p_q'] = l_p_q
+    context['l_p_p'] = l_p_p
+
+    return render(request, "do_product_sales.html", context)
+
+def viewing_product_sales(request):
+    #get the date from the user 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
+    # print(type(supplies))     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_product_sales.html", {'p_sales':p_sales})
+
+def updating_product_sales(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        product_record = ProductSales.objects.get(id=clean_pk)
+        form = ProductSalesForm(request.POST or None, instance=product_record)
+        if request.method == 'POST':
+            if form.is_valid():
+            
+                form.save()
+
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+    return render(request,"update_product_sales.html",context=context_dict)
+
+def deleting_product_sales(request):
+    # book= get_object_or_404(Book, pk=pk)  
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        product_sale_to_delete = ProductSales.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        product_sale_to_delete.delete()
+        
+        # if request.method =='POST':
+        #   #we get to know the item 
+
+        #     supply_record_to_delete.delete()
+        #     return redirect('view_supply.html')
+
+        # context_dict["object"] = supply_record_to_delete
+    return render(request, "delete_product_sales.html",context=context_dict)
+
+def doing_raw_material_sales(request):
+    #get the date from the user 
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+
+    r_m_q = RawMaterialQuantities.objects.last()
+
+    r_m_p = RawMaterialPrices.objects.last()
+
+    context = {}
+    # add the dictionary during initialization
+    form = RawMaterialSalesForm(request.POST or None)
+    if request.method == 'POST':
+
+
+        if form.is_valid():
+            #So here it means that if am deduct the quantity that has been bought,
+            #i must do it for every raw material , that's what it means 
+            # raw_material = form.cleaned_data['raw_material']
+            # quantity = form.cleaned_data['quantity']
+            # raw_material_sales_quantity_deduction(raw_material,quantity)
+            raw_material = form.cleaned_data['raw_material']
+            quantity = form.cleaned_data['quantity']  
+            raw_material_sales_quantity_deduction(raw_material,quantity)
+            form.save()
+
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+    # So am suggesting that after the sale has been saved , then we deduct the quantities 
+    # last_sale = RawMaterialSales.objects.last()
+    #then throw the variables to the deduction function
+    # raw_material_sales_quantity_deduction(last_sale.raw_material,last_sale.quantity)
+
+
+    return render(request, "do_raw_material_sales.html", {'r_m_q':r_m_q,'r_m_p':r_m_p ,'form':form ,})
+
+def viewing_raw_material_sales(request):
+    #get the date from the user 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
+    # print(type(supplies))     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_raw_material_sales.html", {'rm_sales':rm_sales})
+
+def updating_raw_material_sales(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        raw_material_record = RawMaterialSales.objects.get(id=clean_pk)
+        form = RawMaterialSalesForm(request.POST or None, instance=raw_material_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+    return render(request,"update_raw_material_sales.html",context=context_dict)
+
+def deleting_raw_material_sales(request):
+    # book= get_object_or_404(Book, pk=pk)  
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        raw_material_sale_to_delete = RawMaterialSales.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        raw_material_sale_to_delete.delete()
+        
+        # if request.method =='POST':
+        #   #we get to know the item 
+
+        #     supply_record_to_delete.delete()
+        #     return redirect('view_supply.html')
+
+        # context_dict["object"] = supply_record_to_delete
+    return render(request, "delete_raw_material_sales.html",context=context_dict)

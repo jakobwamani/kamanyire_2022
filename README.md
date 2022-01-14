@@ -1,12 +1,21 @@
 # kamanyire_2022
 Accounting System for a Poultry and Animal Feeds Business
 
+#### Personal Access Tokens for this project
+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
+
 ###### January 6th 2022
 
 ##### Requirements to install
 - Python
 - Django
 - Python Virtual Environment
+- django-calculation
+
+##### Resources
+- Making simple calculations in django forms [Calculations in Django forms](https://github.com/blasferna/django-calculation)
+
+- Django documentation [Django Knowledge](https://www.djangoproject.com/)
 
 ##### Creating project in Django
 ```shell
@@ -118,3 +127,8 @@ STATIC_URL = 'static/'
 
 #### Forms
 - Quantites could be integers or decimals
+
+#### Supply module
+
+#### Mixture module
+
