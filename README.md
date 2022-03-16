@@ -4,6 +4,8 @@ Accounting System for a Poultry and Animal Feeds Business
 #### Personal Access Tokens for this project
 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
 
+January 14th 2021
+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
 ###### January 6th 2022
 
 ##### Requirements to install
@@ -136,3 +138,14 @@ STATIC_URL = 'static/'
 
 #### Expenses module
 I have decided to leave the expenses module
+
+#### Raspberry pi
+https://raspberrypi.stackexchange.com/questions/30144/connect-raspberry-pi-to-pc-ubuntu-with-ethernet
+
+https://forums.raspberrypi.com/viewtopic.php?t=149681
+
+
+https://forums.raspberrypi.com/viewtopic.php?t=288769
+
+#### How to make calculations in html
+https://www.youtube.com/watch?v=v5pNyxmtp9g

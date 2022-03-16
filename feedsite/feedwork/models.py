@@ -16,18 +16,12 @@ class RawMaterial(models.Model):
 	unit_price = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	#Am making this a null True because when the user is entering the supply data , am not able to make it appear
 	total = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	#immediately , that's above my paygrade
-	# amount = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# transport = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# onloading = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# offloading = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# grinding = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# #Am making this a null True because when the user is entering the supply data , am not able to make it appear
-	# #immediately , that's above my paygrade
-	# cost_of_supply = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# pricing = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	# renames the instances of the model
-	# with their title name
+	
+	@property
+	def amount(self):
+		all = (self.quantity) * (self.unit_price)
+		return all
+
 	def __str__(self):
 		   
 		return '{}'.format(self.date)

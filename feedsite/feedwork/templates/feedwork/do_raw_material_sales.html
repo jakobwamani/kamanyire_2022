@@ -1,0 +1,111 @@
+<html>
+<head>
+    <title>Viewing_Raw_Materials</title>
+    <script type="text/javascript">
+        function autofill(value){
+            var x, y;
+             x = value;
+             // x = document.getElementById('id_quantity').value;
+             y = document.getElementById('id_selling_price').value;
+            if(x > 0 )
+            {
+            document.getElementById('id_total').value = x * y ;
+            }
+                            }
+    </script>
+       
+       <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+</head>
+<body>
+    <h1>View Raw Material Prices</h1>
+   
+     <table style="border:1px">
+                    <ul>
+        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+        meat_boaster ,egg_boaster  -->
+                    <tr>
+                        <th>price Id</th>
+                        <th>Date</th>
+                        <th>Maize_bran</th>
+                        <th>Cotton</th>
+                        <th>Sun_Flower</th>
+                        <th>Fish</th>
+                        <th>Salt</th>
+                        <th>General Purpose_Premix</th>
+                        <th>Layers_Premix</th>
+                        <th>Shells</th>
+                        <th>Meat Boaster</th>
+                        <th>Egg Boaster</th>
+                        <th>Calcium</th> 
+                        <th>Soya Bean</th>
+                        <th>Brown Salt</th>
+                        <th>Animal Salt</th>
+                        <th>Common Salt</th>
+                        <th>Coconut</th>
+                        <th>Pig concentrate</th>
+                        <th>wonder pig</th>
+                        <th>big pig</th>
+                    </tr>
+                 
+                    <tr>
+                        <td>{{ r_m_p.id}} </td>
+                        <td>{{ r_m_p.date }} </td>
+                        <td>{{ r_m_p.maize_bran }}</td>
+                        <td>{{ r_m_p.cotton }}</td>
+                        <td>{{ r_m_p.sun_flower }}</td>
+                        <td>{{ r_m_p.fish }}</td>
+                        <td>{{ r_m_p.salt }}</td>                      
+                        <td>{{ r_m_p.general_purpose_premix }} </td>
+                        <td>{{ r_m_p.layers_premix }} </td>
+                        <td>{{ r_m_p.shells }} </td>
+                        <td>{{ r_m_p.meat_boaster }} </td>
+                        <td>{{ r_m_p.egg_boaster }}</td> 
+                        <td>{{ r_m_p.calcium }}</td>
+                        <td>{{ r_m_p.soya_bean }}</td> 
+                        <td>{{ r_m_p.brown_salt }}</td>   
+                        <td>{{ r_m_p.animal_salt }}</td>
+                        <td>{{ r_m_p.common_salt }}</td> 
+                        <td>{{ r_m_p.coconut }}</td>  
+                        <td>{{ r_m_p.pig_concentrate }}</td>  
+                        <td>{{ r_m_p.wonder_pig }}</td> 
+                        <td>{{ r_m_p.big_pig }}</td>    
+                    </tr>
+                               
+                </table>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{{ form.media }}
+
+</body>
+<div>
+    <a href="{% url 'index' %}"><p>Home</p></a><br/>
+    <a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>
+    <a href="{% url 'view_supply' %}"><p>View supplies</p></a><br/>
+        <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
+            <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
+
+
+    <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
+    <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
+    <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
+    <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
+    <a href="{% url 'create_product_prices' %}"><p>Set  Product Prices</p></a><br/>
+    <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/>
+    <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
+    <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a><br/>
+    <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
+    <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
+</div>  
+
+
+</html>

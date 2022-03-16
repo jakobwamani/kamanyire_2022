@@ -4,23 +4,23 @@ from django.utils import timezone
 
 import calculation
 
-RAW_MATERIAL_CHOICES = (("maize_bran" , "maize_bran"),("cotton", "cotton")
-,("sun_flower" , "sun_flower")
+RAW_MATERIAL_CHOICES = (("maize_bran" , "maize bran"),("cotton", "cotton")
+,("sun_flower" , "sun flower")
 ,("fish" , "fish")
 ,("salt" ,"salt")
 ,("calcium" , "calcium")
-,("soya_bean","soya_bean")
-,("animal_salt","animal_salt")
-,("common_salt","common_salt")
+,("soya_bean","soya bean")
+,("animal_salt","animal salt")
+,("common_salt","common salt")
 ,("coconut","coconut")
-,("pig_concentrate","pig_concentrate")
-,("wonder_pig","wonder_pig")
-,("big_pig","big_pig")
-,("general_purpose_premix" , "general_purpose_premix")
-,("layers_premix" , "layers_premix")
+,("pig_concentrate","pig concentrate")
+,("wonder_pig","wonder pig")
+,("big_pig","big pig")
+,("general_purpose_premix" , "general purpose premix")
+,("layers_premix" , "layers premix")
 ,("shells" , "shells")
-,("meat_boaster" , "meat_boaster")
-,("egg_boaster" ,"egg_boaster"))
+,("meat_boaster" , "meat boaster")
+,("egg_boaster" ,"egg boaster"))
 # creating a form
 class RawMaterialForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
@@ -37,7 +37,8 @@ class RawMaterialForm(forms.ModelForm):
 	quantity = forms.DecimalField()
 	unit_price = forms.DecimalField()
 	total = forms.DecimalField(
-        widget=calculation.FormulaInput('quantity*unit_price') # <- using single math expression
+		# RawMaterial.amount()
+        # widget=calculation.FormulaInput('quantity * unit_price') # <- using single math expression
     )
 	
 	class Meta:
@@ -116,26 +117,26 @@ class ProductForm(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	# date = forms.DateField()
 	product = forms.ChoiceField(choices=PRODUCT_CHOICES)
-	fish = forms.IntegerField(initial = 0)
-	maize_bran = forms.IntegerField(initial = 0)
-	cotton = forms.IntegerField(initial = 0)
-	sun_flower = forms.IntegerField(initial = 0)
-	salt = forms.IntegerField(initial = 0)
-	layers_premix = forms.IntegerField(initial = 0)
-	general_purpose_premix = forms.IntegerField(initial = 0)
-	shells = forms.IntegerField(initial = 0)
-	meat_boaster = forms.IntegerField(initial = 0)
-	egg_boaster = forms.IntegerField(initial = 0)
+	fish = forms.IntegerField(initial = 0.0)
+	maize_bran = forms.IntegerField(initial = 0.0)
+	cotton = forms.IntegerField(initial = 0.0)
+	sun_flower = forms.IntegerField(initial = 0.0)
+	salt = forms.IntegerField(initial = 0.0)
+	layers_premix = forms.IntegerField(initial = 0.0)
+	general_purpose_premix = forms.IntegerField(initial = 0.0)
+	shells = forms.IntegerField(initial = 0.0)
+	meat_boaster = forms.IntegerField(initial = 0.0)
+	egg_boaster = forms.IntegerField(initial = 0.0)
 	#added items
-	calcium = forms.IntegerField(initial = 0)
-	soya_bean = forms.IntegerField(initial = 0)
-	animal_salt = forms.IntegerField(initial = 0)
-	common_salt = forms.IntegerField(initial = 0)
-	brown_salt = forms.IntegerField(initial = 0)
-	coconut = forms.IntegerField(initial = 0)
-	pig_concentrate = forms.IntegerField(initial = 0)
-	wonder_pig = forms.IntegerField(initial = 0)
-	big_pig = forms.IntegerField(initial = 0)
+	calcium = forms.IntegerField(initial = 0.0)
+	soya_bean = forms.IntegerField(initial = 0.0)
+	animal_salt = forms.IntegerField(initial = 0.0)
+	common_salt = forms.IntegerField(initial = 0.0)
+	brown_salt = forms.IntegerField(initial = 0.0)
+	coconut = forms.IntegerField(initial = 0.0)
+	pig_concentrate = forms.IntegerField(initial = 0.0)
+	wonder_pig = forms.IntegerField(initial = 0.0)
+	big_pig = forms.IntegerField(initial = 0.0)
 
 	class Meta:
 		model = Product

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		View Products
+	</title>
+    <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+</head>
+<body>
+<h1>View Product Sales</h1>
+    <form action="{% url 'view_product_sales' %}" method="get">
+                <!-- <label>Childid</label>
+                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+                <label>From</label>
+                <input name="start_date" type="date" ><br/><br/>
+                <labe>To</labe>
+                <input name="end_date" type="date" ><br/><br/>
+                <input type="submit" name="submit" value="Search"/>                
+    </form>
+
+     <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+                    <ul>
+        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+        meat_boaster ,egg_boaster  -->
+                    <tr>
+                        <th>Product Id</th>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Selling_Price</th>
+                        <th>Total</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                       
+                    </tr>
+                    {% for item in p_sales %}
+                    <tr>
+                        <td>{{ item.id}} </td>
+                        <td>{{ item.date }} </td>
+                        <th>{{ item.product }}
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.selling_price }}</td>
+                        <td>{{ item.total }}</td>
+                        
+                        <!--I dnot know why i had to back reference it , it just couldn't work with it -->
+                        <td><a href="../update_product_sales/?id={{ item.id }}">Update</a></td>
+                        <td><a href="../delete_product_sales/?id={{ item.id }}">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                </table>
+       
+</body>
+<a href="{% url 'index' %}"><p>Home</p></a><br/>
+<a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>
+     <a href="{% url 'view_supply' %}"><p>View supplies</p></a><br/>
+     <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
+         <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
+             <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
+
+     <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
+     <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
+     <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
+     <a href="{% url 'create_product_prices' %}"><p>Set Product Prices</p></a><br/>
+     <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/>
+     <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
+     <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a><br/>
+     <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
+     <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
+
+
+
+     
+
+
+</html>
