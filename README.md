@@ -149,3 +149,13 @@ https://forums.raspberrypi.com/viewtopic.php?t=288769
 
 #### How to make calculations in html
 https://www.youtube.com/watch?v=v5pNyxmtp9g
+
+### PATs
+March 16 2022
+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
+
+### March 22nd 2022
+Rendering Django Forms Manually
+https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+
+https://www.geeksforgeeks.org/render-django-form-fields-manually/

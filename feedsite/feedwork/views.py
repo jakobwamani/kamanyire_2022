@@ -184,6 +184,7 @@ def supplying(request):
             #table
             # we shall check if the "RawMaterialQuantities" table has atleast one row
             compute_quantities()
+            
             return HttpResponseRedirect('http://127.0.0.1:8000/')
     else:
         context['supply_form'] = supply_form

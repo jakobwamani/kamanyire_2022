@@ -81,7 +81,7 @@ class SupplyForm(forms.ModelForm):
 	unit_price = forms.DecimalField(initial = 0.0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
 	# amount = forms.IntegerField(initial = 0)
-	total = forms.DecimalField( initial = 0.0,widget=calculation.FormulaInput('quantity+unit_price'))
+	total = forms.DecimalField( initial = 0.0)
 
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
 	# fullamount = forms.IntegerField(initial = 0)
