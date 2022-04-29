@@ -140,38 +140,110 @@ def index(request):
     else:
         print("Just continue with life")
     
-    #Viewing the product quantities
+    # Viewing the product quantities
     # last item represents the raw material quantities
     # last product represent the product quantities
 
-    #now we are going to get the profit 
+    # now we are going to get the income statement
+    # Net income/loss = product_sales + raw_material_sales - expenses
     # revenue = product_sales + raw_material_sales 
-    # profit = sales  - expenses
-    #Products
-    last_product_sale = ProductSales.objects.last()
-    last_sale = last_product_sale.total
+    # profit / loss = sales  - expenses
 
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    #Products
+    # p_sales = ProductSales.objects.values_list('total', 'date =[start_date, end_date]')
+    p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
+    # last_sale = last_product_sale.total
+    #Have a list containing all the product sales 
+    p_sale_list = []
+    #get each sale
+    for p_sale in p_sales:
+        p_sale_list.append(p_sale.total)
+    #then sum up the list 
+    product_sales = sum(p_sale_list)
     #Raw materials
-    last_raw_material_sale = RawMaterialSales.objects.last()
-    last_r_m_sale = last_raw_material_sale.total
+    rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
+    # last_r_m_sale = last_raw_material_sale.total
+    #a list containing all raw material sales
+    rm_sale_list = []
+    #get each sale
+    for rm_sale in rm_sales:
+        rm_sale_list.append(rm_sale.total)
+    #then sum up the list
+    raw_material_sales = sum(rm_sale_list)
 
     #expenses
-    last_expenses = Expenses.objects.last()
-    last_expense = last_expenses.total
+    expenses = Expenses.objects.filter(date__range=[start_date, end_date])
+    # last_expense = last_expenses.total
+    #list of expenses
+    expenses_list = []
+    #use a loop to get total of every expense
+    for expense in expenses:
+        #add that expense total into the 'expenses_list'
+        expenses_list.append(expense.total)
+    #sum up all the 'expense total' in that 'expenses_list'
+    sum_of_expenses = sum(expenses_list)
+    
+    #net income 
 
-    sales = last_sale + last_r_m_sale
+    net_income = (product_sales + raw_material_sales) - sum_of_expenses
 
-    profit = sales - last_expense
+    return render(request, "index.html",{'lastitem':lastitem,'lastproduct':lastproduct,'product_sales':product_sales,
+    'raw_material_sales':raw_material_sales,'sum_of_expenses':sum_of_expenses,'net_income':net_income})
 
-    return render(request, "index.html",{'lastitem':lastitem,'lastproduct':lastproduct,'profit':profit})
+def creating_net_income(request):
+    #now we are going to get the income statement # Net income/loss = product_sales + raw_material_sales - expenses # revenue = product_sales + raw_material_sales 
+    # profit / loss = sales  - expenses
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    #Products
+    # p_sales = ProductSales.objects.values_list('total', 'date =[start_date, end_date]')
+    p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
+    # last_sale = last_product_sale.total
+    #Have a list containing all the product sales 
+    p_sale_list = []
+    #get each sale
+    for p_sale in p_sales:
+        p_sale_list.append(p_sale.total)
+    #then sum up the list 
+    product_sales = sum(p_sale_list)
+    #Raw materials
+    rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
+    # last_r_m_sale = last_raw_material_sale.total
+    #a list containing all raw material sales
+    rm_sale_list = []
+    #get each sale
+    for rm_sale in rm_sales:
+        rm_sale_list.append(rm_sale.total)
+    #then sum up the list
+    raw_material_sales = sum(rm_sale_list)
+    #expenses
+    expenses = Expenses.objects.filter(date__range=[start_date, end_date])
+    # last_expense = last_expenses.total
+    #list of expenses
+    expenses_list = []
+    #use a loop to get total of every expense
+    for expense in expenses:
+        #add that expense total into the 'expenses_list'
+        expenses_list.append(expense.total)
+    #sum up all the 'expense total' in that 'expenses_list'
+    sum_of_expenses = sum(expenses_list)
+    
+    #net income 
 
-def supplying(request):
+    net_income = (product_sales + raw_material_sales) - sum_of_expenses
+
+    return render(request,'index.html',{'products_sales':product_sales,
+    'raw_material_sales':raw_material_sales,'sum_of_expenses':sum_of_expenses,'net_income':net_income})
+
+def creating_supplies(request):
     # dictionary for initial data with
     # field names as keys
     context = {}
 
 
-    supply_form = SupplyForm(request.POST or None)
+    supply_form = RawMaterialForm(request.POST or None)
     # expense_form = ExpenseForm(request.POST or None)
     if request.method == 'POST':
         # add the dictionary during initialization
@@ -548,7 +620,7 @@ def doing_product_sales(request):
 
 
 
-        
+
     #Adding items to the dictionary
     context['form'] = form
     context['p_q'] = p_q
@@ -566,6 +638,8 @@ def viewing_product_sales(request):
 
     # run a query to get all the supplies on that date
     p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
+    
+
     # print(type(supplies))     
     # return render(request, "view_supply.html", context)
     return render(request, "view_product_sales.html", {'p_sales':p_sales})
@@ -630,8 +704,8 @@ def doing_raw_material_sales(request):
 
 
         if form.is_valid():
-            #So here it means that if am deduct the quantity that has been bought,
-            #i must do it for every raw material , that's what it means 
+            # So here it means that if am deduct the quantity that has been bought,
+            # i must do it for every raw material , that's what it means 
             # raw_material = form.cleaned_data['raw_material']
             # quantity = form.cleaned_data['quantity']
             # raw_material_sales_quantity_deduction(raw_material,quantity)
@@ -757,7 +831,6 @@ def updating_expenses(request):
         else:
             context_dict["form"] = form 
     return render(request,"update_expenses.html",context=context_dict)
-
 
 def deleting_expenses(request):
     # book= get_object_or_404(Book, pk=pk)  

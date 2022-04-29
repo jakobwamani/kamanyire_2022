@@ -3,119 +3,234 @@
 	<title>HOME</title>
 </head>
 <style type="text/css">
-        table, th, td {
-  border: 1px solid black;
+        th, td { border: 1px solid black;}
+        .container{
+            display: flex;
+            max-height:100vh
 
-}
-    </style>
+        }
+       
+        .container > .navigation {
+            flex: 4; /*grow*/
+            
+        }
+        .container > .raw_material_quantities{
+            flex: 4;
+        }
+        .container > .product_quantities{
+            flex: 4;
+        }
+        .container > .profit_showcase{
+            flex: 4;
+        }
+</style>
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <body>
-	<h1>Product Quantities</h1>
-    <table style="border:1px">
-                    <ul>
-        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
-        meat_boaster ,egg_boaster  -->
-                    <tr>
-                        <th>Price Id</th>
-                        <th>Date</th>
-                        <th>Broilers_marsh</th>
-                        <th>Chick_marsh</th>
-                        <th>Growers_marsh</th>
-                        <th>Old_pig</th>
-                        <th>layers_marsh</th>
-                        <th>young_pig</th>
-                       
-                    </tr>
-                 
-                    <tr>
-                        <td>{{ lastproduct.id}} </td>
-                        <td>{{ lastproduct.date }} </td>
-                        <td>{{ lastproduct.broilers_marsh }}</td>
-                        <td>{{ lastproduct.chick_marsh }}</td>
-                        <td>{{ lastproduct.growers_marsh }}</td>
-                        <td>{{ lastproduct.old_pig }}</td>
-                        <td>{{ lastproduct.layers_marsh }}</td>                      
-                        <td>{{ lastproduct.young_pig }} </td>
-                        
-                    </tr>       
-                </table>
+<div class="container">
+    <div class="navigation"  >
+        <h3>Navigation</h3>
+        <table>
+            <tr style="height:10px">
+                <a href="{% url 'index' %}"><p>Home</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'get_supply' %}"><p>Get supplies</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'view_supply' %}"><p>View supplies</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'expenses' %}"><p>Expenses</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'create_product' %}"><p>Mix Products</p></a>
+            </tr>
+                <a href="{% url 'view_product' %}"><p>View Products</p></a>
+            <tr>
+            </tr>
+            <tr>
+                <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a>
+            </tr>
+            <tr>
+                 <a href="{% url 'create_product_prices' %}"><p>Set  Product Prices</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p>
+            </tr>
+            <tr>
+                <a href="{% url 'product_sales' %}"><p>Product Sales</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a>
+            </tr>
+            <tr>
+                <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a>
+            </tr> 
+        </table>
+        
+    </div>	
 
-    <h1>View Raw Material Quantities</h1>
+
+    <div class="raw_material_quantities" >
+        <h3> Raw Material Quantities</h3>
+        <table th = height: 5px;>
+        
+            
+            <tr>
+                <th>DATE</th>
+                <td>{{ lastitem.date }} </td>
+            </tr>
+            <tr>
+                <th>MAIZE BRAN</th>
+                <td>{{ lastitem.maize_bran }}</td>
+            </tr>
+            <tr>
+                <th>COTTON</th>
+                <td>{{ lastitem.cotton }}</td>
+            </tr>
+            <tr>
+                <th>SUN FLOWER</th>
+                <td>{{ lastitem.sun_flower }}</td>
+            </tr>
+            <tr>
+                <th>FISH</th>
+                <td>{{ lastitem.fish }}</td>
+            </tr>
+            <tr>
+                <th>SALT</th>
+                <td>{{ lastitem.salt }}</td> 
+            </tr>
+            <tr>
+                <th>GENERAL PURPOSE PREMIX</th>
+                <td>{{ lastitem.general_purpose_premix }} </td>
+            </tr>
+            <tr>
+                <th>LAYERS PREMIX</th>
+                <td>{{ lastitem.layers_premix }}</td>
+            </tr>
+            <tr>
+                <th>SHELLS</th>
+                <td>{{ lastitem.shells }}</td>
+            </tr>
+            <tr>
+                <th>MEAT BOASTER</th>
+                <td>{{ lastitem.meat_boaster }}</td>
+            </tr>
+            <tr>
+                <th>CALCIUM</th>
+                <td>{{ lastitem.calcium }}</td>
+            </tr>
+            <tr>
+                <th>SOYA BEAN</th>
+                <td>{{ lastitem.soya_bean }}</td>
+            </tr>
+            <tr>
+                <th>BROWN SALT</th>
+                <td>{{ lastitem.brown_salt }}</td>
+            </tr>
+            <tr>
+                <th>ANIMAL SALT</th>
+                <td>{{ lastitem.animal_salt }}</td>
+            </tr>
+            <tr>
+                <th>COMMON SALT</th>
+                <td>{{ lastitem.common_salt }}</td>
+            </tr>
+            <tr>
+                <th>COCONUT</th>
+                <td>{{ lastitem.coconut }}</td>
+            </tr>
+            <tr>
+                <th>PIG CONCENTRATE</th>
+                <td>{{ lastitem.pig_concentrate }}</td>
+            </tr>
+            <tr>
+                <th>WONDER PIG</th>
+                <td>{{ lastitem.wonder_pig }}</td>
+            </tr>
+            <tr>
+                <th>BIG PIG</th>
+                <td>{{ lastitem.big_pig }}</td>
+            </tr>       
+        </table>
+    </div>
+
+    <div class="product_quantities" >
+        <h3> Product Quantities</h3>
+        <table th = height: 5px;>
+                <tr>
+                <th>DATE</th>
+                <td>{{lastproduct.date}}</td>
+                </tr>
+                <tr>
+                <th>BROILERS MARSH</th>
+                <td>{{lastproduct.broilers_marsh}}</td>
+                </tr>
+                <tr>
+                <th>CHICK MARSH</th>
+                <td>{{lastproduct.chick_marsh }}</td>
+                </tr>
+                <tr>
+                <th>GROWER'S MARSH</th>
+                <td>{{lastproduct.growers_marsh}}</td>
+                </tr>
+                <tr>
+                <th>OLD PIG</th>
+                <td>{{lastproduct.old_pig }}</td>
+                </tr>
+                <tr>
+                <th>LAYERS MARSH</th>
+                <td>{{lastproduct.layers_marsh}}</td>
+                </tr>
+                <tr>
+                <th>YOUNG PIG</th>
+                <td>{{ lastproduct.young_pig }}</td>
+                    
+            </table>
+        </div>
+
+
+        <div class="profit_showcase">
+            <h3>Net Income Statement</h3>
+            <form action="{% url 'index' %}" method="get">
+                <!-- <label>Childid</label>
+                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+                <label>From</label>
+                <input name="start_date" type="date" ><br/><br/>
+                <labe>To</label>
+                <input name="end_date" type="date" ><br/><br/>
+                <input type="submit" name="submit" value="COMPILE"/>                
+            </form>
+            <br/>
+            <!-- <strong>{{ profit }}</strong><label> UGX</label> -->
+            <h4>REVENUE</h4>
+            <label>Product Sales</label> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <strong>{{ product_sales }}</strong>
+            <br/>
+            <label>Raw Material Sales </label> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <strong>{{ raw_material_sales }}</strong>
+            <h4>EXPENSES</h4>
+            <label>Expenses</label> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <strong>{{ sum_of_expenses }}</strong>
+            <h4>NET PROFIT(revenue-expenses)</h4>
+            
+            <label>NET PROFIT</label>
+            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <strong>{{ net_income }}</strong>
+        </div>
+</div>
+
+
    
-     <table style="border:1px">
-                    <ul>
-        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
-        meat_boaster ,egg_boaster  -->
-                    <tr>
-                        <th>price Id</th>
-                        <th>Date</th>
-                        <th>Maize_bran</th>
-                        <th>Cotton</th>
-                        <th>Sun_Flower</th>
-                        <th>Fish</th>
-                        <th>Salt</th>
-                        <th>General Purpose_Premix</th>
-                        <th>Layers_Premix</th>
-                        <th>Shells</th>
-                        <th>Meat Boaster</th>
-                        <th>Egg Boaster</th>
-                        <th>Calcium</th> 
-                        <th>Soya Bean</th>
-                        <th>Brown Salt</th>
-                        <th>Animal Salt</th>
-                        <th>Common Salt</th>
-                        <th>Coconut</th>
-                        <th>Pig concentrate</th>
-                        <th>wonder pig</th>
-                        <th>big pig</th>
-                    </tr>
-                 
-                    <tr>
-                        <td>{{ lastitem.id}} </td>
-                        <td>{{ lastitem.date }} </td>
-                        <td>{{ lastitem.maize_bran }}</td>
-                        <td>{{ lastitem.cotton }}</td>
-                        <td>{{ lastitem.sun_flower }}</td>
-                        <td>{{ lastitem.fish }}</td>
-                        <td>{{ lastitem.salt }}</td>                      
-                        <td>{{ lastitem.general_purpose_premix }} </td>
-                        <td>{{ lastitem.layers_premix }} </td>
-                        <td>{{ lastitem.shells }} </td>
-                        <td>{{ lastitem.meat_boaster }} </td>
-                        <td>{{ lastitem.egg_boaster }}</td> 
-                        <td>{{ lastitem.calcium }}</td>
-                        <td>{{ lastitem.soya_bean }}</td> 
-                        <td>{{ lastitem.brown_salt }}</td>   
-                        <td>{{ lastitem.animal_salt }}</td>
-                        <td>{{ lastitem.common_salt }}</td> 
-                        <td>{{ lastitem.coconut }}</td>  
-                        <td>{{ lastitem.pig_concentrate }}</td>  
-                        <td>{{ lastitem.wonder_pig }}</td> 
-                        <td>{{ lastitem.big_pig }}</td>    
-                    </tr>
-                               
-                </table>
-
-    <h1>Today's Gross Profit</h1>
-    <strong>{{ profit }}</strong><label> UGX</label>
 </body>
-<div>
 
-	<a href="{% url 'index' %}"><p>Home</p></a><br/>
-	<a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>
- 	<a href="{% url 'view_supply' %}"><p>View supplies</p></a><br/>
-    <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
-        <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
-
- 	<a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
- 	<a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
- 	<a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
- 	<a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
-	<a href="{% url 'create_product_prices' %}"><p>Set  Product Prices</p></a><br/>
-	<a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/>
-	<a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
-    <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a><br/>
-	<a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
-	<a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
-</div>	
 </html>

@@ -4,76 +4,27 @@
 	<meta charset="utf-8">
 	<title>Supplies</title>
 	{% load supply_extras %}
+	<!-- <link 
+     rel="stylesheet"
+     href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <style>
+        .i-am-centered {
+            margin: auto;
+            max-width: 300px;
+            padding-top: 20%;
+        }
+    </style>
+	
 </head>
 <body>
-<form method="POST" name="formcalc" enctype="multipart/form-data">
+<form method="post">
 	<!-- Security token  Make sure you put this immediately after the form tag-->
 	{% csrf_token %}
-	<p>Supply</p>
-			
-     <!-- Using the formset -->
-    <!-- {{ supply_form.as_p }} -->
-	<label for="Date">date: </label>
-    <input id="date" type="date" name="DateOfTheDay" >
-	<br/>
-	<br/>
-	<label for="Receipt Number">Receipt Number: </label>
-	<input id="receipt_number" type="number" name="ReceiptNumber" >
-	<br/>
-	<br/>
-	<label for="supplier">Supplier: </label>
-	<input id="supplier" type="text" name="NameOfSupplier" >
-	<br/>
-	<br/>
-	<label for="Item">Item: </label>
-	<select name="RawMaterials" id="item">
-		<option value="maize_bran">Maize bran</option>
-		<option value="cotton">Cotton</option>
-		<option value="fish">Fish</option>
-		<option value="salt">Salt</option>
-		<option value="calcium">Calcium</option>
-		<option value="soya_bean">Soya Bean</option>
-		<option value="animal_salt">Animal Salt</option>
-		<option value="coconut">Coconut</option>
-		<option value="pig_concentrate">Pig Concentrate</option>
-		<option value="wonder_pig">Wonder Pig</option>
-		<option value="big_pig">Big Pig</option>
-		<option value="general_purpose_premix">General Purpose Premix</option>
-		<option value="layers_premix">Layers Premix</option>
-		<option value="shells">Shells</option>
-		<option value="meat_boaster">Meat Boaster</option>
-		<option value="egg_boaster">Egg Boaster</option>
-	  </select>
-	  <br/>
-	  <br/>
-	  <label for="Quantity">Quantity: </label>
-	  <input id="quantity" type="number" name="Quantity" placeholder="Kilograms" >
-	  <br/>
-	  <br/>
-	  <label for="Unit_Price">Unit Price: </label>
-	  <input id="unit_price" type="number" name="Unit_Price" placeholder="UGX" >
-	  <br/>
-	  <br/>
-	  <label for="Total">Total: </label>
-	  <input id="total" type="number" name="Total" placeholder="UGX" onclick="sumValues()">
-	  <br/>
-	  <br/>
-	  <!-- <input type="submit" value="OK" > -->
-    <!-- {{ supply_form.media }}	 -->
-
-	<input type="submit" value="Submit"> 
-
+	{{ supply_form.as_p }}
+    <input type="submit" value="Submit">
+	
 </form>
-<script type="text/javascript">
-function sumValues()
-{
-	var num1 , num2 , res;
-	num1 =Number(document.formcalc.Quantity.value);
-	num2 =Number(document.formcalc.Unit_Price.value);
-	res=num1*num2;
-	document.formcalc.Total.value=res;
-}
-</script>
+{{ supply_form.media }}
 <div>
 	<a href="{% url 'index' %}"><p>Home</p></a><br/>
 	<a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>

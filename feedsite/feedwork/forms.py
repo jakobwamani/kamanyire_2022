@@ -5,22 +5,10 @@ from django.utils import timezone
 import calculation
 
 RAW_MATERIAL_CHOICES = (("maize_bran" , "maize bran"),("cotton", "cotton")
-,("sun_flower" , "sun flower")
-,("fish" , "fish")
-,("salt" ,"salt")
-,("calcium" , "calcium")
-,("soya_bean","soya bean")
-,("animal_salt","animal salt")
-,("common_salt","common salt")
-,("coconut","coconut")
-,("pig_concentrate","pig concentrate")
-,("wonder_pig","wonder pig")
-,("big_pig","big pig")
-,("general_purpose_premix" , "general purpose premix")
-,("layers_premix" , "layers premix")
-,("shells" , "shells")
-,("meat_boaster" , "meat boaster")
-,("egg_boaster" ,"egg boaster"))
+,("sun_flower" , "sun flower"),("fish" , "fish"),("salt" ,"salt"),("calcium" , "calcium"),("soya_bean","soya bean")
+,("animal_salt","animal salt"),("common_salt","common salt"),("coconut","coconut"),("pig_concentrate","pig concentrate")
+,("wonder_pig","wonder pig"),("big_pig","big pig"),("general_purpose_premix" , "general purpose premix")
+,("layers_premix" , "layers premix"),("shells" , "shells"),("meat_boaster" , "meat boaster"),("egg_boaster" ,"egg boaster"))
 # creating a form
 class RawMaterialForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
@@ -34,11 +22,10 @@ class RawMaterialForm(forms.ModelForm):
 	# increase_quantity = forms.IntegerField(initial=0)
 	# reduce_quantity = forms.IntegerField(initial=0)
 	# unit_price = forms.IntegerField(initial = 0)
-	quantity = forms.DecimalField()
-	unit_price = forms.DecimalField()
+	quantity = forms.DecimalField(initial = 0.0)
+	unit_price = forms.DecimalField(initial= 0.0)
 	total = forms.DecimalField(
-		# RawMaterial.amount()
-        # widget=calculation.FormulaInput('quantity * unit_price') # <- using single math expression
+        widget=calculation.FormulaInput('quantity*unit_price') # <- using single math expression
     )
 	
 	class Meta:
@@ -46,12 +33,7 @@ class RawMaterialForm(forms.ModelForm):
 		model = RawMaterial
 
 		# exclude = ["amount","fullamount",]
-		fields = [
-			"date",
-			"receipt_number",
-			"supplier",
-			"item","quantity","unit_price","total"
-		]
+		fields = ["date","receipt_number","supplier","item","quantity","unit_price","total"]
 
 class ExpenseForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
@@ -81,17 +63,17 @@ class SupplyForm(forms.ModelForm):
 	unit_price = forms.DecimalField(initial = 0.0)
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
 	# amount = forms.IntegerField(initial = 0)
-	total = forms.DecimalField( initial = 0.0)
-
+	# total = forms.DecimalField( initial = 0.0)
+	total = forms.DecimalField(
+        widget=calculation.FormulaInput('quantity*unit_price') # <- using single math expression
+    )
 	# i  cannot edit this stuff from right here so all amounts will shown in the retrieve view
 	# fullamount = forms.IntegerField(initial = 0)
 	# pricing = forms.IntegerField(help_text='First check to cost of supply to update this')
-   
 	# create meta class
 	class Meta:
 		# specify model to be used
 		model = RawMaterial
-
 		# exclude = ["amount","fullamount",]
 		fields = ["date","receipt_number","supplier","item","quantity","unit_price","total"]
 
@@ -205,7 +187,7 @@ class ProductSalesForm(forms.ModelForm):
 	total = forms.DecimalField(
         widget=calculation.FormulaInput('quantity*selling_price') # <- using single math expression
     )
-
+	
 	class Meta:
 		model = ProductSales
 
@@ -215,14 +197,12 @@ class RawMaterialSalesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	raw_material = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
-	quantity = forms.IntegerField(initial = 0)
-	selling_price = forms.IntegerField(initial = 0)
+	quantity = forms.IntegerField(initial = 0.0)
+	selling_price = forms.IntegerField(initial = 0.0)
 	total = forms.DecimalField(
         widget=calculation.FormulaInput('quantity*selling_price') # <- using single math expression
     )
 	# total = forms.IntegerField(initial = 0)
-
 	class Meta:
 		model = RawMaterialSales
-
 		fields = ["date","raw_material","quantity","selling_price","total"]

@@ -17,10 +17,10 @@ class RawMaterial(models.Model):
 	#Am making this a null True because when the user is entering the supply data , am not able to make it appear
 	total = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	
-	@property
-	def amount(self):
-		all = (self.quantity) * (self.unit_price)
-		return all
+	# @property
+	# def amount(self):
+	# 	all = (self.quantity) * (self.unit_price)
+	# 	return all
 
 	def __str__(self):
 		   
