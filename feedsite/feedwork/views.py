@@ -9,15 +9,16 @@ from django.http import HttpResponseRedirect
 
 
 def index(request):
+    check_if_raw_material_quantities_are_empty()
     # return HttpResponse("Hello, world. You're at the STS Poultry Business ")
     #To create a new instance of the RMQ model 
     #grab the lastest instance inside the RMQ model
-    lastitem = RawMaterialQuantities.objects.last()
+    last_raw_material_qty_occurance = RawMaterialQuantities.objects.last()
     #check if it has any instances , if not then just skip to the end
     count_quantities = RawMaterialQuantities.objects.count()
     if(count_quantities != 0):
         #change dates into some specific dates (%x-Local version of date-12/31/18)
-        last_date = lastitem.date
+        last_date = last_raw_material_qty_occurance.date
         rear_date = last_date.strftime("%x")
         current_date = datetime.datetime.now()
         earlist_date = current_date.strftime("%x")
@@ -25,31 +26,38 @@ def index(request):
             print("Dates are equal")
         else:
             #duplicate the last instance
-            dup_maize_bran = lastitem.maize_bran 
-            dup_cotton = lastitem.cotton
-            dup_sun_flower = lastitem.sun_flower
-            dup_fish = lastitem.fish
-            dup_salt = lastitem.salt
-            dup_general_purpose_premix = lastitem.general_purpose_premix
-            dup_layers_premix = lastitem.layers_premix
-            dup_shells = lastitem.shells
-            dup_meat_boaster = lastitem.meat_boaster
-            dup_egg_boaster=lastitem.egg_boaster
-            dup_calcium = lastitem.calcium
-            dup_soya_bean = lastitem.soya_bean
-            dup_brown_salt = lastitem.brown_salt
-            dup_animal_salt = lastitem.animal_salt
-            dup_common_salt = lastitem.common_salt 
-            dup_coconut = lastitem.coconut 
-            dup_pig_concentrate = lastitem.pig_concentrate
-            dup_wonder_pig = lastitem.wonder_pig 
-            dup_big_pig = lastitem.big_pig 
+            dup_maize_bran = last_raw_material_qty_occurance.maize_bran 
+            dup_cotton = last_raw_material_qty_occurance.cotton
+            dup_sun_flower = last_raw_material_qty_occurance.sun_flower
+            dup_fish = last_raw_material_qty_occurance.fish
+            
+            dup_general_purpose_premix = last_raw_material_qty_occurance.general_purpose_premix
+            dup_layers_premix = last_raw_material_qty_occurance.layers_premix
+            dup_shells = last_raw_material_qty_occurance.shells
+            dup_meat_boaster = last_raw_material_qty_occurance.meat_boaster
+            dup_egg_boaster=last_raw_material_qty_occurance.egg_boaster
+            dup_calcium = last_raw_material_qty_occurance.calcium
+            dup_soya_bean = last_raw_material_qty_occurance.soya_bean
+            dup_brown_salt = last_raw_material_qty_occurance.brown_salt
+            dup_animal_salt = last_raw_material_qty_occurance.animal_salt
+            dup_common_salt = last_raw_material_qty_occurance.common_salt 
+            dup_coconut = last_raw_material_qty_occurance.coconut 
+            dup_pig_concentrate = last_raw_material_qty_occurance.pig_concentrate
+            dup_wonder_pig = last_raw_material_qty_occurance.wonder_pig 
+            dup_big_pig = last_raw_material_qty_occurance.big_pig 
 
 
-            duplicate_quantiites = RawMaterialQuantities.objects.create(date = datetime.datetime.now(),maize_bran = dup_maize_bran ,cotton = dup_cotton,
-                                                                   sun_flower = dup_sun_flower, fish = dup_fish,salt = dup_salt ,
-                                                                   general_purpose_premix = dup_general_purpose_premix,layers_premix = dup_layers_premix,
-                                                                   shells = dup_shells, meat_boaster = dup_meat_boaster,egg_boaster=dup_egg_boaster
+            duplicate_quantiites = RawMaterialQuantities.objects.create(date = datetime.datetime.now()
+                                                                   ,maize_bran = dup_maize_bran 
+                                                                   ,cotton = dup_cotton
+                                                                   ,sun_flower = dup_sun_flower 
+                                                                   ,fish = dup_fish
+                                                                   
+                                                                   ,general_purpose_premix = dup_general_purpose_premix
+                                                                   ,layers_premix = dup_layers_premix
+                                                                   ,shells = dup_shells
+                                                                   ,meat_boaster = dup_meat_boaster
+                                                                   ,egg_boaster=dup_egg_boaster
                                                                    ,calcium = dup_calcium
                                                                    ,soya_bean = dup_soya_bean
                                                                    ,brown_salt = dup_brown_salt
@@ -58,7 +66,7 @@ def index(request):
                                                                    ,coconut = dup_coconut
                                                                    ,pig_concentrate = dup_pig_concentrate
                                                                    ,wonder_pig = dup_wonder_pig
-                                                                   ,big_pig = dup_big_pig)
+                                                                   ,big_pig = dup_big_pig) 
     else:
         print("Just continue with life")
 
@@ -123,23 +131,22 @@ def index(request):
             print("Dates are equal")
         else:
             #duplicate the last instance
-            dup_maize_bran = lastitem.maize_bran 
-            dup_cotton = lastitem.cotton
-            dup_sun_flower = lastitem.sun_flower
-            dup_fish = lastitem.fish
-            dup_salt = lastitem.salt
-            dup_general_purpose_premix = lastitem.general_purpose_premix
-            dup_layers_premix = lastitem.layers_premix
-            dup_shells = lastitem.shells
-            dup_meat_boaster = lastitem.meat_boaster
-            dup_egg_boaster=lastitem.egg_boaster
+            dup_maize_bran = last_raw_material_qty_occurance.maize_bran 
+            dup_cotton = last_raw_material_qty_occurance.cotton
+            dup_sun_flower = last_raw_material_qty_occurance.sun_flower
+            dup_fish = last_raw_material_qty_occurance.fish
+            
+            dup_general_purpose_premix = last_raw_material_qty_occurance.general_purpose_premix
+            dup_layers_premix = last_raw_material_qty_occurance.layers_premix
+            dup_shells = last_raw_material_qty_occurance.shells
+            dup_meat_boaster = last_raw_material_qty_occurance.meat_boaster
+            dup_egg_boaster=last_raw_material_qty_occurance.egg_boaster
             duplicate_quantiites = RawMaterialPrices.objects.create(date = datetime.datetime.now(),maize_bran = dup_maize_bran ,cotton = dup_cotton,
-                                                                   sun_flower = dup_sun_flower, fish = dup_fish,salt = dup_salt ,
+                                                                   sun_flower = dup_sun_flower, fish = dup_fish,
                                                                    general_purpose_premix = dup_general_purpose_premix,layers_premix = dup_layers_premix,
                                                                    shells = dup_shells, meat_boaster = dup_meat_boaster,egg_boaster=dup_egg_boaster)
     else:
         print("Just continue with life")
-    
     # Viewing the product quantities
     # last item represents the raw material quantities
     # last product represent the product quantities
@@ -181,7 +188,7 @@ def index(request):
     #use a loop to get total of every expense
     for expense in expenses:
         #add that expense total into the 'expenses_list'
-        expenses_list.append(expense.total)
+        expenses_list.append(expense.amount)
     #sum up all the 'expense total' in that 'expenses_list'
     sum_of_expenses = sum(expenses_list)
     
@@ -189,8 +196,12 @@ def index(request):
 
     net_income = (product_sales + raw_material_sales) - sum_of_expenses
 
-    return render(request, "index.html",{'lastitem':lastitem,'lastproduct':lastproduct,'product_sales':product_sales,
-    'raw_material_sales':raw_material_sales,'sum_of_expenses':sum_of_expenses,'net_income':net_income})
+    selected_date = request.GET.get('selected_date')
+
+    raw_material_inventory = RawMaterialQuantities.objects.filter(date=selected_date)
+
+    return render(request, "index.html",{'last_raw_material_qty_occurance':last_raw_material_qty_occurance,'lastproduct':lastproduct,'product_sales':product_sales,
+    'raw_material_sales':raw_material_sales,'sum_of_expenses':sum_of_expenses,'net_income':net_income } )
 
 def creating_net_income(request):
     #now we are going to get the income statement # Net income/loss = product_sales + raw_material_sales - expenses # revenue = product_sales + raw_material_sales 
@@ -242,12 +253,10 @@ def creating_supplies(request):
     # field names as keys
     context = {}
 
-
     supply_form = RawMaterialForm(request.POST or None)
     # expense_form = ExpenseForm(request.POST or None)
     if request.method == 'POST':
         # add the dictionary during initialization
-
         if supply_form.is_valid():
 
             supply_form.save()
@@ -255,8 +264,7 @@ def creating_supplies(request):
             #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
             #table
             # we shall check if the "RawMaterialQuantities" table has atleast one row
-            compute_quantities()
-            
+            compute_quantities()       
             return HttpResponseRedirect('http://127.0.0.1:8000/')
     else:
         context['supply_form'] = supply_form
@@ -333,23 +341,22 @@ def create_product(request):
     form = ProductForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-
             product = form.cleaned_data['product']  
             maize_bran = form.cleaned_data['maize_bran']
             cotton = form.cleaned_data['cotton']
             sun_flower = form.cleaned_data['sun_flower']
             fish = form.cleaned_data['fish']
-            salt = form.cleaned_data['salt']
             general_purpose_premix = form.cleaned_data['general_purpose_premix']
             layers_premix = form.cleaned_data['layers_premix']
             shells = form.cleaned_data['shells']
             meat_boaster = form.cleaned_data['meat_boaster']
             egg_boaster = form.cleaned_data['egg_boaster']
-            # Raw Materials to be added
+            
             calcium = form.cleaned_data['calcium'] 
             soya_bean = form.cleaned_data['soya_bean']
             animal_salt = form.cleaned_data['animal_salt']
             common_salt = form.cleaned_data['common_salt']
+            brown_salt = form.cleaned_data['brown_salt']
             coconut = form.cleaned_data['coconut']
             pig_concentrate = form.cleaned_data['pig_concentrate']
             wonder_pig = form.cleaned_data['wonder_pig']
@@ -357,12 +364,33 @@ def create_product(request):
 
             # maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
             # ,meat_boaster ,egg_boaster
+
+            check_if_product_quantities_are_empty()
              
-            subtracting(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig)
+            subtracting(maize_bran,cotton,sun_flower,fish,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,brown_salt,coconut,pig_concentrate,wonder_pig,big_pig)
 
             #populate the product quantities model
 
-            adding(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig)
+            adding(
+                 product
+                ,maize_bran
+                ,cotton
+                ,sun_flower
+                ,fish
+                ,general_purpose_premix
+                ,layers_premix
+                ,shells,meat_boaster
+                ,egg_boaster
+                ,calcium
+                ,soya_bean
+                ,animal_salt
+                ,common_salt
+                ,brown_salt
+                ,coconut
+                ,pig_concentrate
+                ,wonder_pig
+                ,big_pig
+                )
 
             form.save()
             return HttpResponseRedirect('http://127.0.0.1:8000/')
@@ -618,9 +646,6 @@ def doing_product_sales(request):
         form.save()
         return HttpResponseRedirect('http://127.0.0.1:8000/')       
 
-
-
-
     #Adding items to the dictionary
     context['form'] = form
     context['p_q'] = p_q
@@ -693,9 +718,9 @@ def doing_raw_material_sales(request):
 
     # run a query to get all the supplies on that date
 
-    r_m_q = RawMaterialQuantities.objects.last()
+    last_raw_material_quantity = RawMaterialQuantities.objects.last()
 
-    r_m_p = RawMaterialPrices.objects.last()
+    last_raw_material_prices = RawMaterialPrices.objects.last()
 
     context = {}
     # add the dictionary during initialization
@@ -723,7 +748,7 @@ def doing_raw_material_sales(request):
     # raw_material_sales_quantity_deduction(last_sale.raw_material,last_sale.quantity)
 
 
-    return render(request, "do_raw_material_sales.html", {'r_m_q':r_m_q,'r_m_p':r_m_p ,'form':form ,})
+    return render(request, "do_raw_material_sales.html", {'last_raw_material_quantity':last_raw_material_quantity,'last_raw_material_prices':last_raw_material_prices ,'form':form ,})
 
 def viewing_raw_material_sales(request):
     #get the date from the user 
@@ -731,12 +756,128 @@ def viewing_raw_material_sales(request):
     end_date = request.GET.get('end_date')
 
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
-
     # run a query to get all the supplies on that date
     rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
+
+    maize_bran_list = []
+    cotton_list = []
+    sun_flower_list = []
+    fish_list = []
+    general_purpose_premix_list = []
+    layers_premix_list = []
+    shells_list = []
+    meat_boaster_list = []
+    egg_boaster_list =[]
+    calcium_list = []
+    soya_bean_list = []
+    brown_salt_list = []
+    animal_salt_list = []
+    common_salt_list = []
+    pig_concentrate_list = []
+    coconut_list = []
+    wonder_pig_list = []
+    big_pig_list= []
+
+    for sale in rm_sales:
+        if sale.raw_material == "maize_bran":
+            for sale in rm_sales:
+                maize_bran_list.append(sale.quantity)
+
+        elif sale.raw_material == "cotton":
+            for sale in rm_sales:
+                cotton_list.append(sale.quantity)
+
+        elif sale.raw_material == "sun_flower":
+            for sale in rm_sales:
+                sunflower_list.append(sale.quantity)
+
+        elif sale.raw_material == "fish":
+            for sale in rm_sales:
+                fish_list.append(sale.quantity)
+
+        elif sale.raw_material == "general_purpose_premix":
+            for sale in rm_sales:
+                general_purpose_premix_list.append(sale.quantity)
+
+        elif sale.raw_material == "shells":
+            for sale in rm_sales:
+                shells_list.append(sale.quantity)
+
+        elif sale.raw_material == "meat_boaster":
+            for sale in rm_sales:
+                meat_boaster_list.append(sale.quantity)
+
+        elif sale.raw_material == "egg_boaster":
+            for sale in rm_sales:
+                egg_boaster_list.append(sale.quantity)
+
+        elif sale.raw_material == "calcium":
+            for sale in rm_sales:
+                calcium_list.append(sale.quantity)
+
+        elif sale.raw_material == "soya_bean":
+            for sale in rm_sales:
+                soya_bean.append(sale.quantity)
+
+        elif sale.raw_material == "brown_salt":
+            for sale in rm_sales:
+                brown_salt_list.append(sale.quantity)
+
+        elif sale.raw_material == "animal_salt":
+            for sale in rm_sales:
+                animal_salt_list.append(sale.quantity)
+
+        elif sale.raw_material == "common_salt":
+            for sale in rm_sales:
+                common_salt_list.append(sale.quantity)
+
+        elif sale.raw_material == "cotton":
+            for sale in rm_sales:
+                cotton_list.append(sale.quantity)
+
+        elif sale.raw_material == "pig_concentrate":
+            for sale in rm_sales:
+                pig_concentrate_list.append(sale.quantity)
+
+        elif sale.raw_material == "coconut":
+            for sale in rm_sales:
+                coconut.append(sale.quantity)
+
+        elif sale.raw_material == "wonder_pig":
+            for sale in rm_sales:
+                wonder_pig_list.append(sale.quantity)
+
+        elif sale.raw_material == "big_pig":
+            for sale in rm_sales:
+                big_pig_list.append(sale.quantity)
     # print(type(supplies))     
     # return render(request, "view_supply.html", context)
-    return render(request, "view_raw_material_sales.html", {'rm_sales':rm_sales})
+
+    #Now we are going to find the summation of all the lists and then put them in a list too
+
+    raw_material_sales_dictionary = {} 
+
+    #Add the different summations to the dictionary
+    raw_material_sales_dictionary["maize_bran"] = sum(maize_bran_list)
+    raw_material_sales_dictionary["cotton"] = sum(cotton_list)
+    raw_material_sales_dictionary["sun_flower"] = sum(sun_flower_list)
+    raw_material_sales_dictionary["fish"] = sum(fish_list)
+    raw_material_sales_dictionary["general_purpose_premix"] = sum(general_purpose_premix_list)
+    raw_material_sales_dictionary["layers_premix"] = sum(layers_premix_list)
+    raw_material_sales_dictionary["shells"] = sum(shells_list)
+    raw_material_sales_dictionary["meat_boaster"] = sum(meat_boaster_list)
+    raw_material_sales_dictionary["egg_boaster"] = sum(egg_boaster_list)
+    raw_material_sales_dictionary["calcium"] = sum(calcium_list)
+    raw_material_sales_dictionary["soya_bean"] = sum(soya_bean_list)
+    raw_material_sales_dictionary["brown_salt"] = sum(brown_salt_list)
+    raw_material_sales_dictionary["common_salt"] = sum(common_salt_list)
+    raw_material_sales_dictionary["pig_concentrate"] = sum(pig_concentrate_list)
+    raw_material_sales_dictionary["coconut"] = sum(coconut_list)
+    raw_material_sales_dictionary["wonder_pig"] = sum(wonder_pig_list)
+    raw_material_sales_dictionary["big_pig"] = sum(big_pig_list)
+
+    print (raw_material_sales_dictionary)
+    return render(request, "view_raw_material_sales.html", {'rm_sales':rm_sales , 'raw_material_sales_dictionary':raw_material_sales_dictionary})
 
 def updating_raw_material_sales(request):
     context_dict = {}
@@ -843,13 +984,6 @@ def deleting_expenses(request):
         #But before we delete , we must reduce on the amount in the RMQ model
         #since this is an object , i will create a function right away
         
-        expense_to_delete.delete()
+    expense_to_delete.delete()
         
-        # if request.method =='POST':
-        #   #we get to know the item 
-
-        #     supply_record_to_delete.delete()
-        #     return redirect('view_supply.html')
-
-        # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_expenses.html",context=context_dict)

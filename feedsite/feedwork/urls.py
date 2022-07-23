@@ -7,7 +7,7 @@ from django.conf.urls import url
 urlpatterns = [
 
     path('', views.index, name='index'),
-    # path('',views.creating_net_income,name = "index"),
+    
     path('supply',views.creating_supplies,name='get_supply'),
     path('view_supplies', views.viewing_supplies, name = 'view_supply'),
     path('update_supply/', views.updating_supplies, name = 'update_supply'),
@@ -36,6 +36,8 @@ urlpatterns = [
     path('view_expenses/',views.viewing_expenses, name='view_expenses'),
     path('update_expenses/',views.updating_expenses, name='update_expenses'),
     path('delete_expenses/',views.deleting_expenses, name='delete_expenses'),
+
     url(r'^report_builder/', include('report_builder.urls')),
+
     # path('api-auth/', include('rest_framework.urls'))
     ]

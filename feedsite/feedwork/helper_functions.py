@@ -57,13 +57,13 @@ def compute_quantities():
             quantity_addition.fish = total_quantity
             quantity_addition.save()
 
-         elif lastest_item_supplied == 'salt':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.salt
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.salt = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'salt':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.salt
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.salt = total_quantity
+         #    quantity_addition.save()
 
          elif lastest_item_supplied == 'layers_premix':
             quantity_update = RawMaterialQuantities.objects.last()
@@ -188,7 +188,7 @@ def compute_quantities():
       #create default quantities
      
       default_quantiites = RawMaterialQuantities.objects.create(date = datetime.datetime.now(),maize_bran = 0 ,cotton = 0,
-                                                               sun_flower = 0, fish = 0,salt = 0 ,
+                                                               sun_flower = 0, fish = 0 ,
                                                                general_purpose_premix = 0,layers_premix = 0,
                                                                shells = 0, meat_boaster = 0,egg_boaster=0,calcium = 0,
                                                                soya_bean = 0 , brown_salt = 0, animal_salt = 0 , common_salt = 0,
@@ -246,13 +246,13 @@ def compute_quantities():
          addition.fish  = total_quantity
          addition.save()
 
-      elif item_of_supply == 'salt':
-         update           = RawMaterialQuantities.objects.last()
-         quantity         = update.salt
-         total_quantity   = quantity + quantity_of_supply           
-         addition         = RawMaterialQuantities.objects.last()
-         addition.salt  = total_quantity
-         addition.save()
+      # elif item_of_supply == 'salt':
+      #    update           = RawMaterialQuantities.objects.last()
+      #    quantity         = update.salt
+      #    total_quantity   = quantity + quantity_of_supply           
+      #    addition         = RawMaterialQuantities.objects.last()
+      #    addition.salt  = total_quantity
+      #    addition.save()
 
       elif item_of_supply == 'layers_premix':
          update           = RawMaterialQuantities.objects.last()
@@ -499,12 +499,12 @@ def increment_quantities(increment_value,form ):
          else:
             print("move on with life")
 
-      elif item_supplied == 'salt':
-         amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-         item_value = amount_of_supply.salt
-         incremented_value = item_value + increment_value
-         amount_of_supply.salt = incremented_value
-         amount_of_supply.save()
+      # elif item_supplied == 'salt':
+      #    amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+      #    item_value = amount_of_supply.salt
+      #    incremented_value = item_value + increment_value
+      #    amount_of_supply.salt = incremented_value
+      #    amount_of_supply.save()
 
          current_supply = RawMaterialQuantities.objects.last()
          #latest_instance
@@ -964,12 +964,12 @@ def decrement_quantities(decrement_value , form):
       else:
          print("move on with life")
 
-   elif item_supplied == 'salt':
-      amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
-      item_value = amount_of_supply.salt
-      incremented_value = item_value - decrement_value
-      amount_of_supply.salt = incremented_value
-      amount_of_supply.save()
+   # elif item_supplied == 'salt':
+   #    amount_of_supply = RawMaterialQuantities.objects.get(date=date_of_supply)
+   #    item_value = amount_of_supply.salt
+   #    incremented_value = item_value - decrement_value
+   #    amount_of_supply.salt = incremented_value
+   #    amount_of_supply.save()
 
       current_supply = RawMaterialQuantities.objects.last()
       #latest_instance
@@ -1331,12 +1331,12 @@ def reduce_due_to_deletion(supply_item,supply_quantity):
       instance.fish = quantity_update
       instance.save()
 
-   elif supply_item == "salt":
-      instance = RawMaterialQuantities.objects.last()
-      current_quantity = instance.salt
-      quantity_update = current_quantity - supply_quantity
-      instance.salt = quantity_update
-      instance.save()
+   # elif supply_item == "salt":
+   #    instance = RawMaterialQuantities.objects.last()
+   #    current_quantity = instance.salt
+   #    quantity_update = current_quantity - supply_quantity
+   #    instance.salt = quantity_update
+   #    instance.save()
 
    elif supply_item == "general_purpose_premix":
       instance = RawMaterialQuantities.objects.last()
@@ -1438,86 +1438,101 @@ def reduce_due_to_deletion(supply_item,supply_quantity):
 
    return print("Numbers successfully reduced") 
 
-def subtracting(a,mai,cot,sun,fis,sal,gpp,lyp,she,meb,egb,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig):
+def subtracting(maize_bran,cotton,sun_flower,fish,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,brown_salt,coconut,pig_concentrate,wonder_pig,big_pig):
+
    instance = RawMaterialQuantities.objects.last()
    #subtract the current information , maize bran
-   current_maize = instance.maize_bran - mai
-   #
+
+   #maize_bran
+   current_maize = instance.maize_bran - maize_bran
    instance.maize_bran = current_maize
    instance.save()
    #cotton
-   current_cotton = instance.cotton - cot
+   current_cotton = instance.cotton - cotton
    instance.cotton = current_cotton
    instance.save()
    #sun_flower
-   current_sun_flower = instance.sun_flower - sun
+   current_sun_flower = instance.sun_flower - sun_flower
    instance.sun_flower = current_sun_flower
    instance.save()
    #fish
-   current_fish = instance.fish - fis
+   current_fish = instance.fish - fish
    instance.fish = current_fish
    instance.save()
-   #salt
-   current_salt = instance.salt - sal
-   instance.salt = current_salt
-   instance.save()
+  
    #general_purpose_premix
-   current_general_purpose_premix = instance.general_purpose_premix - gpp
+   current_general_purpose_premix = instance.general_purpose_premix - general_purpose_premix
    instance.general_purpose_premix = current_general_purpose_premix
    instance.save()
+
    #layers_premix
-   current_layers_premix = instance.layers_premix - lyp
+   current_layers_premix = instance.layers_premix - layers_premix
    instance.layers_premix = current_layers_premix
    instance.save()
    #shells
-   current_shells = instance.shells - she
+   current_shells = instance.shells - shells
    instance.shells = current_shells
    instance.save()
+
    #meat_boaster
-   current_meat_boaster = instance.meat_boaster - meb
+   current_meat_boaster = instance.meat_boaster - meat_boaster
    instance.meat_boaster = current_meat_boaster
    instance.save()
+
    #egg_boaster
-   current_egg_boaster = instance.egg_boaster - egb
+   current_egg_boaster = instance.egg_boaster - egg_boaster
    instance.egg_boaster = current_egg_boaster
    instance.save()
+
    #calcium
    current_calcium = instance.calcium - calcium
    instance.calcium = current_calcium
    instance.save()
+
    #soya_bean
    current_soya_bean = instance.soya_bean - soya_bean
    instance.soya_bean = current_soya_bean
    instance.save()
+
    #animal_salt
    current_animal_salt = instance.animal_salt - animal_salt
    instance.animal_salt = current_animal_salt
    instance.save()
+
    #common_salt
    current_common_salt = instance.common_salt - common_salt
    instance.common_salt = current_common_salt
    instance.save()
+
+   #brown_salt
+   current_brown_salt = instance.brown_salt - brown_salt
+   instance.brown_salt = current_brown_salt
+   instance.save()
+
    #coconut
    current_coconut = instance.coconut - coconut
    instance.coconut = current_coconut
    instance.save()
+
    #pig_concentrate
    current_pig_concentrate = instance.pig_concentrate - pig_concentrate
    instance.pig_concentrate = current_pig_concentrate
    instance.save()
+
    #wonder_pig
    current_wonder_pig = instance.wonder_pig - wonder_pig
    instance.wonder_pig = current_wonder_pig
    instance.save()
+
    #big_pig
-   current_big_pig = instance.big_pig -big_pig
+   current_big_pig = instance.big_pig - big_pig
    instance.big_pig = current_big_pig
    instance.save()
 
-def adding(product,maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,coconut,pig_concentrate,wonder_pig,big_pig):   
+def adding(product,maize_bran,cotton,sun_flower,fish,general_purpose_premix,layers_premix,shells,meat_boaster,egg_boaster,calcium,soya_bean,animal_salt,common_salt,brown_salt,coconut,pig_concentrate,wonder_pig,big_pig):   
    #here we are getting the product from the form
    #we could first add up all the rawmats and have one figure
-   total_quantity = maize_bran + cotton + sun_flower + fish + salt + general_purpose_premix + layers_premix + shells + meat_boaster + egg_boaster + calcium + soya_bean + animal_salt + common_salt + coconut + pig_concentrate + wonder_pig + big_pig
+   total_quantity = maize_bran + cotton + sun_flower + fish  + general_purpose_premix + layers_premix + shells + meat_boaster + egg_boaster + calcium + soya_bean + animal_salt + common_salt + brown_salt + coconut + pig_concentrate + wonder_pig + big_pig
    last_quantity = ProductQuantities.objects.last()
    if product == "broilers_marsh":
       item = last_quantity.broilers_marsh 
@@ -1659,8 +1674,168 @@ def raw_material_sales_quantity_deduction(raw_material,quantity):
       last_raw_material.fish = new_quantity
       last_raw_material.save()
 
-   elif raw_material == "salt":
-      current_quantity = last_product_quantity.salt
+   # elif raw_material == "salt":
+   #    current_quantity = last_raw_material.salt
+   #    new_quantity = current_quantity - quantity
+   #    last_raw_material.salt = new_quantity
+   #    last_raw_material.save()
+
+   elif raw_material == "coconut":
+      current_quantity = last_raw_material.coconut
       new_quantity = current_quantity - quantity
-      last_raw_material.salt = new_quantity
+      last_raw_material.coconut = new_quantity
       last_raw_material.save()
+
+   elif raw_material == "wonder_pig":
+      current_quantity = last_raw_material.wonder_pig
+      new_quantity = current_quantity - quantity
+      last_raw_material.wonder_pig = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "pig_concentrate":
+      current_quantity = last_raw_material.pig_concentrate
+      new_quantity = current_quantity - quantity
+      last_raw_material.pig_concentrate = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "calcium":
+      current_quantity = last_raw_material.calcium
+      new_quantity = current_quantity - quantity
+      last_raw_material.calcium = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "big_pig":
+      current_quantity = last_raw_material.big_pig
+      new_quantity = current_quantity - quantity
+      last_raw_material.big_pig = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "common_salt":
+      current_quantity = last_raw_material.common_salt
+      new_quantity = current_quantity - quantity
+      last_raw_material.common_salt = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "animal_salt":
+      current_quantity = last_raw_material.animal_salt
+      new_quantity = current_quantity - quantity
+      last_raw_material.animal_salt = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "brown_salt":
+      current_quantity = last_raw_material.brown_salt
+      new_quantity = current_quantity - quantity
+      last_raw_material.brown_salt = new_quantity
+      last_raw_material.save()
+
+   elif raw_material == "soya_bean":
+      current_quantity = last_raw_material.soya_bean
+      new_quantity = current_quantity - quantity
+      last_raw_material.soya_bean = new_quantity
+      last_raw_material.save()
+
+def check_if_product_quantities_are_empty():   
+
+   product_quantity = ProductQuantities.objects.count()
+   if product_quantity == 0:
+      default_product_quantities = ProductQuantities.objects.create(  
+                                                                     date=datetime.datetime.now()
+                                                                     ,broilers_marsh = 0
+                                                                     ,chick_marsh = 0
+                                                                     ,old_pig = 0
+                                                                     ,growers_marsh = 0
+                                                                     ,layers_marsh = 0
+                                                                     ,young_pig = 0
+
+                                                                  )
+
+def check_if_raw_material_quantities_are_empty():
+
+   raw_material_quantity = RawMaterialQuantities.objects.count()
+   if raw_material_quantity == 0:
+      default_raw_material_quantities = RawMaterialQuantities.objects.create(
+
+                                                                           date=datetime.datetime.now()
+                                                                           ,maize_bran = 0
+                                                                           ,cotton = 0
+                                                                           ,sun_flower = 0
+                                                                           ,fish = 0
+                                                                           
+                                                                           ,common_salt = 0
+                                                                           ,general_purpose_premix = 0
+                                                                           ,layers_premix = 0
+                                                                           ,shells = 0
+                                                                           ,meat_boaster = 0
+                                                                           ,calcium = 0
+                                                                           ,soya_bean = 0
+                                                                           ,brown_salt = 0
+                                                                           ,animal_salt = 0
+                                                                           ,pig_concentrate = 0
+                                                                           ,coconut = 0
+                                                                           ,wonder_pig = 0
+                                                                           ,big_pig = 0
+
+                                                                           )
+
+                                                                              
+def combining_raw_material_sales(query,item_list):
+   for sale in "query":
+         if sale.raw_material == "maize_bran":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "cotton":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "sun_flower":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "fish":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "general_purpose_premix":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "layers_premix":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "shells":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "meat_boaster":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "egg_boaster":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "calcium":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "soya_bean":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "brown_salt":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "animal_salt":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "common_salt":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "pig_concentrate":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "cotton":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "pig_concentrate":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "coconut":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "wonder_pig":
+            "item_list".append(sale.quantity)
+
+         elif sale.raw_material == "big_pig":
+            "item_list".append(sale.quantity)

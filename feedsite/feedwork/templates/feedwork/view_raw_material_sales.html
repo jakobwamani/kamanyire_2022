@@ -24,10 +24,9 @@
                 <input type="submit" name="submit" value="Search"/>                
     </form>
 
-     <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+                    <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
                     <ul>
-        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
-        meat_boaster ,egg_boaster  -->
+        
                     <tr>
                         <th>Raw_Material Id</th>
                         <th>Date</th>
@@ -43,7 +42,7 @@
                     <tr>
                         <td>{{ item.id}} </td>
                         <td>{{ item.date }} </td>
-                        <th>{{ item.raw_material }}
+                        <td>{{ item.raw_material }} </td>
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.selling_price }}</td>
                         <td>{{ item.total }}</td>
@@ -53,6 +52,51 @@
                         <td><a href="../delete_raw_material_sales/?id={{ item.id }}">Delete</a></td>
                     </tr>
                     {% endfor %}
+                </table>
+
+                 <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+                    <ul>
+        
+                    <tr>
+                        <th>Maize Bran</th>
+                        <th>Cotton</th>
+                        <th>Sun Flower</th>
+                        <th>Fish</th>
+                        <th>General Purpose Premix</th>
+                        <th>Layers Premix</th>
+                        <th>Shells</th>
+                        <th>Meat Boaster</th>
+                        <th>Egg Boaster</th>
+                        <th>Calcium</th>
+                        <th>Soya Bean</th>
+                        <th>Brown Salt</th>
+                        <th>Common Salt</th>
+                        <th>Pig Concentrate</th>
+                        <th>Coconut</th>
+                        <th>Wonder Pig</th>
+                        <th>Big Pig</th>                       
+                    </tr>
+                    
+                        <tr>
+                            <td>{{raw_material_sales_dictionary.maize_bran}}</td>
+                            <td>{{raw_material_sales_dictionary.cotton}}</td>
+                            <td>{{raw_material_sales_dictionary.sun_flower}}</td>
+                            <td>{{raw_material_sales_dictionary.fish}}</td>
+                            <td>{{raw_material_sales_dictionary.general_purpose_premix}}</td>
+                            <td>{{raw_material_sales_dictionary.layers_premix}}</td>
+                            <td>{{raw_material_sales_dictionary.shells}}</td>
+                            <td>{{raw_material_sales_dictionary.meat_boaster}}</td>
+                            <td>{{raw_material_sales_dictionary.egg_boaster}}</td>
+                            <td>{{raw_material_sales_dictionary.calcium}}</td>
+                            <td>{{raw_material_sales_dictionary.soya_bean}}</td>
+                            <td>{{raw_material_sales_dictionary.brown_salt}}</td>
+                            <td>{{raw_material_sales_dictionary.common_salt}}</td>
+                            <td>{{raw_material_sales_dictionary.pig_concentrate}}</td>
+                            <td>{{raw_material_sales_dictionary.coconut}}</td>
+                            <td>{{raw_material_sales_dictionary.wonder_pig}}</td>
+                            <td>{{raw_material_sales_dictionary.big_pig}}</td>
+                        </tr>
+                    
                 </table>
 </body>
 <a href="{% url 'index' %}"><p>Home</p></a><br/>

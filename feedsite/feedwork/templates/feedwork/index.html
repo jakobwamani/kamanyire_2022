@@ -23,6 +23,35 @@
         .container > .profit_showcase{
             flex: 4;
         }
+         /* Style inputs */
+  input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add a background color to the submit button on mouse-over */
+input[type=submit]:hover {
+  background-color: #45a049;
+} 
+
+
 </style>
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <body>
@@ -87,79 +116,76 @@
             
             <tr>
                 <th>DATE</th>
-                <td>{{ lastitem.date }} </td>
+                <td>{{ last_raw_material_qty_occurance.date }} </td>
             </tr>
             <tr>
                 <th>MAIZE BRAN</th>
-                <td>{{ lastitem.maize_bran }}</td>
+                <td>{{ last_raw_material_qty_occurance.maize_bran }}</td>
             </tr>
             <tr>
                 <th>COTTON</th>
-                <td>{{ lastitem.cotton }}</td>
+                <td>{{ last_raw_material_qty_occurance.cotton }}</td>
             </tr>
             <tr>
                 <th>SUN FLOWER</th>
-                <td>{{ lastitem.sun_flower }}</td>
+                <td>{{ last_raw_material_qty_occurance.sun_flower }}</td>
             </tr>
             <tr>
                 <th>FISH</th>
-                <td>{{ lastitem.fish }}</td>
+                <td>{{ last_raw_material_qty_occurance.fish }}</td>
             </tr>
-            <tr>
-                <th>SALT</th>
-                <td>{{ lastitem.salt }}</td> 
-            </tr>
+           
             <tr>
                 <th>GENERAL PURPOSE PREMIX</th>
-                <td>{{ lastitem.general_purpose_premix }} </td>
+                <td>{{ last_raw_material_qty_occurance.general_purpose_premix }} </td>
             </tr>
             <tr>
                 <th>LAYERS PREMIX</th>
-                <td>{{ lastitem.layers_premix }}</td>
+                <td>{{ last_raw_material_qty_occurance.layers_premix }}</td>
             </tr>
             <tr>
                 <th>SHELLS</th>
-                <td>{{ lastitem.shells }}</td>
+                <td>{{ last_raw_material_qty_occurance.shells }}</td>
             </tr>
             <tr>
                 <th>MEAT BOASTER</th>
-                <td>{{ lastitem.meat_boaster }}</td>
+                <td>{{ last_raw_material_qty_occurance.meat_boaster }}</td>
             </tr>
             <tr>
                 <th>CALCIUM</th>
-                <td>{{ lastitem.calcium }}</td>
+                <td>{{ last_raw_material_qty_occurance.calcium }}</td>
             </tr>
             <tr>
                 <th>SOYA BEAN</th>
-                <td>{{ lastitem.soya_bean }}</td>
+                <td>{{ last_raw_material_qty_occurance.soya_bean }}</td>
             </tr>
             <tr>
                 <th>BROWN SALT</th>
-                <td>{{ lastitem.brown_salt }}</td>
+                <td>{{ last_raw_material_qty_occurance.brown_salt }}</td>
             </tr>
             <tr>
                 <th>ANIMAL SALT</th>
-                <td>{{ lastitem.animal_salt }}</td>
+                <td>{{ last_raw_material_qty_occurance.animal_salt }}</td>
             </tr>
             <tr>
                 <th>COMMON SALT</th>
-                <td>{{ lastitem.common_salt }}</td>
+                <td>{{ last_raw_material_qty_occurance.common_salt }}</td>
             </tr>
             <tr>
                 <th>COCONUT</th>
-                <td>{{ lastitem.coconut }}</td>
+                <td>{{ last_raw_material_qty_occurance.coconut }}</td>
             </tr>
             <tr>
                 <th>PIG CONCENTRATE</th>
-                <td>{{ lastitem.pig_concentrate }}</td>
+                <td>{{ last_raw_material_qty_occurance.pig_concentrate }}</td>
             </tr>
             <tr>
                 <th>WONDER PIG</th>
-                <td>{{ lastitem.wonder_pig }}</td>
+                <td>{{ last_raw_material_qty_occurance.wonder_pig }}</td>
             </tr>
             <tr>
                 <th>BIG PIG</th>
-                <td>{{ lastitem.big_pig }}</td>
+                <td>{{ last_raw_material_qty_occurance.big_pig }}</td>
             </tr>       
         </table>
     </div>
