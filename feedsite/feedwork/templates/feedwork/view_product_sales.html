@@ -56,6 +56,34 @@
                     {% endfor %}
                 
                 </table>
+
+    <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+                    <ul>
+        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+        meat_boaster ,egg_boaster  -->
+                    <tr>
+                        <th>Broilers_Marsh</th>
+                        <th>Chick_Marsh</th>
+                        <th>Growers_Marsh</th>
+                        <th>Old_Pig</th>
+                        <th>Layer's_Marsh</th>
+                        <th>Young_Pig</th>
+                        
+                       
+                    </tr>
+                    
+                    <tr>
+                        <td>{{ product_sales_dictionary.broilers_marsh }} </td>
+                        <td>{{ product_sales_dictionary.chick_marsh }} </td>
+                        <th>{{ product_sales_dictionary.growers_marsh }}
+                        <td>{{ product_sales_dictionary.old_pig }}</td>
+                        <td>{{ product_sales_dictionary.layers_marsh }}</td>
+                        <td>{{ product_sales_dictionary.young_pig }}</td>
+
+                    </tr>
+                    
+                
+                </table>
        
 </body>
 <a href="{% url 'index' %}"><p>Home</p></a><br/>

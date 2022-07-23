@@ -664,10 +664,42 @@ def viewing_product_sales(request):
     # run a query to get all the supplies on that date
     p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
     
+    broilers_marsh_list = []
+    chick_marsh_list = []
+    growers_marsh_list = []
+    old_pig_list = []
+    layers_marsh_list = []
+    young_pig_list = []
 
-    # print(type(supplies))     
-    # return render(request, "view_supply.html", context)
-    return render(request, "view_product_sales.html", {'p_sales':p_sales})
+    for sale in p_sales:
+        if sale.product == "broilers_marsh":
+            broilers_marsh_list.append(sale.quantity)
+
+        elif sale.product == "chick_marsh":
+            chick_marsh_list.append(sale.quantity)
+
+        elif sale.growers_marsh == "growers_marsh":
+            growers_marsh_list.append(sale.quantity)
+
+        elif sale.old_pig == "old_pig":
+            old_pig_list.append(sale.quantity)
+
+        elif sale.layers_marsh == "layers_marsh":
+            layers_marsh_list.append(sale.quantity)
+
+        elif sale.young_pig == "young_pig":
+            young_pig_list.append(sale.quantity)
+
+    #summation of product sales into a dictionary
+    product_sales_dictionary = {}
+
+    product_sales_dictionary["broilers_marsh"] = sum(broilers_marsh_list)
+    product_sales_dictionary["chick_marsh_list"] = sum(chick_marsh_list)
+    product_sales_dictionary["growers_marsh"] = sum(growers_marsh_list)
+    product_sales_dictionary["old_pig"] = sum(old_pig_list)
+    product_sales_dictionary["layers_marsh"] = sum(layers_marsh_list)
+    product_sales_dictionary["young_pig"] = sum(young_pig_list)
+    return render(request, "view_product_sales.html", {'p_sales':p_sales,'product_sales_dictionary':product_sales_dictionary})
 
 def updating_product_sales(request):
     context_dict = {}
@@ -755,6 +787,8 @@ def viewing_raw_material_sales(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
 
+    raw_material_sales_dictionary = {}
+
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
     # run a query to get all the supplies on that date
     rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
@@ -780,76 +814,58 @@ def viewing_raw_material_sales(request):
 
     for sale in rm_sales:
         if sale.raw_material == "maize_bran":
-            for sale in rm_sales:
-                maize_bran_list.append(sale.quantity)
-
+            maize_bran_list.append(sale.quantity)
+    
         elif sale.raw_material == "cotton":
-            for sale in rm_sales:
-                cotton_list.append(sale.quantity)
-
+            cotton_list.append(sale.quantity)
+            
         elif sale.raw_material == "sun_flower":
-            for sale in rm_sales:
-                sunflower_list.append(sale.quantity)
+            sun_flower_list.append(sale.quantity)
 
         elif sale.raw_material == "fish":
-            for sale in rm_sales:
-                fish_list.append(sale.quantity)
+            fish_list.append(sale.quantity)
 
         elif sale.raw_material == "general_purpose_premix":
-            for sale in rm_sales:
-                general_purpose_premix_list.append(sale.quantity)
+            general_purpose_premix_list.append(sale.quantity)
 
         elif sale.raw_material == "shells":
-            for sale in rm_sales:
-                shells_list.append(sale.quantity)
+            shells_list.append(sale.quantity)
 
         elif sale.raw_material == "meat_boaster":
-            for sale in rm_sales:
-                meat_boaster_list.append(sale.quantity)
+            meat_boaster_list.append(sale.quantity)
 
         elif sale.raw_material == "egg_boaster":
-            for sale in rm_sales:
-                egg_boaster_list.append(sale.quantity)
+            egg_boaster_list.append(sale.quantity)
 
         elif sale.raw_material == "calcium":
-            for sale in rm_sales:
-                calcium_list.append(sale.quantity)
+            calcium_list.append(sale.quantity)
 
         elif sale.raw_material == "soya_bean":
-            for sale in rm_sales:
-                soya_bean.append(sale.quantity)
+            soya_bean_list.append(sale.quantity)
 
         elif sale.raw_material == "brown_salt":
-            for sale in rm_sales:
-                brown_salt_list.append(sale.quantity)
+            brown_salt_list.append(sale.quantity)
 
         elif sale.raw_material == "animal_salt":
-            for sale in rm_sales:
-                animal_salt_list.append(sale.quantity)
+            animal_salt_list.append(sale.quantity)
 
         elif sale.raw_material == "common_salt":
-            for sale in rm_sales:
-                common_salt_list.append(sale.quantity)
+            common_salt_list.append(sale.quantity)
 
         elif sale.raw_material == "cotton":
-            for sale in rm_sales:
-                cotton_list.append(sale.quantity)
+            cotton_list.append(sale.quantity)
 
         elif sale.raw_material == "pig_concentrate":
-            for sale in rm_sales:
-                pig_concentrate_list.append(sale.quantity)
+            pig_concentrate_list.append(sale.quantity)
 
         elif sale.raw_material == "coconut":
-            for sale in rm_sales:
-                coconut.append(sale.quantity)
+            coconut.append(sale.quantity)
 
         elif sale.raw_material == "wonder_pig":
-            for sale in rm_sales:
-                wonder_pig_list.append(sale.quantity)
+            wonder_pig_list.append(sale.quantity)
 
         elif sale.raw_material == "big_pig":
-            for sale in rm_sales:
-                big_pig_list.append(sale.quantity)
+            big_pig_list.append(sale.quantity)
     # print(type(supplies))     
     # return render(request, "view_supply.html", context)
 
