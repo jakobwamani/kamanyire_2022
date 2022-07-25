@@ -195,6 +195,9 @@ PRODUCT_CHOICES = (("broilers_marsh","broilers_marsh")
 ,("old_pig","old_pig")
 ,("layers_marsh","layers_marsh")
 ,("young_pig","young_pig"))
+
+
+
 class ProductSalesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())

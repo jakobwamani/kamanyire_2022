@@ -678,23 +678,23 @@ def viewing_product_sales(request):
         elif sale.product == "chick_marsh":
             chick_marsh_list.append(sale.quantity)
 
-        elif sale.growers_marsh == "growers_marsh":
+        elif sale.product == "growers_marsh": 
             growers_marsh_list.append(sale.quantity)
 
-        elif sale.old_pig == "old_pig":
+        elif sale.product == "old_pig":
             old_pig_list.append(sale.quantity)
 
-        elif sale.layers_marsh == "layers_marsh":
+        elif sale.product == "layers_marsh":
             layers_marsh_list.append(sale.quantity)
 
-        elif sale.young_pig == "young_pig":
+        elif sale.product == "young_pig":
             young_pig_list.append(sale.quantity)
 
     #summation of product sales into a dictionary
     product_sales_dictionary = {}
 
     product_sales_dictionary["broilers_marsh"] = sum(broilers_marsh_list)
-    product_sales_dictionary["chick_marsh_list"] = sum(chick_marsh_list)
+    product_sales_dictionary["chick_marsh"] = sum(chick_marsh_list)
     product_sales_dictionary["growers_marsh"] = sum(growers_marsh_list)
     product_sales_dictionary["old_pig"] = sum(old_pig_list)
     product_sales_dictionary["layers_marsh"] = sum(layers_marsh_list)

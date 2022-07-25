@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Supplies</title>
+	<title>Purchases</title>
 	{% load supply_extras %}
 	<!-- <link 
      rel="stylesheet"
@@ -72,7 +72,7 @@ input[type=submit] {
 	
 </head>
 <body>
-	<h3>Get Supplies</h3>
+	<h3>Purchases</h3>
 <form method="post" class="form-inline">
 	<!-- Security token  Make sure you put this immediately after the form tag-->
 	{% csrf_token %}
@@ -83,8 +83,8 @@ input[type=submit] {
 {{ supply_form.media }}
 <div>
 	<a href="{% url 'index' %}"><p>Home</p></a><br/>
-	<a href="{% url 'get_supply' %}"><p>Get supplies</p></a><br/>
-	<a href="{% url 'view_supply' %}"><p>View supplies</p></a><br/>
+	<a href="{% url 'get_supply' %}"><p>Purchases</p></a><br/>
+	<a href="{% url 'view_supply' %}"><p>View Purchases</p></a><br/>
 	<a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
 	<a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
 
@@ -103,4 +103,12 @@ input[type=submit] {
 </div>	
 </body>
 
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
 </html>
