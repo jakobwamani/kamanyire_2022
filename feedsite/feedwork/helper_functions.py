@@ -1,5 +1,9 @@
+from requests import request
 from feedwork.models import *
 import datetime
+from django.db.models import Q
+# Import statistics Library
+import statistics
 
 def compute_quantities():
    check_row = RawMaterialQuantities.objects.count()
@@ -1777,65 +1781,145 @@ def check_if_raw_material_quantities_are_empty():
 
                                                                            )
 
-                                                                              
-def combining_raw_material_sales(query,item_list):
-   for sale in "query":
-         if sale.raw_material == "maize_bran":
-            "item_list".append(sale.quantity)
 
-         elif sale.raw_material == "cotton":
-            "item_list".append(sale.quantity)
+def check_raw_material_availabliity(raw_material):
+   items = RawMaterial.objects.filter(item = raw_material)
+   return len(items)
 
-         elif sale.raw_material == "sun_flower":
-            "item_list".append(sale.quantity)
 
-         elif sale.raw_material == "fish":
-            "item_list".append(sale.quantity)
+def computing_profit_of_raw_materials(raw_material,picked_date):
 
-         elif sale.raw_material == "general_purpose_premix":
-            "item_list".append(sale.quantity)
+   # selected_date = request.GET.get(date)
+   raw_material_cost_price_list = []
 
-         elif sale.raw_material == "layers_premix":
-            "item_list".append(sale.quantity)
+   items = RawMaterial.objects.filter(item = raw_material).filter(date = picked_date)
 
-         elif sale.raw_material == "shells":
-            "item_list".append(sale.quantity)
+   if len(items) == 0:
+      pass
+   else:
+      for item in items:
+         raw_material_cost_price_list.append(item.unit_price)
 
-         elif sale.raw_material == "meat_boaster":
-            "item_list".append(sale.quantity)
+      print(raw_material_cost_price_list)
+      print(raw_material_cost_price_list[-1])
 
-         elif sale.raw_material == "egg_boaster":
-            "item_list".append(sale.quantity)
+      #Get the selling price of the raw material
+      raw_material_sell_price_list = []
 
-         elif sale.raw_material == "calcium":
-            "item_list".append(sale.quantity)
+      items = RawMaterialSales.objects.filter(raw_material=raw_material)
 
-         elif sale.raw_material == "soya_bean":
-            "item_list".append(sale.quantity)
+      #Again because we want to make purchases but not sales for now
+      if len(items) == 0:
+         pass
+      else:
+         for item in items:
+            raw_material_sell_price_list.append(item.selling_price)
 
-         elif sale.raw_material == "brown_salt":
-            "item_list".append(sale.quantity)
+         print(raw_material_sell_price_list)
+         print(raw_material_sell_price_list[-1])
 
-         elif sale.raw_material == "animal_salt":
-            "item_list".append(sale.quantity)
+         #Get the quantity of raw material sold
+         quantity_sold_list = []
+         items = RawMaterialSales.objects.filter(raw_material=raw_material)
 
-         elif sale.raw_material == "common_salt":
-            "item_list".append(sale.quantity)
+         for item in items:
+            quantity_sold_list.append(item.quantity)
 
-         elif sale.raw_material == "pig_concentrate":
-            "item_list".append(sale.quantity)
+         print(quantity_sold_list)
+         print(quantity_sold_list[-1])
 
-         elif sale.raw_material == "cotton":
-            "item_list".append(sale.quantity)
 
-         elif sale.raw_material == "pig_concentrate":
-            "item_list".append(sale.quantity)
+         #profit formulae 
+         total_profit = (raw_material_sell_price_list[-1] * quantity_sold_list[-1]) - (raw_material_cost_price_list[-1] * quantity_sold_list[-1])
 
-         elif sale.raw_material == "coconut":
-            "item_list".append(sale.quantity)
+         print(total_profit)
+         print(raw_material)
 
-         elif sale.raw_material == "wonder_pig":
-            "item_list".append(sale.quantity)
+         return  total_profit
+      
 
-         elif sale.raw_material == "big_pig":
-            "item_list".append(sale.quantity)
+def save_raw_material_profits_to_database(dictionary):
+   raw_material = RawMaterialProfits.objects.create(date=datetime.datetime.now()
+                                    ,maize_bran=dictionary["maize_bran"]
+                                    ,cotton=dictionary["cotton"]
+                                    ,sun_flower = dictionary["sun_flower"]
+                                    ,fish = dictionary['fish']
+                                    ,general_purpose_premix = dictionary['general_purpose_premix']
+                                    ,layers_premix = dictionary['layers_premix']
+                                    ,shells = dictionary['meat_boaster']
+                                    ,meat_boaster = dictionary['egg_boaster']
+                                    ,egg_boaster = dictionary['egg_boaster']
+                                    ,calcium = dictionary['calcium']
+                                    ,soya_bean = dictionary['soya_bean']
+                                    ,brown_salt = dictionary['soya_bean']
+                                    ,animal_salt = dictionary['animal_salt']
+                                    ,common_salt = dictionary['common_salt']
+                                    ,pig_concentrate = dictionary['pig_concentrate']
+                                    ,coconut = dictionary['coconut']
+                                    ,wonder_pig = dictionary['wonder_pig']
+                                    ,big_pig = dictionary['big_pig'])
+        
+    
+
+def profits_for_raw_materials(selected_date,raw_item):
+   # selected_date = request.GET.get('select_date')
+    
+   # raw_item = request.GET.get('raw_materials')
+
+   print(raw_item)
+   print(type(raw_item))
+   # Get the unit price from raw_m sales
+   #stop query from running when raw_material is not selected
+   if raw_item is None:
+      pass
+   else:
+      # lookup = (Q(date__icontains=selected_date ) and Q(raw_material__icontains=raw_item))
+      sales = RawMaterialSales.objects.filter(date = selected_date).filter(raw_material = raw_item)
+      print("sales")
+      print(sales)
+      #To avoid an error when some views this page with having selected date and raw
+      #materials
+      if sales.exists():
+         
+         #Create a list to save the unit_prices
+         unit_prices = []
+         for sale in sales:
+            unit_prices.append(sale.selling_price)
+
+         #get the current unit_price
+         current_unit_price = statistics.mean(unit_prices)
+         print("unit_prices")
+         print(current_unit_price)
+
+         #we look for the quantity that has been sold on a specific date and specific
+         #raw material and store the volumes in a list
+
+         sales_volume = []
+
+         for sale in sales:
+            sales_volume.append(sale.quantity)
+
+         #the total volume sold that day
+         quantity_sold = sum(sales_volume)
+         print("Sales Volume")
+         print(sales_volume)
+         print("quantity_sold")
+         print(quantity_sold)
+         # Look for the cost price of last purchase of the specific raw_material
+         last_purchases = RawMaterial.objects.filter(item=raw_item)
+         #Create a list to store cost_prices and then pick the last one
+         cost_prices = []
+         for purchase in last_purchases:
+            cost_prices.append(purchase.unit_price)
+
+         #pick the last price
+         current_cost_price = cost_prices[-1]
+         print(current_cost_price)
+         profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+
+         print(profit)
+         return profit
+      else:
+         pass
+         
+

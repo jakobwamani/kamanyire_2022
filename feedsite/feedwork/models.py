@@ -155,5 +155,31 @@ class Expenses(models.Model):
 	def __str__(self):
 		return '{}'.format(self.date)	
       
+class RawMaterialProfits(models.Model):
+	date = models.DateField()
+	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
+	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
+	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	animal_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	common_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	pig_concentrate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	coconut = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+
+	def __str__(self):
+		return '{}'.format(self.date)
+
+
+
 
 	

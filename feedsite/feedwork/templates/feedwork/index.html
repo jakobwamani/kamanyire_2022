@@ -232,32 +232,51 @@ input[type=submit]:hover {
 
 
         <div class="profit_showcase">
-            <h3>Net Income Statement</h3>
+            <h3>Raw Material Profits</h3>
             <form action="{% url 'index' %}" method="get">
                 <!-- <label>Childid</label>
                 <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
-                <label>From</label>
-                <input name="start_date" type="date" ><br/><br/>
-                <labe>To</label>
-                <input name="end_date" type="date" ><br/><br/>
+                <label>Date</label>
+                <input name="select_date" type="date" ><br/><br/>
+
+                <label>Raw Material</label>
+                 <label for="raw_material_items">Raw Material</label>
+                <select name="raw_materials" id="raw_material_items">
+                    <option value="maize_bran">Maize Bran</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="sun_flower">Sun flower</option>
+                    <option value="fish">Fish</option>
+                    <option value="general_purpose_premix">General Purpose Premix</option>
+                    <option value="layers_premix">Layer's premix</option>
+                    <option value="shells">Shells</option>
+                    <option value="meat_boaster">Meat Boaster</option>
+                    <option value="egg_boaster">Egg Boaster</option>
+                    <option value="calcium">Calcium</option>
+                    <option value="soya_bean">Soya Bean</option>
+                    <option value="brown_salt">Brown Salt</option>
+                    <option value="common_salt">Common Salt</option>
+                    <option value="pig_concentrate">Pig Concentrate</option>
+                    <option value="coconut">Coconut</option>
+                    <option value="wonder_pig">Wonder Pig</option>
+                    <option value="big_pig">Fish</option>
+                </select>
+                
                 <input type="submit" name="submit" value="COMPILE"/>                
             </form>
             <br/>
-            <!-- <strong>{{ profit }}</strong><label> UGX</label> -->
-            <h4>REVENUE</h4>
-            <label>Product Sales</label> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            <strong>{{ product_sales }}</strong>
-            <br/>
-            <label>Raw Material Sales </label> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            <strong>{{ raw_material_sales }}</strong>
-            <h4>EXPENSES</h4>
-            <label>Expenses</label> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            <strong>{{ sum_of_expenses }}</strong>
-            <h4>NET PROFIT(revenue-expenses)</h4>
-            
-            <label>NET PROFIT</label>
-            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            <strong>{{ net_income }}</strong>
+            <table style="border:1px">
+                    <ul>
+                    <tr>
+                        <th>Maize bran</th>
+
+                    
+                    
+                    
+                        <th>{{ profit_dictionary.maize_bran }} </th>
+                    </tr>
+                    
+                   
+                </table>
         </div>
 </div>
 

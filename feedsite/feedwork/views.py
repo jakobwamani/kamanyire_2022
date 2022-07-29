@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from feedwork.models import *
 from feedwork.forms import *
 from feedwork.helper_functions import * 
+from django.db.models import Q
+
 from django.http import HttpResponseRedirect
 
 
@@ -156,52 +158,41 @@ def index(request):
     # revenue = product_sales + raw_material_sales 
     # profit / loss = sales  - expenses
 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-    #Products
-    # p_sales = ProductSales.objects.values_list('total', 'date =[start_date, end_date]')
-    p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
-    # last_sale = last_product_sale.total
-    #Have a list containing all the product sales 
-    p_sale_list = []
-    #get each sale
-    for p_sale in p_sales:
-        p_sale_list.append(p_sale.total)
-    #then sum up the list 
-    product_sales = sum(p_sale_list)
-    #Raw materials
-    rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
-    # last_r_m_sale = last_raw_material_sale.total
-    #a list containing all raw material sales
-    rm_sale_list = []
-    #get each sale
-    for rm_sale in rm_sales:
-        rm_sale_list.append(rm_sale.total)
-    #then sum up the list
-    raw_material_sales = sum(rm_sale_list)
-
-    #expenses
-    expenses = Expenses.objects.filter(date__range=[start_date, end_date])
-    # last_expense = last_expenses.total
-    #list of expenses
-    expenses_list = []
-    #use a loop to get total of every expense
-    for expense in expenses:
-        #add that expense total into the 'expenses_list'
-        expenses_list.append(expense.amount)
-    #sum up all the 'expense total' in that 'expenses_list'
-    sum_of_expenses = sum(expenses_list)
+    #a Dictionary that will be used to display the profit 
+    profit_dictionary = {}
+    # Profits of Raw Materials
+    selected_date = request.GET.get('select_date')
     
-    #net income 
+    raw_item = request.GET.get('raw_materials')
+    print("Type of date")
+    print(type(selected_date))
+    print(selected_date)
+    #put the selected date into a string because its a string
+    #but first we must split it
+    if selected_date is None:
+        pass
+    else:
+        splited_date = selected_date.split('-')
+        print(splited_date)
+        #Give year , month and date a variable
+        year = splited_date[0]
+        month = splited_date[1]
+        day = splited_date[2]
 
-    net_income = (product_sales + raw_material_sales) - sum_of_expenses
+        #create a python date object
+        x = datetime.datetime(int(year), int(month), int(day))
 
-    selected_date = request.GET.get('selected_date')
+        print(x) 
 
-    raw_material_inventory = RawMaterialQuantities.objects.filter(date=selected_date)
+        profit = profits_for_raw_materials(x,raw_item)
+        profit_dictionary['maize_bran'] = profit
+        
+    return render(request, "index.html",{'last_raw_material_qty_occurance':last_raw_material_qty_occurance
+                                        ,'lastproduct':lastproduct
+                                        ,'profit_dictionary':profit_dictionary
+                                            } 
+                                            )
 
-    return render(request, "index.html",{'last_raw_material_qty_occurance':last_raw_material_qty_occurance,'lastproduct':lastproduct,'product_sales':product_sales,
-    'raw_material_sales':raw_material_sales,'sum_of_expenses':sum_of_expenses,'net_income':net_income } )
 
 def creating_net_income(request):
     #now we are going to get the income statement # Net income/loss = product_sales + raw_material_sales - expenses # revenue = product_sales + raw_material_sales 
