@@ -9,7 +9,8 @@ from django.db.models import Q
 
 from django.http import HttpResponseRedirect
 
-
+import snoop
+@snoop
 def index(request):
     check_if_raw_material_quantities_are_empty()
     # return HttpResponse("Hello, world. You're at the STS Poultry Business ")
@@ -25,7 +26,7 @@ def index(request):
         current_date = datetime.datetime.now()
         earlist_date = current_date.strftime("%x")
         if rear_date == earlist_date:
-            print("Dates are equal")
+            print("Dates are equal,so go ahead and make more entries")
         else:
             #duplicate the last instance
             dup_maize_bran = last_raw_material_qty_occurance.maize_bran 
@@ -249,13 +250,14 @@ def creating_supplies(request):
     if request.method == 'POST':
         # add the dictionary during initialization
         if supply_form.is_valid():
-
+            #Accessing the date field 
+            selected_date = supply_form.cleaned_data['date']
             supply_form.save()
             # expense_form.save()
             #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
             #table
             # we shall check if the "RawMaterialQuantities" table has atleast one row
-            compute_quantities()       
+            compute_quantities(selected_date)       
             return HttpResponseRedirect('http://127.0.0.1:8000/')
     else:
         context['supply_form'] = supply_form

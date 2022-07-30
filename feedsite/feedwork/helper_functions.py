@@ -4,8 +4,9 @@ import datetime
 from django.db.models import Q
 # Import statistics Library
 import statistics
+import snoop
 
-def compute_quantities():
+def compute_quantities(selected_date):
    check_row = RawMaterialQuantities.objects.count()
 
    if check_row >= 1:
@@ -191,7 +192,7 @@ def compute_quantities():
    elif check_row == 0:
       #create default quantities
      
-      default_quantiites = RawMaterialQuantities.objects.create(date = datetime.datetime.now(),maize_bran = 0 ,cotton = 0,
+      default_quantiites = RawMaterialQuantities.objects.create(date = selected_date,maize_bran = 0 ,cotton = 0,
                                                                sun_flower = 0, fish = 0 ,
                                                                general_purpose_premix = 0,layers_premix = 0,
                                                                shells = 0, meat_boaster = 0,egg_boaster=0,calcium = 0,
@@ -1860,12 +1861,26 @@ def save_raw_material_profits_to_database(dictionary):
                                     ,big_pig = dictionary['big_pig'])
         
     
-
+@snoop
 def profits_for_raw_materials(selected_date,raw_item):
    # selected_date = request.GET.get('select_date')
     
    # raw_item = request.GET.get('raw_materials')
+   standard_date = selected_date.strftime('%Y-%m-%d')
+   #however standard date is still a string ,we must change it to a date
+   splited_date = standard_date.split('-')
+   print(splited_date)
+   #Give year , month and date a variable
+   year = splited_date[0]
+   month = splited_date[1]
+   day = splited_date[2]
 
+   #create a python date object
+   standard_date = datetime.date(int(year), int(month), int(day))
+
+   print(standard_date) 
+
+   print(standard_date)
    print(raw_item)
    print(type(raw_item))
    # Get the unit price from raw_m sales
@@ -1906,19 +1921,91 @@ def profits_for_raw_materials(selected_date,raw_item):
          print("quantity_sold")
          print(quantity_sold)
          # Look for the cost price of last purchase of the specific raw_material
-         last_purchases = RawMaterial.objects.filter(item=raw_item)
+         last_purchases = RawMaterial.objects.filter(item=raw_item).order_by('-date')
+
+         print(len(last_purchases))
          #Create a list to store cost_prices and then pick the last one
          cost_prices = []
          for purchase in last_purchases:
-            cost_prices.append(purchase.unit_price)
+            #if there is any purchase of the specified raw material 
+            #that has been made today 
+            #give a proper format 
+            good_date = purchase.date
+            good_date.strftime("%x")
+            print(type(good_date))
+            print(type(standard_date))
+            if good_date == standard_date:
+               print(purchase.date)
+               #then we get the total of the quantity of the specified 
+               #raw material before that purchase today
+               #we get the second last occurance of raw material quantity
+               print("Dates are the same")
 
-         #pick the last price
-         current_cost_price = cost_prices[-1]
-         print(current_cost_price)
-         profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+               #check if the Raw material Quantites table has rows or not
+               rows = RawMaterialQuantities.objects.all()
+               if len(rows) == 0 or len(rows) == 1:
+                  #we just use the quantity of stock that we have
+                  mydata = RawMaterialQuantities.objects.all().order_by('-date')
+                  old_stock = getattr(mydata[0], raw_item)
+                  print("old_stock is ",old_stock)
+                  # old_stock = mydata[0].'raw_item'
 
-         print(profit)
-         return profit
+                  #we get the cost price of the second last purchase of a specific raw_material
+                  # mypurchases = RawMaterial.objects.filter(item=raw_item)
+                  cost_prices.append(purchase.unit_price)
+                  old_cost_price = cost_prices[-1]
+                  print(old_cost_price)
+
+                  #we are going to get the stock of the new purchase
+                  new_purchase = RawMaterial.objects.filter(item=raw_item).last()
+                  print(new_purchase.quantity)
+                  new_stock = new_purchase.quantity
+
+                  #we are going to get the cost price of the new stock
+                  new_cost_price = new_purchase.unit_price
+
+                  cost_price = (old_stock * old_cost_price) + (new_stock * new_cost_price) / (old_stock + new_stock) 
+
+                  #PROFIT
+                  profit = (current_unit_price * quantity_sold) - (cost_price * quantity_sold)
+               else:                  
+                  mydata = RawMaterialQuantities.objects.all().order_by('-date')
+                  old_stock = getattr(mydata[0], raw_item)
+                  print("old_stock is ",old_stock)
+
+
+                  #we get the cost price of the second last purchase of a specific raw_material
+                  # mypurchases = RawMaterial.objects.filter(item=raw_item)
+                  #We get the cost price of that purchase that is in the loop
+                  #currently
+                  cost_prices.append(purchase.unit_price)
+                  old_cost_price = cost_prices[0]
+                  print(old_cost_price)
+
+                  #we are going to get the stock of the new purchase
+                  new_purchase = RawMaterial.objects.filter(item=raw_item).last()
+                  print(new_purchase.quantity)
+                  new_stock = new_purchase.quantity
+
+                  #we are going to get the cost price of the new stock
+                  new_cost_price = new_purchase.unit_price
+
+                  cost_price = (old_stock * old_cost_price) + (new_stock * new_cost_price) / (old_stock + new_stock) 
+
+                  #PROFIT
+                  profit = (current_unit_price * quantity_sold) - (cost_price * quantity_sold)
+            else:
+               
+
+               cost_prices.append(purchase.unit_price)
+
+               #pick the last price
+               current_cost_price = cost_prices[-1]
+               print(current_cost_price)
+               profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+
+               print(profit)
+               return profit
       else:
          pass
          

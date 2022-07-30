@@ -1,12 +1,13 @@
 from django.db import models
 from decimal import Decimal
+import datetime
 # Create your models here.
 # declare a new model with a name "GeeksModel"
 class RawMaterial(models.Model):
 
 	# fields of the model
 	# date,receiptnumber,supplier,item,unit,quantity,amount
-	date = models.DateField()
+	date = models.DateTimeField()
 	receipt_number = models.CharField(max_length = 100)
 	supplier = models.CharField(max_length = 100)
 	#defining the choices
@@ -27,7 +28,7 @@ class RawMaterial(models.Model):
 		return '{}'.format(self.date)
 
 class Product(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	product = models.CharField(max_length = 100)
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -52,7 +53,7 @@ class Product(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialQuantities(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -76,7 +77,7 @@ class RawMaterialQuantities(models.Model):
 		return '{}'.format(self.date)
 
 class ProductQuantities(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	old_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -88,7 +89,7 @@ class ProductQuantities(models.Model):
 		return '{}'.format(self.date)
 
 class ProductPrices(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	old_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -100,7 +101,7 @@ class ProductPrices(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialPrices(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -125,7 +126,7 @@ class RawMaterialPrices(models.Model):
 		return '{}'.format(self.date)
 
 class ProductSales(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	product = models.CharField(max_length = 50)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	selling_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -135,7 +136,7 @@ class ProductSales(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialSales(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	raw_material = models.CharField(max_length = 50)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	selling_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -145,7 +146,7 @@ class RawMaterialSales(models.Model):
 		return '{}'.format(self.date)
 
 class Expenses(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	expense = models.CharField(max_length = 50)
 	supplier = models.CharField(max_length= 50)
 	unit = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -156,7 +157,7 @@ class Expenses(models.Model):
 		return '{}'.format(self.date)	
       
 class RawMaterialProfits(models.Model):
-	date = models.DateField()
+	date = models.DateTimeField()
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
 	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)

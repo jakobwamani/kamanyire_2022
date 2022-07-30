@@ -74,7 +74,7 @@ class ExpenseForm(forms.ModelForm):
 #supply form
 class SupplyForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
-	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	date = forms.DateTimeField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
 	receipt_number = forms.DecimalField(initial = 0)
 	supplier = forms.CharField()
