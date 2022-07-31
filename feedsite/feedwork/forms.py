@@ -1,8 +1,12 @@
 from django import forms
 from feedwork.models import *
 from django.utils import timezone
-
+# from django.utils import timezone.localtime
+# from .widgets import  DateTimePickerInput
+from datetimewidget.widgets import DateTimeWidget
+from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput, DateTimePickerInput, MonthPickerInput, YearPickerInput
 import calculation
+import datetime
 
 RAW_MATERIAL_CHOICES = (("maize_bran" , "maize bran"),("cotton", "cotton")
 ,("sun_flower" , "sun flower"),("fish" , "fish"),("calcium" , "calcium"),("soya_bean","soya bean")
@@ -30,7 +34,9 @@ expense_categories = (	("Loading","Loading")
 					 )
 class RawMaterialForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
+	# date = forms.DateField(widget=forms.SplitDateTimeWidget(),initial=timezone.now())
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	time = forms.TimeField(initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
 	receipt_number = forms.DecimalField(initial = 0)
 	supplier = forms.CharField()
@@ -51,7 +57,12 @@ class RawMaterialForm(forms.ModelForm):
 		model = RawMaterial
 
 		# exclude = ["amount","fullamount",]
-		fields = ["date","receipt_number","supplier","item","quantity","unit_price","total"]
+		fields = ["date","time","receipt_number","supplier","item","quantity","unit_price","total"]
+		widgets = {
+            'date': DateTimePickerInput()
+        }
+
+
 
 class ExpenseForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
@@ -74,7 +85,8 @@ class ExpenseForm(forms.ModelForm):
 #supply form
 class SupplyForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
-	date = forms.DateTimeField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+
+	date = forms.DateTimeField(widget=DateTimeWidget)
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
 	receipt_number = forms.DecimalField(initial = 0)
 	supplier = forms.CharField()
@@ -97,7 +109,10 @@ class SupplyForm(forms.ModelForm):
 		model = RawMaterial
 		# exclude = ["amount","fullamount",]
 		fields = ["date","receipt_number","supplier","item","quantity","unit_price","total"]
-
+		widgets = {
+            #Use localization and bootstrap 3
+            'datetime': DateTimeWidget(attrs={'id':"date"}, usel10n = True, bootstrap_version=3)
+        }
 # broilers_mash
 # brown_salt
 # calcium

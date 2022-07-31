@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'datetimewidget',
+    'bootstrap_datepicker_plus',
+    'jquery',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'feedsite.urls'
@@ -119,12 +123,13 @@ LANGUAGE_CODE = 'en-us'
 
 # TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'Africa/Kampala'
+TIME_ZONE = 'Africa/Kampala' 
+
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -132,6 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

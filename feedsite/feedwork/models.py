@@ -1,5 +1,8 @@
 from django.db import models
 from decimal import Decimal
+from django.utils import timezone
+
+from datetimewidget.widgets import DateTimeWidget
 import datetime
 # Create your models here.
 # declare a new model with a name "GeeksModel"
@@ -7,7 +10,8 @@ class RawMaterial(models.Model):
 
 	# fields of the model
 	# date,receiptnumber,supplier,item,unit,quantity,amount
-	date = models.DateTimeField()
+	date = models.DateField()
+	time = models.TimeField()
 	receipt_number = models.CharField(max_length = 100)
 	supplier = models.CharField(max_length = 100)
 	#defining the choices
@@ -18,11 +22,6 @@ class RawMaterial(models.Model):
 	#Am making this a null True because when the user is entering the supply data , am not able to make it appear
 	total = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	
-	# @property
-	# def amount(self):
-	# 	all = (self.quantity) * (self.unit_price)
-	# 	return all
-
 	def __str__(self):
 		   
 		return '{}'.format(self.date)
@@ -53,25 +52,26 @@ class Product(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialQuantities(models.Model):
-	date = models.DateTimeField()
-	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	common_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	animal_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	pig_concentrate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	coconut = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	date = models.DateField(default=datetime.date.today)
+	time = models.TimeField(default=timezone.now())
+	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
+	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	common_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	animal_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	pig_concentrate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	coconut = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
+	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
 
 	def __str__(self):
 		return '{}'.format(self.date)

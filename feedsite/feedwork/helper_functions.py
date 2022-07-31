@@ -5,8 +5,9 @@ from django.db.models import Q
 # Import statistics Library
 import statistics
 import snoop
+from django.utils import timezone
 
-def compute_quantities(selected_date):
+def compute_quantities():
    check_row = RawMaterialQuantities.objects.count()
 
    if check_row >= 1:
@@ -18,186 +19,206 @@ def compute_quantities(selected_date):
       check_supplies = RawMaterial.objects.count()
 
       if check_supplies >= 1: 
-         #we want to get the lastest value of a specific item
-         #We just look through the RawMaterial model and look for last input of a specific item
-         # get_lastest_item_supplied = RawMaterial.objects.latest('-item')
+         #we get a list of all the raw materials
+         raw_material_list = ['maize_bran','cotton','sun_flower','fish','layers_premix','general_purpose_premix','shells','meat_boaster','egg_boaster','pig_concentrate','soya_bean','calcium','brown_salt','brown_salt','animal_salt','common_salt','coconut','pig_concentrate','wonder_pig','big_pig']
+         #we get the last entry 
          get_lastest_item_supplied = RawMaterial.objects.last()
          quantity_of_lastest_item  = get_lastest_item_supplied.quantity
          lastest_item_supplied     = get_lastest_item_supplied.item
-         #use these two variables quantity_of_lastest_item and lastest_item_supplied to update the row
-         # the RawMaterialQuantities model
-         if lastest_item_supplied == 'maize_bran':
-            #get the current values inside the RawMaterialQuantities
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.maize_bran
-            #now add both quantities from the Raw material table and RawMaterialQuantities table
-            total_quantity = current_quantity + quantity_of_lastest_item
-            #then now i can update the value inside the RawMaterialQuantites model       
-            # #i proceed to update the RMQ table
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.maize_bran = total_quantity
-            quantity_addition.save() 
+         for element in raw_material_list:
+            if lastest_item_supplied == element:
+               quantity = RawMaterialQuantities.objects.last()
+               for attr, value in vars(quantity).items():
+                  print(attr, '=', value)
+               
+                  if attr == element:
+                     print("Its a match")
+                     print(value)
+                     current_quantity = value
 
-         elif lastest_item_supplied == 'cotton':
-            quantity_cotton_update = RawMaterialQuantities.objects.last()
-            current_cotton_quantity = quantity_cotton_update.cotton
-            total_cotton_quantity = current_cotton_quantity + quantity_of_lastest_item
-            quantity_cotton_addition = RawMaterialQuantities.objects.last()
-            quantity_cotton_addition.cotton = total_cotton_quantity
-            quantity_cotton_addition.save()
+                     total_quantity = current_quantity + quantity_of_lastest_item
 
-         elif lastest_item_supplied == 'sun_flower':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.sun_flower
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.sun_flower = total_quantity
-            quantity_addition.save()
-
-         elif lastest_item_supplied == 'fish':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.fish
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.fish = total_quantity
-            quantity_addition.save()
-
-         # elif lastest_item_supplied == 'salt':
+                     #create a duplicate copy of the last instance
+                     quantity.pk = None
+                     quantity.save()
+                     #but then update the quantity that has been provided
+                     duplicate_quantity = RawMaterialQuantities.objects.last()
+                     print(duplicate_quantity)
+                     #that's when i will update it the specified quantity
+                     for attr , value in vars(duplicate_quantity).items():
+                        print(attr, '=', value)
+                        if attr == element:
+                           vars(duplicate_quantity)[attr] = total_quantity 
+                           print(vars(duplicate_quantity)[attr])
+                           #then save
+                           duplicate_quantity.save()
+         #we want to get the lastest value of a specific item
+         #We just look through the RawMaterial model and look for last input of a specific item
+         # get_lastest_item_supplied = RawMaterial.objects.latest('-item')
+         # get_lastest_item_supplied = RawMaterial.objects.last()
+         # quantity_of_lastest_item  = get_lastest_item_supplied.quantity
+         # lastest_item_supplied     = get_lastest_item_supplied.item
+         # #use these two variables quantity_of_lastest_item and lastest_item_supplied to update the row
+         # # the RawMaterialQuantities model
+         # if lastest_item_supplied == 'maize_bran':
+         #    #get the current values inside the RawMaterialQuantities
          #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.salt
+         #    current_quantity = quantity_update.maize_bran
+         #    #now add both quantities from the Raw material table and RawMaterialQuantities table
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    #then now i can update the value inside the RawMaterialQuantites model       
+         #    # #i proceed to update the RMQ table
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.maize_bran = total_quantity
+         #    quantity_addition.save() 
+
+         # elif lastest_item_supplied == 'cotton':
+         #    quantity_cotton_update = RawMaterialQuantities.objects.last()
+         #    current_cotton_quantity = quantity_cotton_update.cotton
+         #    total_cotton_quantity = current_cotton_quantity + quantity_of_lastest_item
+         #    quantity_cotton_addition = RawMaterialQuantities.objects.last()
+         #    quantity_cotton_addition.cotton = total_cotton_quantity
+         #    quantity_cotton_addition.save()
+
+         # elif lastest_item_supplied == 'sun_flower':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.sun_flower
          #    total_quantity = current_quantity + quantity_of_lastest_item
          #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.salt = total_quantity
+         #    quantity_addition.sun_flower = total_quantity
          #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'layers_premix':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.layers_premix
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.layers_premix = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'fish':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.fish
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.fish = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'general_purpose_premix':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.general_purpose_premix
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.general_purpose_premix = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'layers_premix':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.layers_premix
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.layers_premix = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'shells':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.shells
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.shells = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'general_purpose_premix':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.general_purpose_premix
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.general_purpose_premix = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'meat_boaster':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.meat_boaster
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.meat_boaster = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'shells':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.shells
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.shells = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'egg_boaster':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.egg_boaster
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.egg_boaster = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'meat_boaster':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.meat_boaster
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.meat_boaster = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'pig_concentrate':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.pig_concentrate
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.pig_concentrate = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'egg_boaster':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.egg_boaster
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.egg_boaster = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'soya_bean':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.soya_bean
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.soya_bean = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'pig_concentrate':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.pig_concentrate
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.pig_concentrate = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'calcium':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.calcium
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.calcium = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'soya_bean':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.soya_bean
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.soya_bean = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'brown_salt':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.brown_salt
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.brown_salt = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'calcium':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.calcium
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.calcium = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'animal_salt':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.animal_salt
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.animal_salt = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'brown_salt':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.brown_salt
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.brown_salt = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'common_salt':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.common_salt
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.common_salt = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'animal_salt':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.animal_salt
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.animal_salt = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'coconut':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.coconut
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.coconut = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'common_salt':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.common_salt
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.common_salt = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'pig_concentrate':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.pig_concentrate
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.pig_concentrate = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'coconut':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.coconut
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.coconut = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'wonder_pig':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.wonder_pig
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.wonder_pig = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'wonder_pig':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.wonder_pig
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.wonder_pig = total_quantity
+         #    quantity_addition.save()
 
-         elif lastest_item_supplied == 'big_pig':
-            quantity_update = RawMaterialQuantities.objects.last()
-            current_quantity = quantity_update.big_pig
-            total_quantity = current_quantity + quantity_of_lastest_item
-            quantity_addition = RawMaterialQuantities.objects.last()
-            quantity_addition.big_pig = total_quantity
-            quantity_addition.save()
+         # elif lastest_item_supplied == 'big_pig':
+         #    quantity_update = RawMaterialQuantities.objects.last()
+         #    current_quantity = quantity_update.big_pig
+         #    total_quantity = current_quantity + quantity_of_lastest_item
+         #    quantity_addition = RawMaterialQuantities.objects.last()
+         #    quantity_addition.big_pig = total_quantity
+         #    quantity_addition.save()
    elif check_row == 0:
       #create default quantities
-     
-      default_quantiites = RawMaterialQuantities.objects.create(date = selected_date,maize_bran = 0 ,cotton = 0,
-                                                               sun_flower = 0, fish = 0 ,
-                                                               general_purpose_premix = 0,layers_premix = 0,
-                                                               shells = 0, meat_boaster = 0,egg_boaster=0,calcium = 0,
-                                                               soya_bean = 0 , brown_salt = 0, animal_salt = 0 , common_salt = 0,
-                                                               coconut = 0 , pig_concentrate = 0 , wonder_pig = 0 , big_pig =0  )
+      
+      #we get the date and then also populate a specific raw_material
+      #We need the date , the raw and quantity
+      #put the raw_materials in a list
+      # default_quantiites = RawMaterialQuantities.objects.create(date = selected_date,maize_bran = 0 ,cotton = 0,
+      #                                                          sun_flower = 0, fish = 0 ,
+      #                                                          general_purpose_premix = 0,layers_premix = 0,
+      #                                                          shells = 0, meat_boaster = 0,egg_boaster=0,calcium = 0,
+      #                                                          soya_bean = 0 , brown_salt = 0, animal_salt = 0 , common_salt = 0,
+      #                                                          coconut = 0 , pig_concentrate = 0 , wonder_pig = 0 , big_pig =0  )
       #next thing that we need to do is to populate the RawmaterialQuantities table
       #with the initial values
       #get the item inside the raw materials model and then update the row in RMQ model
@@ -1760,8 +1781,8 @@ def check_if_raw_material_quantities_are_empty():
    if raw_material_quantity == 0:
       default_raw_material_quantities = RawMaterialQuantities.objects.create(
 
-                                                                           date=datetime.datetime.now()
-                                                                           ,maize_bran = 0
+                                                                           
+                                                                           maize_bran = 0
                                                                            ,cotton = 0
                                                                            ,sun_flower = 0
                                                                            ,fish = 0
@@ -1781,7 +1802,6 @@ def check_if_raw_material_quantities_are_empty():
                                                                            ,big_pig = 0
 
                                                                            )
-
 
 def check_raw_material_availabliity(raw_material):
    items = RawMaterial.objects.filter(item = raw_material)

@@ -6,6 +6,7 @@ from feedwork.models import *
 from feedwork.forms import *
 from feedwork.helper_functions import * 
 from django.db.models import Q
+from django.utils import timezone
 
 from django.http import HttpResponseRedirect
 
@@ -13,152 +14,6 @@ import snoop
 @snoop
 def index(request):
     check_if_raw_material_quantities_are_empty()
-    # return HttpResponse("Hello, world. You're at the STS Poultry Business ")
-    #To create a new instance of the RMQ model 
-    #grab the lastest instance inside the RMQ model
-    last_raw_material_qty_occurance = RawMaterialQuantities.objects.last()
-    #check if it has any instances , if not then just skip to the end
-    count_quantities = RawMaterialQuantities.objects.count()
-    if(count_quantities != 0):
-        #change dates into some specific dates (%x-Local version of date-12/31/18)
-        last_date = last_raw_material_qty_occurance.date
-        rear_date = last_date.strftime("%x")
-        current_date = datetime.datetime.now()
-        earlist_date = current_date.strftime("%x")
-        if rear_date == earlist_date:
-            print("Dates are equal,so go ahead and make more entries")
-        else:
-            #duplicate the last instance
-            dup_maize_bran = last_raw_material_qty_occurance.maize_bran 
-            dup_cotton = last_raw_material_qty_occurance.cotton
-            dup_sun_flower = last_raw_material_qty_occurance.sun_flower
-            dup_fish = last_raw_material_qty_occurance.fish
-            
-            dup_general_purpose_premix = last_raw_material_qty_occurance.general_purpose_premix
-            dup_layers_premix = last_raw_material_qty_occurance.layers_premix
-            dup_shells = last_raw_material_qty_occurance.shells
-            dup_meat_boaster = last_raw_material_qty_occurance.meat_boaster
-            dup_egg_boaster=last_raw_material_qty_occurance.egg_boaster
-            dup_calcium = last_raw_material_qty_occurance.calcium
-            dup_soya_bean = last_raw_material_qty_occurance.soya_bean
-            dup_brown_salt = last_raw_material_qty_occurance.brown_salt
-            dup_animal_salt = last_raw_material_qty_occurance.animal_salt
-            dup_common_salt = last_raw_material_qty_occurance.common_salt 
-            dup_coconut = last_raw_material_qty_occurance.coconut 
-            dup_pig_concentrate = last_raw_material_qty_occurance.pig_concentrate
-            dup_wonder_pig = last_raw_material_qty_occurance.wonder_pig 
-            dup_big_pig = last_raw_material_qty_occurance.big_pig 
-
-
-            duplicate_quantiites = RawMaterialQuantities.objects.create(date = datetime.datetime.now()
-                                                                   ,maize_bran = dup_maize_bran 
-                                                                   ,cotton = dup_cotton
-                                                                   ,sun_flower = dup_sun_flower 
-                                                                   ,fish = dup_fish
-                                                                   
-                                                                   ,general_purpose_premix = dup_general_purpose_premix
-                                                                   ,layers_premix = dup_layers_premix
-                                                                   ,shells = dup_shells
-                                                                   ,meat_boaster = dup_meat_boaster
-                                                                   ,egg_boaster=dup_egg_boaster
-                                                                   ,calcium = dup_calcium
-                                                                   ,soya_bean = dup_soya_bean
-                                                                   ,brown_salt = dup_brown_salt
-                                                                   ,animal_salt = dup_animal_salt
-                                                                   ,common_salt = dup_common_salt
-                                                                   ,coconut = dup_coconut
-                                                                   ,pig_concentrate = dup_pig_concentrate
-                                                                   ,wonder_pig = dup_wonder_pig
-                                                                   ,big_pig = dup_big_pig) 
-    else:
-        print("Just continue with life")
-
-    #do the same with Product 
-    lastproduct = ProductQuantities.objects.last()
-
-    count_pq = ProductQuantities.objects.count()
-    if(count_pq != 0):
-        last_date = lastproduct.date
-        rear_date = last_date.strftime("%x")
-        current_date = datetime.datetime.now()
-        earlist_date = current_date.strftime("%x")
-        if rear_date == earlist_date:
-            print("Dates are equal")
-        else:
-            dup_broilers_marsh = lastproduct.broilers_marsh
-            dup_chick_marsh = lastproduct.chick_marsh
-            dup_old_pig = lastproduct.old_pig
-            dup_growers_marsh = lastproduct.growers_marsh
-            dup_layers_marsh = lastproduct.layers_marsh
-            dup_young_pig = lastproduct.young_pig
-
-            duplicate_quantiites = ProductQuantities.objects.create(date = datetime.datetime.now(),broilers_marsh = dup_broilers_marsh , chick_marsh = dup_chick_marsh , 
-                                    old_pig = dup_old_pig , growers_marsh = dup_growers_marsh,layers_marsh = dup_layers_marsh , young_pig = dup_young_pig)
-    else:
-        print("Just continue with life")
-
-    last_product_price = ProductPrices.objects.last()
-
-    count_pp = ProductPrices.objects.count()
-    if(count_pp != 0 ):
-        last_date = last_product_price.date
-        rear_date = last_date.strftime("%x")
-        current_date = datetime.datetime.now()
-        earlist_date = datetime.datetime.now()
-        earlist_date = current_date.strftime("%x")
-        if rear_date == earlist_date:
-            print("Dates are equal")
-        else:
-            dup_broilers_marsh = last_product_price.broilers_marsh
-            dup_chick_marsh = last_product_price.chick_marsh
-            dup_old_pig = last_product_price.old_pig
-            dup_growers_marsh = last_product_price.growers_marsh
-            dup_layers_marsh = last_product_price.layers_marsh
-            dup_young_pig = last_product_price.young_pig
-
-            duplicate_prices = ProductQuantities.objects.create(date = datetime.datetime.now(),broilers_marsh = dup_broilers_marsh , chick_marsh = dup_chick_marsh , 
-                                    old_pig = dup_old_pig , growers_marsh = dup_growers_marsh,layers_marsh = dup_layers_marsh , young_pig = dup_young_pig)
-    else:
-        print("Why can't just be free , from the ways of this world")
-
-    last_rm_quantity = RawMaterialPrices.objects.last()
-    #check if it has any instances , if not then just skip to the end
-    count_rm = RawMaterialPrices.objects.count()
-    if(count_rm != 0):
-        #change dates into some specific dates (%x-Local version of date-12/31/18)
-        last_date = last_rm_quantity.date
-        rear_date = last_date.strftime("%x")
-        current_date = datetime.datetime.now()
-        earlist_date = current_date.strftime("%x")
-        if rear_date == earlist_date:
-            print("Dates are equal")
-        else:
-            #duplicate the last instance
-            dup_maize_bran = last_raw_material_qty_occurance.maize_bran 
-            dup_cotton = last_raw_material_qty_occurance.cotton
-            dup_sun_flower = last_raw_material_qty_occurance.sun_flower
-            dup_fish = last_raw_material_qty_occurance.fish
-            
-            dup_general_purpose_premix = last_raw_material_qty_occurance.general_purpose_premix
-            dup_layers_premix = last_raw_material_qty_occurance.layers_premix
-            dup_shells = last_raw_material_qty_occurance.shells
-            dup_meat_boaster = last_raw_material_qty_occurance.meat_boaster
-            dup_egg_boaster=last_raw_material_qty_occurance.egg_boaster
-            duplicate_quantiites = RawMaterialPrices.objects.create(date = datetime.datetime.now(),maize_bran = dup_maize_bran ,cotton = dup_cotton,
-                                                                   sun_flower = dup_sun_flower, fish = dup_fish,
-                                                                   general_purpose_premix = dup_general_purpose_premix,layers_premix = dup_layers_premix,
-                                                                   shells = dup_shells, meat_boaster = dup_meat_boaster,egg_boaster=dup_egg_boaster)
-    else:
-        print("Just continue with life")
-    # Viewing the product quantities
-    # last item represents the raw material quantities
-    # last product represent the product quantities
-
-    # now we are going to get the income statement
-    # Net income/loss = product_sales + raw_material_sales - expenses
-    # revenue = product_sales + raw_material_sales 
-    # profit / loss = sales  - expenses
-
     #a Dictionary that will be used to display the profit 
     profit_dictionary = {}
     # Profits of Raw Materials
@@ -188,11 +43,7 @@ def index(request):
         profit = profits_for_raw_materials(x,raw_item)
         profit_dictionary['maize_bran'] = profit
         
-    return render(request, "index.html",{'last_raw_material_qty_occurance':last_raw_material_qty_occurance
-                                        ,'lastproduct':lastproduct
-                                        ,'profit_dictionary':profit_dictionary
-                                            } 
-                                            )
+    return render(request, "index.html",{'profit_dictionary':profit_dictionary} )
 
 
 def creating_net_income(request):
@@ -251,13 +102,13 @@ def creating_supplies(request):
         # add the dictionary during initialization
         if supply_form.is_valid():
             #Accessing the date field 
-            selected_date = supply_form.cleaned_data['date']
+            # product = supply_form.cleaned_data['date']
             supply_form.save()
             # expense_form.save()
             #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
             #table
             # we shall check if the "RawMaterialQuantities" table has atleast one row
-            compute_quantities(selected_date)       
+            compute_quantities()       
             return HttpResponseRedirect('http://127.0.0.1:8000/')
     else:
         context['supply_form'] = supply_form
