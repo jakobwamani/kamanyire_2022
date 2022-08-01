@@ -1996,8 +1996,8 @@ def profits_for_raw_materials(selected_date,raw_item):
                new_stock = RawMaterialSales.objects.filter(raw_material=raw_item).order_by('-date').first()
                new_stock = new_stock.quantity
 
-               print(type(new_stock))
-               print(type(current_quantity))
+               print(new_stock)
+               print(current_quantity)
                old_stock = current_quantity - new_stock
                print(old_stock)
                # profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
@@ -2015,7 +2015,16 @@ def profits_for_raw_materials(selected_date,raw_item):
                return round(profit,2)
 
             else:
-               pass
+               normal_cost_price = []
+               for purchase in last_purchases:
+                  normal_cost_price.append(purchase.unit_price)
+
+               #To get the current cost price we pick the last one in the list
+               current_cost_price = normal_cost_price[-1]
+
+               profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+               #reduce on decimal places
+               return round(profit,2)
                   
           
       else:

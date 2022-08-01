@@ -16,7 +16,7 @@ def index(request):
     check_if_raw_material_quantities_are_empty()
     
     #Now we are going to view the raw material quantites by date
-    selected_date = request.GET.get('select_date')
+    selected_date = request.GET.get('start_date')
     # end_date = request.GET.get('end_date')
     raw_material_stock = RawMaterialQuantities.objects.filter(date=selected_date).last()
     
@@ -28,6 +28,7 @@ def index(request):
     # Profits of Raw Materials
     
     raw_item = request.GET.get('raw_materials')
+    selected_date = request.GET.get('select_date')
     print("Type of date")
     print(type(selected_date))
     print(selected_date)
@@ -49,8 +50,13 @@ def index(request):
         print(x) 
         #since we want to display multiple profits of raw_materials and 
 
-        profit = profits_for_raw_materials(x,raw_item)
-        profit_dictionary['raw_material'] = profit
+        # profit = profits_for_raw_materials(x,raw_item)
+        #display each raw material
+        list_of_raw_materials = ['maize_bran','cotton','sun_flower','fish','general_purpose_premix','layers_premix','shells','meat_boaster','egg_boaster','calcium','soya_bean','brown_salt','common_salt','pig_concentrate','coconut','wonder_pig','big_pig']
+        for material in list_of_raw_materials:
+            profit = profits_for_raw_materials(x,material)
+            #we add to the profit dictionary
+            profit_dictionary[material] = profit
         
     return render(request, "index.html",{'profit_dictionary':profit_dictionary,'raw_material_stock':raw_material_stock} )
 
