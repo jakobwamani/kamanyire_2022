@@ -1910,7 +1910,7 @@ def profits_for_raw_materials(selected_date,raw_item):
    else:
       # lookup = (Q(date__icontains=selected_date ) and Q(raw_material__icontains=raw_item))
       sales = RawMaterialSales.objects.filter(date = selected_date).filter(raw_material = raw_item)
-      print("sales")
+      
       print(sales)
       #To avoid an error when some views this page with having selected date and raw
       #materials
@@ -1941,91 +1941,83 @@ def profits_for_raw_materials(selected_date,raw_item):
          print("quantity_sold")
          print(quantity_sold)
          # Look for the cost price of last purchase of the specific raw_material
-         last_purchases = RawMaterial.objects.filter(item=raw_item).order_by('-date')
+         last_purchases = RawMaterial.objects.filter(item=raw_item).filter(date=selected_date).order_by('-date')
 
          print(len(last_purchases))
-         #Create a list to store cost_prices and then pick the last one
-         cost_prices = []
-         for purchase in last_purchases:
-            #if there is any purchase of the specified raw material 
-            #that has been made today 
-            #give a proper format 
-            good_date = purchase.date
-            good_date.strftime("%x")
-            print(type(good_date))
-            print(type(standard_date))
-            if good_date == standard_date:
-               print(purchase.date)
-               #then we get the total of the quantity of the specified 
-               #raw material before that purchase today
-               #we get the second last occurance of raw material quantity
-               print("Dates are the same")
+         #Get the cost price
+         # - Get a list of cost_prices
+         #this happens when there is no difference in cost price
+         #but what if the cost price changes
+         lastest_purchases = RawMaterial.objects.filter(item=raw_item).order_by('-date')
+         #if there is only one occurance in the rawMaterial table
+         if len(lastest_purchases) == 1:
+            normal_cost_price = []
+            for purchase in last_purchases:
+               normal_cost_price.append(purchase.unit_price)
 
-               #check if the Raw material Quantites table has rows or not
-               rows = RawMaterialQuantities.objects.all()
-               if len(rows) == 0 or len(rows) == 1:
-                  #we just use the quantity of stock that we have
-                  mydata = RawMaterialQuantities.objects.all().order_by('-date')
-                  old_stock = getattr(mydata[0], raw_item)
-                  print("old_stock is ",old_stock)
-                  # old_stock = mydata[0].'raw_item'
+            #To get the current cost price we pick the last one in the list
+            current_cost_price = normal_cost_price[-1]
 
-                  #we get the cost price of the second last purchase of a specific raw_material
-                  # mypurchases = RawMaterial.objects.filter(item=raw_item)
-                  cost_prices.append(purchase.unit_price)
-                  old_cost_price = cost_prices[-1]
-                  print(old_cost_price)
+            profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+            #reduce on decimal places
+            return round(profit,2)
+         else:
 
-                  #we are going to get the stock of the new purchase
-                  new_purchase = RawMaterial.objects.filter(item=raw_item).last()
-                  print(new_purchase.quantity)
-                  new_stock = new_purchase.quantity
-
-                  #we are going to get the cost price of the new stock
-                  new_cost_price = new_purchase.unit_price
-
-                  cost_price = (old_stock * old_cost_price) + (new_stock * new_cost_price) / (old_stock + new_stock) 
-
-                  #PROFIT
-                  profit = (current_unit_price * quantity_sold) - (cost_price * quantity_sold)
-               else:                  
-                  mydata = RawMaterialQuantities.objects.all().order_by('-date')
-                  old_stock = getattr(mydata[0], raw_item)
-                  print("old_stock is ",old_stock)
-
-
-                  #we get the cost price of the second last purchase of a specific raw_material
-                  # mypurchases = RawMaterial.objects.filter(item=raw_item)
-                  #We get the cost price of that purchase that is in the loop
-                  #currently
-                  cost_prices.append(purchase.unit_price)
-                  old_cost_price = cost_prices[0]
-                  print(old_cost_price)
-
-                  #we are going to get the stock of the new purchase
-                  new_purchase = RawMaterial.objects.filter(item=raw_item).last()
-                  print(new_purchase.quantity)
-                  new_stock = new_purchase.quantity
-
-                  #we are going to get the cost price of the new stock
-                  new_cost_price = new_purchase.unit_price
-
-                  cost_price = (old_stock * old_cost_price) + (new_stock * new_cost_price) / (old_stock + new_stock) 
-
-                  #PROFIT
-                  profit = (current_unit_price * quantity_sold) - (cost_price * quantity_sold)
-            else:
-               
-
+            #for the first two queries that appear if there is a difference in cost price 
+            #then
+            loop = 0
+            #an empty list to store the two prices
+            cost_prices = []
+            for purchase in lastest_purchases:
                cost_prices.append(purchase.unit_price)
+               loop + 1
+               if loop == 2:
+                  break
 
-               #pick the last price
-               current_cost_price = cost_prices[-1]
-               print(current_cost_price)
+            last_cost_price = cost_prices[1]
+            second_last_cost_price = cost_prices[0]
+
+            
+            if int(last_cost_price) != int(second_last_cost_price):
+               print("There is a difference in cost price")
+               #calculate the profit in a different way
+               #old stock
+               stock = RawMaterialQuantities.objects.last()
+               current_quantity = 0
+               for attr , value in vars(stock).items():
+                  print(attr, '=', value)
+                  
+                  if attr == raw_item:
+                     print("Its a match")
+                     print(value)
+                     current_quantity += value
+                     break
+
+               new_stock = RawMaterialSales.objects.filter(raw_material=raw_item).order_by('-date').first()
+               new_stock = new_stock.quantity
+
+               print(type(new_stock))
+               print(type(current_quantity))
+               old_stock = current_quantity - new_stock
+               print(old_stock)
+               # profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+               # return profit
+               #old cost price
+               old_cost_price = second_last_cost_price
+               old_stock_cost = old_stock * old_cost_price
+               new_stock_cost = new_stock * last_cost_price
+               stock_cost = old_stock_cost + new_stock_cost
+               stock_volume = old_stock + new_stock
+               current_cost_price =  stock_cost / stock_volume 
+
                profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+               #reduce on the decimal places
+               return round(profit,2)
 
-               print(profit)
-               return profit
+            else:
+               pass
+                  
+          
       else:
          pass
          

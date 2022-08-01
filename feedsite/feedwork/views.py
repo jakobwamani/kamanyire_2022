@@ -14,10 +14,18 @@ import snoop
 @snoop
 def index(request):
     check_if_raw_material_quantities_are_empty()
+    
+    #Now we are going to view the raw material quantites by date
+    selected_date = request.GET.get('select_date')
+    # end_date = request.GET.get('end_date')
+    raw_material_stock = RawMaterialQuantities.objects.filter(date=selected_date).last()
+    
+
+    print(raw_material_stock)
+
     #a Dictionary that will be used to display the profit 
     profit_dictionary = {}
     # Profits of Raw Materials
-    selected_date = request.GET.get('select_date')
     
     raw_item = request.GET.get('raw_materials')
     print("Type of date")
@@ -39,11 +47,12 @@ def index(request):
         x = datetime.datetime(int(year), int(month), int(day))
 
         print(x) 
+        #since we want to display multiple profits of raw_materials and 
 
         profit = profits_for_raw_materials(x,raw_item)
-        profit_dictionary['maize_bran'] = profit
+        profit_dictionary['raw_material'] = profit
         
-    return render(request, "index.html",{'profit_dictionary':profit_dictionary} )
+    return render(request, "index.html",{'profit_dictionary':profit_dictionary,'raw_material_stock':raw_material_stock} )
 
 
 def creating_net_income(request):
@@ -362,15 +371,7 @@ def deleting_raw_material_prices(request):
         
         product_price_to_delete.delete()
 
-        # return HttpResponseRedirect('http://127.0.0.1:8000/')
-        # redirect('view_product_prices.html')
-        # if request.method =='POST':
-        #   #we get to know the item 
 
-        #     supply_record_to_delete.delete()
-        #     return redirect('view_supply.html')
-
-        # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_raw_material_prices.html",context=context_dict)
 
 def creating_product_prices(request):

@@ -118,88 +118,96 @@ input[type=submit]:hover {
 
     <div class="raw_material_quantities" >
         <h3> Raw Material Stock</h3>
-        <table th = height: 5px;>
-        
-            
-            <tr>
-                <th>DATE</th>
-                <td>{{ last_raw_material_qty_occurance.date }} </td>
-            </tr>
-            <tr>
-                <th>MAIZE BRAN</th>
-                <td>{{ last_raw_material_qty_occurance.maize_bran }}</td>
-            </tr>
-            <tr>
-                <th>COTTON</th>
-                <td>{{ last_raw_material_qty_occurance.cotton }}</td>
-            </tr>
-            <tr>
-                <th>SUN FLOWER</th>
-                <td>{{ last_raw_material_qty_occurance.sun_flower }}</td>
-            </tr>
-            <tr>
-                <th>FISH</th>
-                <td>{{ last_raw_material_qty_occurance.fish }}</td>
-            </tr>
-           
-            <tr>
-                <th>GENERAL PURPOSE PREMIX</th>
-                <td>{{ last_raw_material_qty_occurance.general_purpose_premix }} </td>
-            </tr>
-            <tr>
-                <th>LAYERS PREMIX</th>
-                <td>{{ last_raw_material_qty_occurance.layers_premix }}</td>
-            </tr>
-            <tr>
-                <th>SHELLS</th>
-                <td>{{ last_raw_material_qty_occurance.shells }}</td>
-            </tr>
-            <tr>
-                <th>MEAT BOASTER</th>
-                <td>{{ last_raw_material_qty_occurance.meat_boaster }}</td>
-            </tr>
-            <tr>
-            <tr>
-                <th>EGG BOASTER</th>
-                <td>{{ last_raw_material_qty_occurance.egg_boaster }}</td>
-            </tr>
-            <tr>
-                <th>CALCIUM</th>
-                <td>{{ last_raw_material_qty_occurance.calcium }}</td>
-            </tr>
-            <tr>
-                <th>SOYA BEAN</th>
-                <td>{{ last_raw_material_qty_occurance.soya_bean }}</td>
-            </tr>
-            <tr>
-                <th>BROWN SALT</th>
-                <td>{{ last_raw_material_qty_occurance.brown_salt }}</td>
-            </tr>
-            <tr>
-                <th>ANIMAL SALT</th>
-                <td>{{ last_raw_material_qty_occurance.animal_salt }}</td>
-            </tr>
-            <tr>
-                <th>COMMON SALT</th>
-                <td>{{ last_raw_material_qty_occurance.common_salt }}</td>
-            </tr>
-            <tr>
-                <th>COCONUT</th>
-                <td>{{ last_raw_material_qty_occurance.coconut }}</td>
-            </tr>
-            <tr>
-                <th>PIG CONCENTRATE</th>
-                <td>{{ last_raw_material_qty_occurance.pig_concentrate }}</td>
-            </tr>
-            <tr>
-                <th>WONDER PIG</th>
-                <td>{{ last_raw_material_qty_occurance.wonder_pig }}</td>
-            </tr>
-            <tr>
-                <th>BIG PIG</th>
-                <td>{{ last_raw_material_qty_occurance.big_pig }}</td>
-            </tr>       
-        </table>
+        <form action="{% url 'index' %}" method="get">
+                <!-- <label>Childid</label>
+                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+                <label>Date</label>
+                <input name="start_date" type="date" ><br/><br/> 
+                <input type="submit" name="submit" value="COMPILE"/>    
+                <label>Raw Material Stock</label>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <td>{{ raw_material_stock.date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Maize Bran</th>
+                        <td>{{ raw_material_stock.maize_bran }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cotton</th>
+                        <td>{{ raw_material_stock.cotton }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sun Flower</th>
+                        <td>{{ raw_material_stock.sun_flower }}</td>
+                    </tr>
+                    <tr>
+                        <th>Layers' Premix</th>
+                        <td>{{ raw_material_stock.layers_premix }}</td>
+                    </tr>
+                    <tr>
+                        <th>General Purpose Premix</th>
+                        <td>{{ raw_material_stock.general_purpose_premix }}</td>
+                    </tr>
+                    <tr>
+                        <th>Shells</th>
+                        <td>{{ raw_material_stock.shells }}</td>
+                    </tr>
+                    <tr>
+                        <th>Meat Boaster</th>
+                        <td>{{ raw_material_stock.meat_boaster }}</td>
+                    </tr>
+                    <tr>
+                        <th>Egg Boaster</th>
+                        <td>{{ raw_material_stock.egg_boaster }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fish</th>
+                        <td>{{ raw_material_stock.fish }}</td>
+                    </tr>
+                    <tr>
+                        <th>Calcium</th>
+                        <td>{{ raw_material_stock.calcium }}</td>
+                    </tr>
+                    <tr>
+                        <th>Soya Bean</th>
+                        <td>{{ raw_material_stock.soya_bean }}</td>
+                    </tr>
+                    <tr>
+                        <th>Animal Salt</th>
+                        <td>{{ raw_material_stock.animal_salt }}</td>
+                    </tr>
+                    <tr>
+                        <th>Common Salt</th>
+                        <td>{{ raw_material_stock.common_salt }}</td>
+                    </tr>
+                    <tr>
+                        <th>Brown Salt</th>
+                        <td>{{ raw_material_stock.brown_salt }}</td>
+                    </tr>
+                    <tr>
+                        <th>Coconut</th>
+                        <td>{{ raw_material_stock.coconut }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pig concentrate</th>
+                        <td>{{ raw_material_stock.pig_concentrate }}</td>
+                    </tr>
+                    <tr>
+                        <th>Wonder pig</th>
+                        <td>{{ raw_material_stock.wonder_pig }}</td>
+                    </tr>
+                    <tr>
+                        <th>Big pig</th>
+                        <td>{{ raw_material_stock.big_pig }}</td>
+                    </tr>
+
+
+
+                </table>            
+            </form>
+       
     </div>
 
     <div class="product_quantities" >
@@ -275,10 +283,7 @@ input[type=submit]:hover {
                     <tr>
                         <th>Maize bran</th>
 
-                    
-                    
-                    
-                        <th>{{ profit_dictionary.maize_bran }} </th>
+                        <th>{{ profit_dictionary.raw_material }} </th>
                     </tr>
                     
                    

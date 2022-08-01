@@ -234,6 +234,8 @@ class ProductSalesForm(forms.ModelForm):
 class RawMaterialSalesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+
+	time = forms.TimeField(initial=timezone.now())
 	raw_material = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
 	quantity = forms.DecimalField(initial = 0.0)
 	selling_price = forms.DecimalField(initial = 0.0)
@@ -243,4 +245,4 @@ class RawMaterialSalesForm(forms.ModelForm):
 	# total = forms.DecimalField(initial = 0)
 	class Meta:
 		model = RawMaterialSales
-		fields = ["date","raw_material","quantity","selling_price","total"]
+		fields = ["date","time","raw_material","quantity","selling_price","total"]

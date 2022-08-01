@@ -136,7 +136,8 @@ class ProductSales(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialSales(models.Model):
-	date = models.DateTimeField()
+	date = models.DateField()
+	time = models.TimeField()
 	raw_material = models.CharField(max_length = 50)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	selling_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
