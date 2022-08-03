@@ -21,6 +21,12 @@ def index(request):
     raw_material_stock = RawMaterialQuantities.objects.filter(date=selected_date).last()
     
 
+    #display the product quantities
+    choosen_date = request.GET.get('choosen_date')
+    product_stock = ProductQuantities.objects.filter(date=choosen_date).last()
+    print(product_stock)
+
+
     print(raw_material_stock)
 
     #a Dictionary that will be used to display the profit 
@@ -52,13 +58,27 @@ def index(request):
 
         # profit = profits_for_raw_materials(x,raw_item)
         #display each raw material
-        list_of_raw_materials = ['maize_bran','cotton','sun_flower','fish','general_purpose_premix','layers_premix','shells','meat_boaster','egg_boaster','calcium','soya_bean','brown_salt','common_salt','pig_concentrate','coconut','wonder_pig','big_pig']
+        list_of_raw_materials = ['maize_bran','cotton','sun_flower','fish','general_purpose_premix','layers_premix','shells','meat_boaster','egg_boaster','calcium','soya_bean','brown_salt','common_salt','animal_salt','pig_concentrate','coconut','wonder_pig','big_pig']
         for material in list_of_raw_materials:
             profit = profits_for_raw_materials(x,material)
             #we add to the profit dictionary
             profit_dictionary[material] = profit
+
+
+    #look for product profits
+    #the unit price is coming from the product sales
+    print("Working on product profits now")
+    list_of_products = ['broilers_marsh','chick_marsh','pig_marsh','growers_marsh','layers_marsh']
+    picked_date = request.GET.get('pick_date')
+    for item in list_of_products:
+        processed_profit = process_product_profits(picked_date,item)
+        print(processed_profit)
+    
+
+    
+
         
-    return render(request, "index.html",{'profit_dictionary':profit_dictionary,'raw_material_stock':raw_material_stock} )
+    return render(request, "index.html",{'profit_dictionary':profit_dictionary,'raw_material_stock':raw_material_stock,'product_stock':product_stock} )
 
 
 def creating_net_income(request):
@@ -518,9 +538,9 @@ def viewing_product_sales(request):
     broilers_marsh_list = []
     chick_marsh_list = []
     growers_marsh_list = []
-    old_pig_list = []
+    
     layers_marsh_list = []
-    young_pig_list = []
+    pig_marsh_list = []
 
     for sale in p_sales:
         if sale.product == "broilers_marsh":
@@ -532,14 +552,13 @@ def viewing_product_sales(request):
         elif sale.product == "growers_marsh": 
             growers_marsh_list.append(sale.quantity)
 
-        elif sale.product == "old_pig":
-            old_pig_list.append(sale.quantity)
+        
 
         elif sale.product == "layers_marsh":
             layers_marsh_list.append(sale.quantity)
 
-        elif sale.product == "young_pig":
-            young_pig_list.append(sale.quantity)
+        elif sale.product == "pig_marsh":
+            pig_marsh_list.append(sale.quantity)
 
     #summation of product sales into a dictionary
     product_sales_dictionary = {}
@@ -549,7 +568,7 @@ def viewing_product_sales(request):
     product_sales_dictionary["growers_marsh"] = sum(growers_marsh_list)
     product_sales_dictionary["old_pig"] = sum(old_pig_list)
     product_sales_dictionary["layers_marsh"] = sum(layers_marsh_list)
-    product_sales_dictionary["young_pig"] = sum(young_pig_list)
+    product_sales_dictionary["pig_marsh"] = sum(young_pig_list)
     return render(request, "view_product_sales.html", {'p_sales':p_sales,'product_sales_dictionary':product_sales_dictionary})
 
 def updating_product_sales(request):

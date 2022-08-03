@@ -119,8 +119,7 @@ input[type=submit]:hover {
     <div class="raw_material_quantities" >
         <h3> Raw Material Stock</h3>
         <form action="{% url 'index' %}" method="get">
-                <!-- <label>Childid</label>
-                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+                
                 <label>Date</label>
                 <input name="start_date" type="date" ><br/><br/> 
                 <input type="submit" name="submit" value="COMPILE"/>    
@@ -325,41 +324,82 @@ input[type=submit]:hover {
             </form>
         </div>
 
-    
+<div>
+    <form action="{% url 'index' %}" method="get">
+            <h3> Product Stock</h3>
+            <div class="product_quantities" >
+                        <label>Date</label>
+                                <input name="choosen_date" type="date" ><br/><br/> 
+                                <input type="submit" name="submit" value="COMPILE"/> 
+                        
+                            <table th = height: 5px;>
+                                    <tr>
+                                    <th>DATE</th>
+                                    <td>{{ product_stock.date}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>BROILERS MARSH</th>
+                                    <td>{{ product_stock.broilers_marsh}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>CHICK MARSH</th>
+                                    <td>{{ product_stock.chick_marsh }}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>GROWER'S MARSH</th>
+                                    <td>{{ product_stock.growers_marsh}}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                    <th>LAYERS MARSH</th>
+                                    <td>{{ product_stock.layers_marsh}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>PIG MARSH</th>
+                                    <td>{{ product_stock.pig_marsh }}</td>             
+                            </table>
+            </div>
+    </form>
+</div>
 
-    <div class="product_quantities" >
-        <h3> Product Stock</h3>
-        <table th = height: 5px;>
-                <tr>
-                <th>DATE</th>
-                <td>{{lastproduct.date}}</td>
-                </tr>
-                <tr>
-                <th>BROILERS MARSH</th>
-                <td>{{lastproduct.broilers_marsh}}</td>
-                </tr>
-                <tr>
-                <th>CHICK MARSH</th>
-                <td>{{lastproduct.chick_marsh }}</td>
-                </tr>
-                <tr>
-                <th>GROWER'S MARSH</th>
-                <td>{{lastproduct.growers_marsh}}</td>
-                </tr>
-                <tr>
-                <th>OLD PIG</th>
-                <td>{{lastproduct.old_pig }}</td>
-                </tr>
-                <tr>
-                <th>LAYERS MARSH</th>
-                <td>{{lastproduct.layers_marsh}}</td>
-                </tr>
-                <tr>
-                <th>YOUNG PIG</th>
-                <td>{{ lastproduct.young_pig }}</td>
-                    
-            </table>
-        </div>
+<div>
+    <form action="{% url 'index' %}" method="get">
+            <h3> Product Profits</h3>
+            <div class="product_quantities" >
+                        <label>Date</label>
+                                <input name="pick_date" type="date" ><br/><br/> 
+                                <input type="submit" name="submit" value="COMPILE"/> 
+                        
+                            <table th = height: 5px;>
+                                    <tr>
+                                    <th>DATE</th>
+                                    <td>{{ product_stock.date}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>BROILERS MARSH</th>
+                                    <td>{{ product_stock.broilers_marsh}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>CHICK MARSH</th>
+                                    <td>{{ product_stock.chick_marsh }}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>GROWER'S MARSH</th>
+                                    <td>{{ product_stock.growers_marsh}}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                    <th>LAYERS MARSH</th>
+                                    <td>{{ product_stock.layers_marsh}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>PIG MARSH</th>
+                                    <td>{{ product_stock.pig_marsh }}</td>             
+                            </table>
+            </div>
+    </form>
+</div>
+    
 </div>
 
 

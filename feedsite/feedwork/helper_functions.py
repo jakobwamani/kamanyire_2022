@@ -6,6 +6,7 @@ from django.db.models import Q
 import statistics
 import snoop
 from django.utils import timezone
+@snoop
 
 def compute_quantities():
    check_row = RawMaterialQuantities.objects.count()
@@ -1768,10 +1769,10 @@ def check_if_product_quantities_are_empty():
                                                                      date=datetime.datetime.now()
                                                                      ,broilers_marsh = 0
                                                                      ,chick_marsh = 0
-                                                                     ,old_pig = 0
+                                                                  
                                                                      ,growers_marsh = 0
                                                                      ,layers_marsh = 0
-                                                                     ,young_pig = 0
+                                                                     ,pig_marsh = 0
 
                                                                   )
 
@@ -2010,6 +2011,7 @@ def profits_for_raw_materials(selected_date,raw_item):
                stock_volume = old_stock + new_stock
                current_cost_price =  stock_cost / stock_volume 
 
+               #because there was change in cost price it means that we have new stock that has been mixed
                profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
                #reduce on the decimal places
                return round(profit,2)
@@ -2029,5 +2031,138 @@ def profits_for_raw_materials(selected_date,raw_item):
           
       else:
          pass
-         
+  
+@snoop      
+def process_product_profits(pick_date,select_product):
+   last_product_sale = ProductSales.objects.filter(date=pick_date).filter(product=select_product)
+   product_unit_prices = []
+   for product in last_product_sale:
+      #we get the unit price and append it into a list
+      product_unit_prices.append(product.selling_price)
+   #get the mean of all the product prices 
+   if len(product_unit_prices) == 0:
+      pass
+   else:
+      unit_price = statistics.mean(product_unit_prices)
 
+      #get the quantity sold
+      quantities_sold = []
+      for product in last_product_sale:
+         quantities_sold.append(product.quantity)
+
+      quantity_sold = sum(quantities_sold)
+
+      #Cost price
+      layers_marsh_mixing_dict = {'maize_bran':100,'coconut':12,'sun_flower':8,'fish':17,'layers_premix':0.75,'common_salt':1.5,'calcium':12,'egg_boaster':1}
+      cost_prices = []
+      standard_weight = 0
+      for key, value in layers_marsh_mixing_dict.items():
+         print(key, value)
+         #calculate cost price of a raw material
+         # cost_price_raw_material = calculate_cost_price(key)
+         cost_prices.append( float(calculate_cost_price(key)) * value)
+         standard_weight += value
+
+      #we now have the weight of the standard_mixture and cost of the standard mixture
+      #we have to get cost of one kilogram of the standard mixture
+      product_cost_price = sum(cost_prices)/standard_weight
+      #so for us to get the cost price of a product
+      #where can i get the cost price of the different raw materials
+
+       
+      # product_cost_price = total_cost_of_mixtures / total_weight_of_mixtures
+      product_stock_sold = float(unit_price) * float(quantity_sold)
+      product_stock_comparision = product_cost_price * float(quantity_sold)
+      profit = product_stock_sold - product_stock_comparision
+      return profit
+@snoop
+def calculate_cost_price(raw_material):
+   lastest_purchases = RawMaterial.objects.filter(item=raw_material).order_by('-date')
+   if len(lastest_purchases) == 1:
+      normal_cost_price = []
+      for purchase in lastest_purchases:
+         normal_cost_price.append(purchase.unit_price)
+
+      #To get the current cost price we pick the last one in the list
+      current_cost_price = normal_cost_price[-1]
+      if current_cost_price == None:
+         #change it to int
+         current_cost_price = 0
+         return current_cost_price
+      else:
+         return current_cost_price
+
+   
+   elif len(lastest_purchases) > 1:
+      #for the first two queries that appear if there is a difference in cost price 
+      #then
+      loop = 0
+      #an empty list to store the two prices
+      cost_prices = []
+      if len(cost_prices) == 0:
+         pass 
+      else:            
+         for purchase in lastest_purchases:
+            cost_prices.append(purchase.unit_price)
+            loop + 1
+            if loop == 2:
+               break
+
+         last_cost_price = cost_prices[1]
+         second_last_cost_price = cost_prices[0]
+
+         
+         if int(last_cost_price) != int(second_last_cost_price):
+            print("There is a difference in cost price")
+            #calculate the profit in a different way
+            #old stock
+            stock = RawMaterialQuantities.objects.last()
+            current_quantity = 0
+            for attr , value in vars(stock).items():
+               print(attr, '=', value)
+               
+               if attr == raw_item:
+                  print("Its a match")
+                  print(value)
+                  current_quantity += value
+                  break
+
+            new_stock = RawMaterialSales.objects.filter(raw_material=raw_material).order_by('-date').first()
+            new_stock = new_stock.quantity
+
+            print(new_stock)
+            print(current_quantity)
+            old_stock = current_quantity - new_stock
+            print(old_stock)
+            # profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+            # return profit
+            #old cost price
+            old_cost_price = second_last_cost_price
+            old_stock_cost = old_stock * old_cost_price
+            new_stock_cost = new_stock * last_cost_price
+            stock_cost = old_stock_cost + new_stock_cost
+            stock_volume = old_stock + new_stock
+            current_cost_price =  stock_cost / stock_volume 
+
+            if current_cost_price == None:
+               current_cost_price = 0
+            else:
+               return current_cost_price
+         else:
+            normal_cost_price = []
+            for purchase in last_purchases:
+               normal_cost_price.append(purchase.unit_price)
+
+            #To get the current cost price we pick the last one in the list
+            current_cost_price = normal_cost_price[-1]
+
+            if current_cost_price == None:
+               current_cost_price = 0
+               return current_cost_price
+            else:
+               return current_cost_price
+
+
+   elif len(lastest_purchases) == 0:   
+      current_cost_price = 0
+      return current_cost_price

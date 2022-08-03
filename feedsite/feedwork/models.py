@@ -77,13 +77,14 @@ class RawMaterialQuantities(models.Model):
 		return '{}'.format(self.date)
 
 class ProductQuantities(models.Model):
-	date = models.DateTimeField()
+	date = models.DateField(default=datetime.date.today)
+	time = models.TimeField(default=timezone.now())
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	old_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	growers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	layers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	young_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	
 	
 	def __str__(self):
 		return '{}'.format(self.date)
@@ -92,10 +93,10 @@ class ProductPrices(models.Model):
 	date = models.DateTimeField()
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	old_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	
 	growers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	layers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	young_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	
 	def __str__(self):
 		return '{}'.format(self.date)
