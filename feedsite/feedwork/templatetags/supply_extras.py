@@ -24,3 +24,9 @@ def work_on_the_full_amount(value,args):
 
 
 	return fullamount
+
+@register.simple_tag
+def multiple_ops(loading,off_loading,transport,quantity,unit_price):
+   #do your stuff
+   cost_of_purchase = (loading+off_loading+transport)+(quantity*unit_price)
+   return cost_of_purchase

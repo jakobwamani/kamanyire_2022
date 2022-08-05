@@ -41,15 +41,14 @@ class RawMaterialForm(forms.ModelForm):
 	receipt_number = forms.DecimalField(initial = 0)
 	supplier = forms.CharField()
 	item = forms.ChoiceField(choices=RAW_MATERIAL_CHOICES)
-	# item = forms.CharField()
-	# quantity = forms.DecimalField(initial=0)
-	# increase_quantity = forms.DecimalField(initial=0)
-	# reduce_quantity = forms.DecimalField(initial=0)
-	# unit_price = forms.DecimalField(initial = 0)
+	
 	quantity = forms.DecimalField(initial = 0.0)
+	loading = forms.DecimalField(initial=0.0)
+	off_loading = forms.DecimalField(initial=0.0)
+	transport = forms.DecimalField(initial=0.0)
 	unit_price = forms.DecimalField(initial= 0.0)
 	total = forms.DecimalField(
-        widget=calculation.FormulaInput('quantity*unit_price') # <- using single math expression
+        widget=calculation.FormulaInput('loading + off_loading + transport + quantity * unit_price') # <- using single math expression
     )
 	
 	class Meta:
@@ -57,7 +56,7 @@ class RawMaterialForm(forms.ModelForm):
 		model = RawMaterial
 
 		# exclude = ["amount","fullamount",]
-		fields = ["date","time","receipt_number","supplier","item","quantity","unit_price","total"]
+		fields = ["date","time","receipt_number","supplier","item","loading","off_loading","transport","quantity","unit_price","total"]
 		widgets = {
             'date': DateTimePickerInput()
         }

@@ -154,14 +154,22 @@ def viewing_supplies(request):
     #get the date from the user 
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
+    raw_material = request.GET.get('raw_material_option')
 
     # run a query to get all the supplies on that date
-    supplies = RawMaterial.objects.filter(date__range=[start_date, end_date])
+    supplies = RawMaterial.objects.filter(date__range=[start_date, end_date]).filter(item=raw_material)
 
-    print(type(supplies))
+    print(supplies)
+    #To get the total we have to get a sum of totals from a specific queryset
+    total_sales = []
+    for supply in supplies:
+        total_sales.append(supply.total)
+
+    sales_money = sum(total_sales)
      
+    print(sales_money)
     # return render(request, "view_supply.html", context)
-    return render(request, "view_supplies.html", {'supplies':supplies})
+    return render(request, "view_supplies.html", {'supplies':supplies ,'sales_money':sales_money})
 
 def updating_supplies(request):
     context_dict = {}
@@ -285,7 +293,7 @@ def viewing_product(request):
     end_date = request.GET.get('end_date')
     # six_months.strftime('%Y%m%d')
     # run a query to get all the supplies on that date
-    products = Product.objects.filter(date__range=[start_date, end_date])
+    products = Product.objects.filter(date__range=[start_date, end_date]).filter()
     print(type(products))   
     return render(request, "view_products.html", {'products':products}) 
 
@@ -447,12 +455,7 @@ def updating_product_prices(request):
         product_prices = ProductPrices.objects.get(id=clean_pk)
         form = ProductPriceForm(request.POST or None, instance=product_prices)
     
-        # if request == 'POST':
-        #     if form.is_valid():                
-        #         form.save()
-        #         return HttpResponseRedirect('http://127.0.0.1:8000/')       
-        # else:
-        #     context_dict["form"] = form
+        
         if request.method == 'POST':
             if form.is_valid():
                 form.save()
@@ -529,12 +532,12 @@ def viewing_product_sales(request):
     #get the date from the user 
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-
+    picked_product = request.GET.get('product_option')
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
 
     # run a query to get all the supplies on that date
-    p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
-    
+    p_sales = ProductSales.objects.filter(date__range=[start_date, end_date]).filter(product=picked_product)
+    print(p_sales)
     broilers_marsh_list = []
     chick_marsh_list = []
     growers_marsh_list = []
@@ -552,8 +555,6 @@ def viewing_product_sales(request):
         elif sale.product == "growers_marsh": 
             growers_marsh_list.append(sale.quantity)
 
-        
-
         elif sale.product == "layers_marsh":
             layers_marsh_list.append(sale.quantity)
 
@@ -566,10 +567,18 @@ def viewing_product_sales(request):
     product_sales_dictionary["broilers_marsh"] = sum(broilers_marsh_list)
     product_sales_dictionary["chick_marsh"] = sum(chick_marsh_list)
     product_sales_dictionary["growers_marsh"] = sum(growers_marsh_list)
-    product_sales_dictionary["old_pig"] = sum(old_pig_list)
+    # product_sales_dictionary["old_pig"] = sum(old_pig_list)
     product_sales_dictionary["layers_marsh"] = sum(layers_marsh_list)
-    product_sales_dictionary["pig_marsh"] = sum(young_pig_list)
-    return render(request, "view_product_sales.html", {'p_sales':p_sales,'product_sales_dictionary':product_sales_dictionary})
+    product_sales_dictionary["pig_marsh"] = sum(pig_marsh_list)
+
+    #Discover the total sales per product 
+    #Create a list
+    sales_summation = []
+    for sale in p_sales:
+        sales_summation.append(sale.total)
+
+    total_sales = sum(sales_summation)
+    return render(request, "view_product_sales.html", {'p_sales':p_sales,'product_sales_dictionary':product_sales_dictionary,'total_sales':total_sales})
 
 def updating_product_sales(request):
     context_dict = {}

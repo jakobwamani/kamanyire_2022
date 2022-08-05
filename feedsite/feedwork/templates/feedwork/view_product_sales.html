@@ -21,6 +21,17 @@
                 <input name="start_date" type="date" ><br/><br/>
                 <labe>To</labe>
                 <input name="end_date" type="date" ><br/><br/>
+                <label for="product">Choose product</label>
+
+                <select name="product_option" id="raw_material_opt">
+                  <option value="broilers_marsh">Broilers Marsh</option>
+                  <option value="chick_marsh">Chick Marsh</option>
+                  <option value="growers_marsh">Growers Marsh</option>
+                  <option value="old_pig">Old Pig</option>
+                  <option value="layers_marsh">Layers Marsh</option>
+                  <option value="young_pig">Young Pig</option>
+                </select> 
+                <br/>
                 <input type="submit" name="submit" value="Search"/>                
     </form>
 
@@ -53,11 +64,13 @@
                         <td><a href="../delete_product_sales/?id={{ item.id }}">Delete</a></td>
 
                     </tr>
+                    <p> Total sales of {{ item.product }} is {{ total_sales }} ugx</p>
                     {% endfor %}
                 
                 </table>
 
-    <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+                <center><h4>Amount of Stock Sold for a specified period of time</h4></center>
+            <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
                     <ul>
         <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
         meat_boaster ,egg_boaster  -->
@@ -94,10 +107,10 @@
              <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
 
      <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
-     <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
+   <!--   <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
      <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
      <a href="{% url 'create_product_prices' %}"><p>Set Product Prices</p></a><br/>
-     <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/>
+     <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/> -->
      <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
      <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a><br/>
      <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>

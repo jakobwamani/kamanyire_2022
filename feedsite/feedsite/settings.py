@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'datetimewidget',
     'bootstrap_datepicker_plus',
     'jquery',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
