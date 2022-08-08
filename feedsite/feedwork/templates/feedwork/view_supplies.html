@@ -66,6 +66,10 @@ input[type=submit] {
                         <th>Item</th>
                         <th>Quantity</th>
                         <th>Unit_Price</th>
+                        <th>Transport</th>
+                        <th>Loading</th>
+                        <th>Off Loading</th>
+                        
                         <th>Amount</th>
                         <!-- <th>Transport</th>
                         <th>Onloading</th>
@@ -88,16 +92,19 @@ input[type=submit] {
                         <td>{{ supply.item }}</td>
                         <td>{{ supply.quantity }}</td>
                         <td>{{ supply.unit_price }}</td>
-                        
-                        <td>{{ amount|work_on_amount:supply }} </td>
+                        <td>{{ supply.transport }}</td>
+                        <td>{{ supply.loading }}</td>
+                        <td>{{ supply.off_loading }}</td>
+                        <td>{{ supply.total }} </td>
                         
                         <td><a href="update_supply/?id={{ supply.id }}">Update</a></td>
                         <td><a href="delete_supply/?id={{ supply.id }}">Delete</a></td>
                         <!-- <td><a href="update_supply/?id={{ supply.id }}">Update</a></td> -->
 
                     </tr>
-                    <p> Total Sales {{ sales_money }} ugx </p>
+                    
                     {% endfor %}
+                    <p> Total Purchases {{ sales_money }} ugx </p>
                 
                 </table>
 </body>

@@ -26,60 +26,65 @@ def index(request):
     product_stock = ProductQuantities.objects.filter(date=choosen_date).last()
     print(product_stock)
 
-
     print(raw_material_stock)
 
     #a Dictionary that will be used to display the profit 
-    profit_dictionary = {}
-    # Profits of Raw Materials
+    # profit_dictionary = {}
+    # # Profits of Raw Materials
     
-    raw_item = request.GET.get('raw_materials')
+    # raw_item = request.GET.get('raw_materials')
+    # selected_date = request.GET.get('select_date')
+    # print("Type of date")
+    # print(type(selected_date))
+    # print(selected_date)
+    # #put the selected date into a string because its a string
+    # #but first we must split it
+    # if selected_date is None:
+    #     pass
+    # else:
+    #     splited_date = selected_date.split('-')
+    #     print(splited_date)
+    #     #Give year , month and date a variable
+    #     year = splited_date[0]
+    #     month = splited_date[1]
+    #     day = splited_date[2]
+
+    #     #create a python date object
+    #     x = datetime.datetime(int(year), int(month), int(day))
+
+    #     print(x) 
+    #     #since we want to display multiple profits of raw_materials and 
+
+    #     # profit = profits_for_raw_materials(x,raw_item)
+    #     #display each raw material
+    #     list_of_raw_materials = ['maize_bran','cotton','sun_flower','fish','general_purpose_premix','layers_premix','shells','meat_boaster','egg_boaster','calcium','soya_bean','brown_salt','common_salt','animal_salt','pig_concentrate','coconut','wonder_pig','big_pig']
+    #     for material in list_of_raw_materials:
+    #         profit = profits_for_raw_materials(x,material)
+    #         #we add to the profit dictionary
+    #         profit_dictionary[material] = profit
+
+    # select profits of raw materials
     selected_date = request.GET.get('select_date')
-    print("Type of date")
-    print(type(selected_date))
-    print(selected_date)
-    #put the selected date into a string because its a string
-    #but first we must split it
-    if selected_date is None:
-        pass
-    else:
-        splited_date = selected_date.split('-')
-        print(splited_date)
-        #Give year , month and date a variable
-        year = splited_date[0]
-        month = splited_date[1]
-        day = splited_date[2]
-
-        #create a python date object
-        x = datetime.datetime(int(year), int(month), int(day))
-
-        print(x) 
-        #since we want to display multiple profits of raw_materials and 
-
-        # profit = profits_for_raw_materials(x,raw_item)
-        #display each raw material
-        list_of_raw_materials = ['maize_bran','cotton','sun_flower','fish','general_purpose_premix','layers_premix','shells','meat_boaster','egg_boaster','calcium','soya_bean','brown_salt','common_salt','animal_salt','pig_concentrate','coconut','wonder_pig','big_pig']
-        for material in list_of_raw_materials:
-            profit = profits_for_raw_materials(x,material)
-            #we add to the profit dictionary
-            profit_dictionary[material] = profit
+    raw_material_profits = RawMaterialProfits.objects.filter(date=selected_date).last()
 
 
     #look for product profits
     #the unit price is coming from the product sales
+    # print("Working on product profits now")
+    # #dictionary to handle_profits
+    # product_profit = {}
+    # list_of_products = ['broilers_marsh','chick_marsh','pig_marsh','growers_marsh','layers_marsh']
+    # picked_date = request.GET.get('pick_date')
+    # for item in list_of_products:
+    #     processed_profit = process_product_profits(picked_date,item)
+    #     print(processed_profit)
+    #     product_profit[item]=processed_profit
+    
     print("Working on product profits now")
-    list_of_products = ['broilers_marsh','chick_marsh','pig_marsh','growers_marsh','layers_marsh']
     picked_date = request.GET.get('pick_date')
-    for item in list_of_products:
-        processed_profit = process_product_profits(picked_date,item)
-        print(processed_profit)
-    
+    product_profits = ProductProfits.objects.filter(date=picked_date).last()
 
-    
-
-        
-    return render(request, "index.html",{'profit_dictionary':profit_dictionary,'raw_material_stock':raw_material_stock,'product_stock':product_stock} )
-
+    return render(request, "index.html",{'raw_material_profits':raw_material_profits,'raw_material_stock':raw_material_stock,'product_stock':product_stock , 'product_profits':product_profits} )
 
 def creating_net_income(request):
     #now we are going to get the income statement # Net income/loss = product_sales + raw_material_sales - expenses # revenue = product_sales + raw_material_sales 
@@ -138,6 +143,7 @@ def creating_supplies(request):
         if supply_form.is_valid():
             #Accessing the date field 
             # product = supply_form.cleaned_data['date']
+            print(supply_form)
             supply_form.save()
             # expense_form.save()
             #Its here that after the supply is made then we shall start populating the RawMaterialQuantities
@@ -149,7 +155,7 @@ def creating_supplies(request):
         context['supply_form'] = supply_form
         # context['expense_form'] = expense_form
     return render(request, "supply.html",{'supply_form':supply_form})
-
+@snoop
 def viewing_supplies(request):
     #get the date from the user 
     start_date = request.GET.get('start_date')
@@ -163,6 +169,7 @@ def viewing_supplies(request):
     #To get the total we have to get a sum of totals from a specific queryset
     total_sales = []
     for supply in supplies:
+        # summation = (supply.quantity * supply.unit_price) + supply.transport + supply.off_loading + supply.loading
         total_sales.append(supply.total)
 
     sales_money = sum(total_sales)
@@ -490,6 +497,7 @@ def deleting_product_prices(request):
         # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_product_prices.html",context=context_dict)
 
+@snoop
 def doing_product_sales(request):
     #get the date from the user 
     start_date = request.GET.get('start_date')
@@ -513,11 +521,36 @@ def doing_product_sales(request):
         #So here it means that if am deduct the quantity that has been bought,
         #i must do it for every raw material , that's what it means 
         # Get to know the particular product from the form
+        picked_date = form.cleaned_data['date']
         product = form.cleaned_data['product']
         quantity = form.cleaned_data['quantity']    
         print("Hello we are now here")
         product_sales_quantity_deduction(product,quantity)        
         form.save()
+
+        #calculating profit
+        processed_profit = process_product_profits(picked_date,product)
+        print(processed_profit)
+
+        last_profit = ProductProfits.objects.last()
+
+        last_profit.pk = None
+        last_profit.save()
+        #then again create the latest profit 
+        lastest_profit = ProductProfits.objects.last()
+
+        lastest_profit = ProductProfits.objects.last()
+        #loop through it to get the current profit of a specific raw_material
+        for attr , value in vars(lastest_profit).items():
+            if attr == product:
+                #then we change the value
+                # value = profit 
+                # thisdict["year"] = 2018
+                vars(lastest_profit)[attr] = processed_profit 
+                lastest_profit.date = datetime.date.today() 
+                lastest_profit.time = timezone.now()
+                lastest_profit.save()
+        
         return HttpResponseRedirect('http://127.0.0.1:8000/')       
 
     #Adding items to the dictionary
@@ -623,6 +656,7 @@ def deleting_product_sales(request):
         # context_dict["object"] = supply_record_to_delete
     return render(request, "delete_product_sales.html",context=context_dict)
 
+@snoop
 def doing_raw_material_sales(request):
     #get the date from the user 
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
@@ -638,17 +672,43 @@ def doing_raw_material_sales(request):
     form = RawMaterialSalesForm(request.POST or None)
     if request.method == 'POST':
 
-
         if form.is_valid():
             # So here it means that if am deduct the quantity that has been bought,
             # i must do it for every raw material , that's what it means 
             # raw_material = form.cleaned_data['raw_material']
             # quantity = form.cleaned_data['quantity']
             # raw_material_sales_quantity_deduction(raw_material,quantity)
+            date = form.cleaned_data['date']
             raw_material = form.cleaned_data['raw_material']
             quantity = form.cleaned_data['quantity']  
             raw_material_sales_quantity_deduction(raw_material,quantity)
             form.save()
+            #calculate the profit this function returns a profit
+            profit = profits_for_raw_materials(date,raw_material)
+            print(profit)
+            #then save to the raw_material profits table
+
+            #create an occurance into the profits table
+            #get the last occurance 
+            last_profit = RawMaterialProfits.objects.last()
+            #create a duplicate
+            last_profit.pk = None
+            last_profit.save()
+            #then again create the latest profit 
+            lastest_profit = RawMaterialProfits.objects.last()
+            #loop through it to get the current profit of a specific raw_material
+            for attr , value in vars(lastest_profit).items():
+                if attr == raw_material:
+                    #then we change the value
+                    # value = profit 
+                    # thisdict["year"] = 2018
+                    vars(lastest_profit)[attr] = profit 
+                    lastest_profit.date = datetime.date.today() 
+                    lastest_profit.time = timezone.now()
+                    lastest_profit.save()
+
+
+            
 
             return HttpResponseRedirect('http://127.0.0.1:8000/') 
     else:
@@ -658,19 +718,21 @@ def doing_raw_material_sales(request):
     #then throw the variables to the deduction function
     # raw_material_sales_quantity_deduction(last_sale.raw_material,last_sale.quantity)
 
+    #if when the raw material sale is made , then we calculate the profit there and then
 
     return render(request, "do_raw_material_sales.html", {'last_raw_material_quantity':last_raw_material_quantity,'last_raw_material_prices':last_raw_material_prices ,'form':form ,})
 
+@snoop
 def viewing_raw_material_sales(request):
     #get the date from the user 
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-
+    selected_raw_material = request.GET.get('pick_raw_material')
     raw_material_sales_dictionary = {}
 
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
     # run a query to get all the supplies on that date
-    rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date])
+    rm_sales = RawMaterialSales.objects.filter(date__range=[start_date, end_date]).filter(raw_material=selected_raw_material)
 
     maize_bran_list = []
     cotton_list = []

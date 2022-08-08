@@ -77,35 +77,20 @@ input[type=submit] {
 }
     </style>
 	
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<script type="text/javascript">
-   
-
-  function calc(){
-    var sum = 0
-    var loading=document.getElementByname('loading').value;
-    var off_loading=document.getElementByname('off_loading').value;
-    var transport=document.getElementByname('transport').value;
-    var quantity=document.getElementByname('quantity').value;
-    var unit_price=document.getElementByname('unit_price').value;
-    
-    sum = (loading + off_loading + transport ) + (quantity * unit_price)        
-    
-    document.getElementById('total').value = sum;
-    document.getElementById('total').innerHTML = sum; 
-  }
-
-</script>
+<!-- <script type="text/javascript"  src="{% static 'calculation.js' %}"></script> -->
+<link rel="stylesheet" href="{% static 'calculation.js' %}">
 </head>
 <body>
 	<h3>Purchases</h3>
 
 <div>
-  <form method="get"  enctype="multipart/form-data" autocomplete="on" onkeyup="calc()">
+  <form method="POST"  enctype="multipart/form-data" autocomplete="on" >
   <!-- Security token  Make sure you put this immediately after the form tag-->
   {% csrf_token %}
-  
-
+  {{ supply_form.as_p }}
+<!--   
   <label for="date">Date:</label><br/>
   <input type="date" id="date" name="date"><br/>
   <label for="time">Time:</label><br/>
@@ -117,20 +102,21 @@ input[type=submit] {
   <label for="item">Item:</label><br/>
   <input type="text" id="item" name="item"><br/>
   <label for="quantity">Quantity:</label><br/>
-  <input type="text" id="quantity" onblur="calc()" name="quantity"><br/>
+  <input type="text" id="quantity" onclick="calc()" name="quantity"><br/>
   <label for="loading">Loading:</label><br/>
-  <input type="text" id="laoding"  onblur="calc()" name="loading"><br/>
+  <input type="text" id="laoding"  name="loading"><br/>
   <label for="off_loading">Off Loading:</label><br/>
-  <input type="text" id="off_loading" onblur="calc()" name="off_loading"><br/>
+  <input type="text" id="off_loading"  name="off_loading"><br/>
   <label for="transport">Transport:</label><br/>
-  <input type="text" id="number" onblur="calc()" name="transport"><br/>
+  <input type="text" id="number"  name="transport"><br/>
   <label for="total">Total:</label><br/>
-  <input type="text" id="number" onclick="calc()" name="total">
+  <input type="text" id="number" name="total">
 
- 
+  -->
     <input type="submit" value="Submit">
   
 </form>
+{{ form.as_media }}
 </div>
 
 

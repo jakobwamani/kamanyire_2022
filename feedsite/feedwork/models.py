@@ -14,14 +14,28 @@ class RawMaterial(models.Model):
 	time = models.TimeField()
 	receipt_number = models.CharField(max_length = 100)
 	supplier = models.CharField(max_length = 100)
-	#defining the choices
+	
 	item = models.CharField(max_length = 50)
 	# models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	loading = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	off_loading = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	transport = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	unit_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	#Am making this a null True because when the user is entering the supply data , am not able to make it appear
 	total = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	
+	def save(self, *args, **kwargs):
+        # Using the regular field, set the value of the read-only field.
+        
+		self.total = (self.quantity * self.unit_price) + (self.loading + self.off_loading + self.transport)
+		# call the parent's save() method
+		self.unit_price = self.total / self.quantity
+		
+		super(RawMaterial, self).save(*args, **kwargs)
+
+	
+
 	def __str__(self):
 		   
 		return '{}'.format(self.date)
@@ -159,7 +173,8 @@ class Expenses(models.Model):
 		return '{}'.format(self.date)	
       
 class RawMaterialProfits(models.Model):
-	date = models.DateTimeField()
+	date = models.DateField()
+	time = models.TimeField()
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
 	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
@@ -179,6 +194,17 @@ class RawMaterialProfits(models.Model):
 	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
 	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
 
+	def __str__(self):
+		return '{}'.format(self.date)
+
+class ProductProfits(models.Model):
+	date = models.DateField(default=datetime.date.today)
+	time = models.TimeField(default=timezone.now())
+	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	growers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	layers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	def __str__(self):
 		return '{}'.format(self.date)
 

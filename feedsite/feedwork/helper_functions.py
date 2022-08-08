@@ -6,6 +6,8 @@ from django.db.models import Q
 import statistics
 import snoop
 from django.utils import timezone
+from decimal import Decimal
+import datetime
 @snoop
 
 def compute_quantities():
@@ -52,162 +54,10 @@ def compute_quantities():
                            vars(duplicate_quantity)[attr] = total_quantity 
                            print(vars(duplicate_quantity)[attr])
                            #then save
+                           duplicate_quantity.date = datetime.date.today() 
+                           duplicate_quantity.time = timezone.now()
                            duplicate_quantity.save()
-         #we want to get the lastest value of a specific item
-         #We just look through the RawMaterial model and look for last input of a specific item
-         # get_lastest_item_supplied = RawMaterial.objects.latest('-item')
-         # get_lastest_item_supplied = RawMaterial.objects.last()
-         # quantity_of_lastest_item  = get_lastest_item_supplied.quantity
-         # lastest_item_supplied     = get_lastest_item_supplied.item
-         # #use these two variables quantity_of_lastest_item and lastest_item_supplied to update the row
-         # # the RawMaterialQuantities model
-         # if lastest_item_supplied == 'maize_bran':
-         #    #get the current values inside the RawMaterialQuantities
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.maize_bran
-         #    #now add both quantities from the Raw material table and RawMaterialQuantities table
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    #then now i can update the value inside the RawMaterialQuantites model       
-         #    # #i proceed to update the RMQ table
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.maize_bran = total_quantity
-         #    quantity_addition.save() 
-
-         # elif lastest_item_supplied == 'cotton':
-         #    quantity_cotton_update = RawMaterialQuantities.objects.last()
-         #    current_cotton_quantity = quantity_cotton_update.cotton
-         #    total_cotton_quantity = current_cotton_quantity + quantity_of_lastest_item
-         #    quantity_cotton_addition = RawMaterialQuantities.objects.last()
-         #    quantity_cotton_addition.cotton = total_cotton_quantity
-         #    quantity_cotton_addition.save()
-
-         # elif lastest_item_supplied == 'sun_flower':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.sun_flower
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.sun_flower = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'fish':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.fish
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.fish = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'layers_premix':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.layers_premix
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.layers_premix = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'general_purpose_premix':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.general_purpose_premix
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.general_purpose_premix = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'shells':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.shells
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.shells = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'meat_boaster':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.meat_boaster
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.meat_boaster = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'egg_boaster':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.egg_boaster
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.egg_boaster = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'pig_concentrate':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.pig_concentrate
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.pig_concentrate = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'soya_bean':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.soya_bean
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.soya_bean = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'calcium':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.calcium
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.calcium = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'brown_salt':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.brown_salt
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.brown_salt = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'animal_salt':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.animal_salt
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.animal_salt = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'common_salt':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.common_salt
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.common_salt = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'coconut':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.coconut
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.coconut = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'wonder_pig':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.wonder_pig
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.wonder_pig = total_quantity
-         #    quantity_addition.save()
-
-         # elif lastest_item_supplied == 'big_pig':
-         #    quantity_update = RawMaterialQuantities.objects.last()
-         #    current_quantity = quantity_update.big_pig
-         #    total_quantity = current_quantity + quantity_of_lastest_item
-         #    quantity_addition = RawMaterialQuantities.objects.last()
-         #    quantity_addition.big_pig = total_quantity
-         #    quantity_addition.save()
+         
    elif check_row == 0:
       #create default quantities
       
@@ -1573,10 +1423,10 @@ def adding(product,maize_bran,cotton,sun_flower,fish,general_purpose_premix,laye
       last_quantity.chick_marsh = new_quantity
       last_quantity.save()
 
-   elif product == "old_pig":
-      item = last_quantity.old_pig
+   elif product == "pig_marsh":
+      item = last_quantity.pig_marsh
       new_quantity = total_quantity + item
-      last_quantity.old_pig = new_quantity
+      last_quantity.pig_marsh = new_quantity
       last_quantity.save()
 
    elif product == "growers_marsh":
@@ -1591,11 +1441,11 @@ def adding(product,maize_bran,cotton,sun_flower,fish,general_purpose_premix,laye
       last_quantity.layers_marsh = new_quantity
       last_quantity.save()
 
-   elif product == "young_pig":
-      item = last_quantity.young_pig
-      new_quantity = total_quantity + item 
-      last_quantity.young_pig = new_quantity
-      last_quantity.save()
+   # elif product == "young_pig":
+   #    item = last_quantity.young_pig
+   #    new_quantity = total_quantity + item 
+   #    last_quantity.young_pig = new_quantity
+   #    last_quantity.save()
 
 def product_sales_quantity_deduction(product,quantity):
    #Reduce quantity of the product
@@ -1619,10 +1469,10 @@ def product_sales_quantity_deduction(product,quantity):
       last_product_quantity.chick_marsh = new_quantity
       last_product_quantity.save()
 
-   elif product == "old_pig":
-      current_quantity = last_product_quantity.old_pig
+   elif product == "pig_marsh":
+      current_quantity = last_product_quantity.pig_marsh
       new_quantity = current_quantity - quantity
-      last_product_quantity.old_pig = new_quantity
+      last_product_quantity.pig_marsh = new_quantity
       last_product_quantity.save()
 
    elif product == "growers_marsh":
@@ -1637,11 +1487,11 @@ def product_sales_quantity_deduction(product,quantity):
       last_product_quantity.layers_marsh = new_quantity
       last_product_quantity.save()
 
-   elif product == "young_pig":
-      current_quantity = last_product_quantity.young_pig
-      new_quantity = current_quantity - quantity
-      last_product_quantity.young_pig = new_quantity
-      last_product_quantity.save()      
+   # elif product == "young_pig":
+   #    current_quantity = last_product_quantity.young_pig
+   #    new_quantity = current_quantity - quantity
+   #    last_product_quantity.young_pig = new_quantity
+   #    last_product_quantity.save()      
 
 def raw_material_sales_quantity_deduction(raw_material,quantity):
    # maize_bran,cotton,sun_flower,fish,salt,layers_premix,general_purpose_premix
@@ -1803,6 +1653,44 @@ def check_if_raw_material_quantities_are_empty():
                                                                            ,big_pig = 0
 
                                                                            )
+
+      #do the same with raw_material profits
+      profits_table = RawMaterialProfits.objects.count()
+      if profits_table == 0:
+         profits_table_instance = RawMaterialProfits.objects.create(date = datetime.datetime.now(),
+                                                                            time = timezone.now(),
+                                                                            maize_bran = 0,
+                                                                            cotton = 0,
+                                                                            sun_flower = 0,
+                                                                            fish = 0,
+                                                                            general_purpose_premix = 0,
+                                                                            layers_premix = 0,
+                                                                            shells = 0,
+                                                                            meat_boaster = 0,
+                                                                            egg_boaster = 0,
+                                                                            calcium = 0,
+                                                                            soya_bean = 0,
+                                                                            brown_salt = 0,
+                                                                            animal_salt = 0,
+                                                                            common_salt = 0,
+                                                                            pig_concentrate = 0,
+                                                                            coconut = 0,
+                                                                            wonder_pig = 0,
+                                                                            big_pig = 0
+                                                                            )
+
+      #do the same with product profits
+      product_profits = ProductProfits.objects.count()
+      if product_profits == 0:
+         product_profits_instance = ProductProfits.objects.create(
+                                                                  date = datetime.datetime.now(),
+                                                                  time = timezone.now(),
+                                                                  broilers_marsh = 0,
+                                                                  chick_marsh = 0,
+                                                                  pig_marsh = 0,
+                                                                  growers_marsh = 0,
+                                                                  layers_marsh = 0
+                                                                  )
 
 def check_raw_material_availabliity(raw_material):
    items = RawMaterial.objects.filter(item = raw_material)
@@ -2052,29 +1940,48 @@ def process_product_profits(pick_date,select_product):
 
       quantity_sold = sum(quantities_sold)
 
+
       #Cost price
-      layers_marsh_mixing_dict = {'maize_bran':100,'coconut':12,'sun_flower':8,'fish':17,'layers_premix':0.75,'common_salt':1.5,'calcium':12,'egg_boaster':1}
-      cost_prices = []
-      standard_weight = 0
-      for key, value in layers_marsh_mixing_dict.items():
-         print(key, value)
-         #calculate cost price of a raw material
-         # cost_price_raw_material = calculate_cost_price(key)
-         cost_prices.append( float(calculate_cost_price(key)) * value)
-         standard_weight += value
+      layers_marsh_mix_dict = {'maize_bran':100,'coconut':12,'sun_flower':8,'fish':17,'layers_premix':0.75,'common_salt':1.5,'calcium':12,'egg_boaster':1}
+      growers_mix_dict = {'maize_bran':100,'coconut':12,'sun_flower':8,'fish':14,'common_salt':0.5,'layers_premix':0,'general_purpose_premix':0.75,'calcium':0,'shells':8,'meat_boaster':1}
+      chick_layer_mix_dict = {'maize_bran':100,'coconut':12,'sun_flower':8,'fish':12,'common_salt':0.5,'layers_premix':0,'general_purpose_premix':0.75,'calcium':0,'shells':8,'meat_boaster':1}
+      chick_marsh_mix_dict = {'maize_bran':100,'coconut':15,'sun_flower':0,'fish':20,'common_salt':0.5,'layers_premix':0,'general_purpose_premix':0.75,'calcium':0,'shells':6,'meat_boaster':1}
+      pig_marsh_mix_dict = {'maize_bran':60,'coconut':20,'sun_flower':0,'fish':6,'common_salt':1,'layers_premix':0,'general_purpose_premix':0,'calcium':0,'shells':2,'meat_boaster':0,'egg_boaster':0}
+      broilers_marsh_mix_dict = {'maize_bran':50,'coconut':6,'sun_flower':0,'fish':10,'common_salt':0.25,'layers_premix':0,'general_purpose_premix':1,'calcium':0,'shells':4,'meat_boaster':0.5}
 
-      #we now have the weight of the standard_mixture and cost of the standard mixture
-      #we have to get cost of one kilogram of the standard mixture
-      product_cost_price = sum(cost_prices)/standard_weight
-      #so for us to get the cost price of a product
-      #where can i get the cost price of the different raw materials
 
-       
-      # product_cost_price = total_cost_of_mixtures / total_weight_of_mixtures
-      product_stock_sold = float(unit_price) * float(quantity_sold)
-      product_stock_comparision = product_cost_price * float(quantity_sold)
-      profit = product_stock_sold - product_stock_comparision
-      return profit
+      product_dict = {'broilers_marsh':broilers_marsh_mix_dict,'chick_marsh':chick_marsh_mix_dict,'pig_marsh':pig_marsh_mix_dict ,'growers_marsh':growers_mix_dict,'layers_marsh':layers_marsh_mix_dict}
+
+      for x , y in product_dict.items():
+         if x == select_product:
+            #then
+            cost_prices = []
+            standard_weight = 0
+            for key, value in y.items():
+               print(key, value)
+               #calculate cost price of a raw material
+               cost_price_raw_material = calculate_cost_price(key)
+               cost_prices.append( int(cost_price_raw_material) * value)
+               standard_weight += value
+
+            #we now have the weight of the standard_mixture and cost of the standard mixture
+            #we have to get cost of one kilogram of the standard mixture
+            #change the sum of cost_prices to float
+            sum_of_cost_prices = sum(cost_prices)
+            # float_sum = float(sum_of_cost_prices)
+            product_cost_price = (sum_of_cost_prices/standard_weight)
+            #so for us to get the cost price of a product
+            #where can i get the cost price of the different raw materials
+
+             
+            # product_cost_price = total_cost_of_mixtures / total_weight_of_mixtures
+            product_stock_sold = float(unit_price) * float(quantity_sold)
+            product_stock_comparision = product_cost_price * float(quantity_sold)
+            profit = product_stock_sold - product_stock_comparision
+            profit = round(profit,2)
+            return profit  
+
+         
 @snoop
 def calculate_cost_price(raw_material):
    lastest_purchases = RawMaterial.objects.filter(item=raw_material).order_by('-date')
@@ -2099,68 +2006,66 @@ def calculate_cost_price(raw_material):
       loop = 0
       #an empty list to store the two prices
       cost_prices = []
-      if len(cost_prices) == 0:
-         pass 
-      else:            
-         for purchase in lastest_purchases:
-            cost_prices.append(purchase.unit_price)
-            loop + 1
-            if loop == 2:
+                  
+      for purchase in lastest_purchases:
+         cost_prices.append(purchase.unit_price)
+         loop + 1
+         if loop == 2:
+            break
+
+      last_cost_price = cost_prices[1]
+      second_last_cost_price = cost_prices[0]
+
+      
+      if int(last_cost_price) != int(second_last_cost_price):
+         print("There is a difference in cost price")
+         #calculate the profit in a different way
+         #old stock
+         stock = RawMaterialQuantities.objects.last()
+         current_quantity = 0
+         for attr , value in vars(stock).items():
+            print(attr, '=', value)
+            
+            if attr == raw_material:
+               print("Its a match")
+               print(value)
+               current_quantity += value
                break
 
-         last_cost_price = cost_prices[1]
-         second_last_cost_price = cost_prices[0]
+         new_stock = RawMaterialSales.objects.filter(raw_material=raw_material).order_by('-date').first()
+         new_stock = new_stock.quantity
 
-         
-         if int(last_cost_price) != int(second_last_cost_price):
-            print("There is a difference in cost price")
-            #calculate the profit in a different way
-            #old stock
-            stock = RawMaterialQuantities.objects.last()
-            current_quantity = 0
-            for attr , value in vars(stock).items():
-               print(attr, '=', value)
-               
-               if attr == raw_item:
-                  print("Its a match")
-                  print(value)
-                  current_quantity += value
-                  break
+         print(new_stock)
+         print(current_quantity)
+         old_stock = current_quantity - new_stock
+         print(old_stock)
+         # profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
+         # return profit
+         #old cost price
+         old_cost_price = second_last_cost_price
+         old_stock_cost = old_stock * old_cost_price
+         new_stock_cost = new_stock * last_cost_price
+         stock_cost = old_stock_cost + new_stock_cost
+         stock_volume = old_stock + new_stock
+         current_cost_price =  stock_cost / stock_volume 
 
-            new_stock = RawMaterialSales.objects.filter(raw_material=raw_material).order_by('-date').first()
-            new_stock = new_stock.quantity
-
-            print(new_stock)
-            print(current_quantity)
-            old_stock = current_quantity - new_stock
-            print(old_stock)
-            # profit = (current_unit_price * quantity_sold) - (current_cost_price * quantity_sold)
-            # return profit
-            #old cost price
-            old_cost_price = second_last_cost_price
-            old_stock_cost = old_stock * old_cost_price
-            new_stock_cost = new_stock * last_cost_price
-            stock_cost = old_stock_cost + new_stock_cost
-            stock_volume = old_stock + new_stock
-            current_cost_price =  stock_cost / stock_volume 
-
-            if current_cost_price == None:
-               current_cost_price = 0
-            else:
-               return current_cost_price
+         if current_cost_price == None:
+            current_cost_price = 0
          else:
-            normal_cost_price = []
-            for purchase in last_purchases:
-               normal_cost_price.append(purchase.unit_price)
+            return current_cost_price
+      else:
+         normal_cost_price = []
+         for purchase in last_purchases:
+            normal_cost_price.append(purchase.unit_price)
 
-            #To get the current cost price we pick the last one in the list
-            current_cost_price = normal_cost_price[-1]
+         #To get the current cost price we pick the last one in the list
+         current_cost_price = normal_cost_price[-1]
 
-            if current_cost_price == None:
-               current_cost_price = 0
-               return current_cost_price
-            else:
-               return current_cost_price
+         if current_cost_price == None:
+            current_cost_price = 0
+            return current_cost_price
+         else:
+            return current_cost_price
 
 
    elif len(lastest_purchases) == 0:   

@@ -47,16 +47,17 @@ class RawMaterialForm(forms.ModelForm):
 	off_loading = forms.DecimalField(initial=0.0)
 	transport = forms.DecimalField(initial=0.0)
 	unit_price = forms.DecimalField(initial= 0.0)
-	total = forms.DecimalField(
-        widget=calculation.FormulaInput('loading + off_loading + transport + quantity * unit_price') # <- using single math expression
-    )
+	total = forms.DecimalField(initial=0.0)
+	# total = forms.DecimalField(
+ 	#        widget=calculation.FormulaInput('quantity * unit_price') # <- using single math expression
+ 	#    )
 	
 	class Meta:
 		# specify model to be used
 		model = RawMaterial
 
 		# exclude = ["amount","fullamount",]
-		fields = ["date","time","receipt_number","supplier","item","loading","off_loading","transport","quantity","unit_price","total"]
+		fields = ["date","time","receipt_number","supplier","item","quantity","unit_price","loading","off_loading","transport","total"]
 		widgets = {
             'date': DateTimePickerInput()
         }
@@ -126,9 +127,8 @@ class SupplyForm(forms.ModelForm):
 PRODUCT_CHOICES = (("broilers_marsh","broilers_marsh") 
 ,("chick_marsh","chick_marsh")
 ,("growers_marsh","growers_marsh")
-,("old_pig","old_pig")
-,("layers_marsh","layers_marsh")
-,("young_pig","young_pig"))
+,("pig_marsh","pig_marsh")
+,("layers_marsh","layers_marsh"))
 class ProductForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
@@ -206,9 +206,9 @@ class RawMaterialPricesForm(forms.ModelForm):
 PRODUCT_CHOICES = (("broilers_marsh","broilers_marsh")
 ,("chick_marsh","chick_marsh")
 ,("growers_marsh","growers_marsh")
-,("old_pig","old_pig")
+,("pig_marsh","pig_marsh")
 ,("layers_marsh","layers_marsh")
-,("young_pig","young_pig"))
+)
 
 
 
