@@ -41,7 +41,8 @@ class RawMaterial(models.Model):
 		return '{}'.format(self.date)
 
 class Product(models.Model):
-	date = models.DateTimeField()
+	date = models.DateField()
+	time = models.TimeField()
 	product = models.CharField(max_length = 100)
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -141,7 +142,8 @@ class RawMaterialPrices(models.Model):
 		return '{}'.format(self.date)
 
 class ProductSales(models.Model):
-	date = models.DateTimeField()
+	date = models.DateField()
+	time = models.TimeField()
 	product = models.CharField(max_length = 50)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	selling_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)

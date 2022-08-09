@@ -85,8 +85,9 @@ class ExpenseForm(forms.ModelForm):
 #supply form
 class SupplyForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 
-	date = forms.DateTimeField(widget=DateTimeWidget)
+	time = forms.TimeField(initial=timezone.now())
     #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
 	receipt_number = forms.DecimalField(initial = 0)
 	supplier = forms.CharField()
@@ -132,7 +133,7 @@ PRODUCT_CHOICES = (("broilers_marsh","broilers_marsh")
 class ProductForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
-	# date = forms.DateField()
+	time = forms.TimeField(initial=timezone.now())
 	product = forms.ChoiceField(choices=PRODUCT_CHOICES)
 	maize_bran = forms.DecimalField(initial = 0.0)
 	cotton = forms.DecimalField(initial = 0.0)
@@ -156,7 +157,7 @@ class ProductForm(forms.ModelForm):
 	class Meta:
 		model = Product
 
-		fields = ["date","product","maize_bran","cotton","sun_flower","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish","calcium","soya_bean","animal_salt","common_salt","brown_salt","coconut","pig_concentrate","wonder_pig","big_pig"]
+		fields = ["date","time","product","maize_bran","cotton","sun_flower","layers_premix","general_purpose_premix","shells","meat_boaster","egg_boaster","fish","calcium","soya_bean","animal_salt","common_salt","brown_salt","coconut","pig_concentrate","wonder_pig","big_pig"]
 
 class ProductPriceForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
@@ -216,6 +217,7 @@ class ProductSalesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	# date = models.DateField()
+	time = forms.TimeField(initial=timezone.now())
 	product = forms.ChoiceField(choices = PRODUCT_CHOICES)
 	quantity = forms.DecimalField(initial = 0)
 	selling_price = forms.DecimalField(initial = 0)
@@ -228,7 +230,7 @@ class ProductSalesForm(forms.ModelForm):
 	class Meta:
 		model = ProductSales
 
-		fields = ["date","product","quantity","selling_price","total"]
+		fields = ["date","time","product","quantity","selling_price","total"]
 
 class RawMaterialSalesForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]

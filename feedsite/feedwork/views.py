@@ -14,6 +14,7 @@ import snoop
 @snoop
 def index(request):
     check_if_raw_material_quantities_are_empty()
+    # if_its_a_newday()
     
     #Now we are going to view the raw material quantites by date
     selected_date = request.GET.get('start_date')

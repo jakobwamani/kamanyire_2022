@@ -125,7 +125,10 @@ input[type=submit]:hover {
                 <input type="submit" name="submit" value="COMPILE"/>    
                
                 <table>
-                    
+                    <tr>
+                        <th>Date</th>
+                        <td>{{ raw_material_stock.date }}</td>
+                    </tr>
                     <tr>
                         <th>Maize Bran</th>
                         <td>{{ raw_material_stock.maize_bran }}</td>
@@ -216,6 +219,12 @@ input[type=submit]:hover {
                 
                 <input type="submit" name="submit" value="COMPILE"/>   
                 <table style="border:1px">
+                    <tr>
+                        <th>Date</th>
+
+                        <th>{{ raw_material_profits.date }} </th>
+                    </tr>
+
                     <tr>
                         <th>Maize bran</th>
 

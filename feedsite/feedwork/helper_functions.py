@@ -23,7 +23,7 @@ def compute_quantities():
 
       if check_supplies >= 1: 
          #we get a list of all the raw materials
-         raw_material_list = ['maize_bran','cotton','sun_flower','fish','layers_premix','general_purpose_premix','shells','meat_boaster','egg_boaster','pig_concentrate','soya_bean','calcium','brown_salt','brown_salt','animal_salt','common_salt','coconut','pig_concentrate','wonder_pig','big_pig']
+         raw_material_list = ['maize_bran','cotton','sun_flower','fish','layers_premix','general_purpose_premix','shells','meat_boaster','egg_boaster','pig_concentrate','soya_bean','calcium','brown_salt','animal_salt','common_salt','coconut','wonder_pig','big_pig']
          #we get the last entry 
          get_lastest_item_supplied = RawMaterial.objects.last()
          quantity_of_lastest_item  = get_lastest_item_supplied.quantity
@@ -123,13 +123,7 @@ def compute_quantities():
          addition.fish  = total_quantity
          addition.save()
 
-      # elif item_of_supply == 'salt':
-      #    update           = RawMaterialQuantities.objects.last()
-      #    quantity         = update.salt
-      #    total_quantity   = quantity + quantity_of_supply           
-      #    addition         = RawMaterialQuantities.objects.last()
-      #    addition.salt  = total_quantity
-      #    addition.save()
+   
 
       elif item_of_supply == 'layers_premix':
          update           = RawMaterialQuantities.objects.last()
@@ -1631,13 +1625,12 @@ def check_if_raw_material_quantities_are_empty():
    raw_material_quantity = RawMaterialQuantities.objects.count()
    if raw_material_quantity == 0:
       default_raw_material_quantities = RawMaterialQuantities.objects.create(
-
-                                                                           
-                                                                           maize_bran = 0
+                                                                           date = datetime.datetime.now()
+                                                                           ,time = timezone.now()
+                                                                           ,maize_bran = 0
                                                                            ,cotton = 0
                                                                            ,sun_flower = 0
                                                                            ,fish = 0
-                                                                           
                                                                            ,common_salt = 0
                                                                            ,general_purpose_premix = 0
                                                                            ,layers_premix = 0
@@ -1692,10 +1685,10 @@ def check_if_raw_material_quantities_are_empty():
                                                                   layers_marsh = 0
                                                                   )
 
+      #do the same with 
 def check_raw_material_availabliity(raw_material):
    items = RawMaterial.objects.filter(item = raw_material)
    return len(items)
-
 
 def computing_profit_of_raw_materials(raw_material,picked_date):
 
@@ -1747,7 +1740,6 @@ def computing_profit_of_raw_materials(raw_material,picked_date):
 
          return  total_profit
       
-
 def save_raw_material_profits_to_database(dictionary):
    raw_material = RawMaterialProfits.objects.create(date=datetime.datetime.now()
                                     ,maize_bran=dictionary["maize_bran"]
@@ -1768,8 +1760,7 @@ def save_raw_material_profits_to_database(dictionary):
                                     ,coconut = dictionary['coconut']
                                     ,wonder_pig = dictionary['wonder_pig']
                                     ,big_pig = dictionary['big_pig'])
-        
-    
+           
 @snoop
 def profits_for_raw_materials(selected_date,raw_item):
    # selected_date = request.GET.get('select_date')
@@ -1839,11 +1830,14 @@ def profits_for_raw_materials(selected_date,raw_item):
          #but what if the cost price changes
          lastest_purchases = RawMaterial.objects.filter(item=raw_item).order_by('-date')
          #if there is only one occurance in the rawMaterial table
-         if len(lastest_purchases) == 1:
+         purchase_count = len(lastest_purchases) 
+         if purchase_count >= 1:
             normal_cost_price = []
-            for purchase in last_purchases:
+            for purchase in lastest_purchases:
+               print(normal_cost_price)
+               print(purchase.unit_price)
                normal_cost_price.append(purchase.unit_price)
-
+            print(normal_cost_price)
             #To get the current cost price we pick the last one in the list
             current_cost_price = normal_cost_price[-1]
 
@@ -2071,3 +2065,66 @@ def calculate_cost_price(raw_material):
    elif len(lastest_purchases) == 0:   
       current_cost_price = 0
       return current_cost_price
+
+@snoop
+def if_its_a_newday():
+   date_today = datetime.datetime.now().date()
+   #check if any sales have been made , or else there are no profits , there are no stock deductions   
+   raw_material_sales = RawMaterialSales.objects.last()
+   product_sales = ProductSales.objects.last()
+   raw_material_stock = RawMaterialQuantities.objects.last()
+   product_stock = ProductQuantities.objects.last()
+   # print(raw_material_profits.date)
+   # print(raw_material_sales.date)
+   # print(product_sales.date)
+   #this is for raw_material profits
+   if  raw_material_sales == None: 
+      pass 
+   else:
+      if (raw_material_sales.date != date_today):
+         #create a zero profit
+         new_day_raw_material_profits = RawMaterialProfits.objects.create(
+                                                                           date = datetime.datetime.now()
+                                                                           ,time = timezone.now()
+                                                                           ,maize_bran = 0
+                                                                           ,cotton = 0
+                                                                           ,sun_flower = 0
+                                                                           ,fish = 0
+                                                                           ,common_salt = 0
+                                                                           ,general_purpose_premix = 0
+                                                                           ,layers_premix = 0
+                                                                           ,shells = 0
+                                                                           ,meat_boaster = 0
+                                                                           ,egg_boaster = 0
+                                                                           ,calcium = 0
+                                                                           ,soya_bean = 0
+                                                                           ,brown_salt = 0
+                                                                           ,animal_salt = 0
+                                                                           ,pig_concentrate = 0
+                                                                           ,coconut = 0
+                                                                           ,wonder_pig = 0
+                                                                           ,big_pig = 0 )
+
+
+         #for the raw_material_stock_we create a duplicate using today's date       
+         raw_material_stock.date = datetime.datetime.now()
+         raw_material_stock.time = timezone.now()
+         raw_material_stock.save()
+
+   if product_sales == None:
+      pass 
+   else:
+      if (product_sales.date != date_today):
+
+         #if no sales have been made , then that means that we have no profit today
+         create_no_product_sales = ProductProfits.objects.create(
+                                                                  date = datetime.datetime.now()
+                                                                  ,time = timezone.now()
+                                                                  ,chick_marsh = 0
+                                                                  ,growers_marsh = 0
+                                                                  ,layers_marsh = 0)
+         #for the product stock we create a duplicate using today's date
+         product_stock.date = datetime.datetime.now()
+         product_stock.time = timezone.now()
+         product_stock.save()
+   return "All systems go"
