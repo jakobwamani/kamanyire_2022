@@ -24,9 +24,8 @@ input[type=submit] {
 </head>
 <body>
 <h1>View Product</h1>
-    <form action="{% url 'view_product' %}" method="get">
-                <!-- <label>Childid</label>
-                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+    <form action="{% url 'view_product' %}" method="post">
+                {% csrf_token %}
                 <label>From</label>
                 <input name="start_date" type="date" ><br/><br/>
                 <labe>To</labe>

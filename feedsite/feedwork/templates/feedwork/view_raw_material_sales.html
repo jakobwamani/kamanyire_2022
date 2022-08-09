@@ -14,9 +14,9 @@
 </head>
 <body>
 <h1>View Raw Material Sales</h1>
-    <form action="{% url 'view_raw_material_sales' %}" method="get">
-                <!-- <label>Childid</label>
-                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+    <form action="{% url 'view_raw_material_sales' %}" method="post">
+                {% csrf_token %}
+                
                 <label>From</label>
                 <input name="start_date" type="date" ><br/><br/>
                 <label>To</label>

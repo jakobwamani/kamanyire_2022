@@ -14,7 +14,8 @@
 </head>
 <body>
 <h1>View Product Sales</h1>
-    <form action="{% url 'view_product_sales' %}" method="get">
+    <form action="{% url 'view_product_sales' %}" method="post">
+                {% csrf_token %}
                 <!-- <label>Childid</label>
                 <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
                 <label>From</label>

@@ -14,84 +14,45 @@ import snoop
 @snoop
 def index(request):
     check_if_raw_material_quantities_are_empty()
-    # if_its_a_newday()
+    if_its_a_newday()
     
     #Now we are going to view the raw material quantites by date
-    selected_date = request.GET.get('start_date')
-    # end_date = request.GET.get('end_date')
-    raw_material_stock = RawMaterialQuantities.objects.filter(date=selected_date).last()
+  
+    if request.method == 'POST':
+        raw_material_stock = {}
+        selected_date = request.POST.get('start_date')
+        
+        raw_material_stock = RawMaterialQuantities.objects.filter(date=selected_date).last()
+        
+
+        #display the product quantities
+        choosen_date = request.POST.get('choosen_date')
+        product_stock = ProductQuantities.objects.filter(date=choosen_date).last()
+        print(product_stock)
+
+        print(raw_material_stock)
+
+       
+        # select profits of raw materials
+
+        selected_date = request.POST.get('select_date')
+        raw_material_profits = RawMaterialProfits.objects.filter(date=selected_date).last()
+
+        
+        # print("Working on product profits now")
+        picked_date = request.POST.get('pick_date')
+        product_profits = ProductProfits.objects.filter(date=picked_date).last()
+
     
 
-    #display the product quantities
-    choosen_date = request.GET.get('choosen_date')
-    product_stock = ProductQuantities.objects.filter(date=choosen_date).last()
-    print(product_stock)
-
-    print(raw_material_stock)
-
-    #a Dictionary that will be used to display the profit 
-    # profit_dictionary = {}
-    # # Profits of Raw Materials
-    
-    # raw_item = request.GET.get('raw_materials')
-    # selected_date = request.GET.get('select_date')
-    # print("Type of date")
-    # print(type(selected_date))
-    # print(selected_date)
-    # #put the selected date into a string because its a string
-    # #but first we must split it
-    # if selected_date is None:
-    #     pass
-    # else:
-    #     splited_date = selected_date.split('-')
-    #     print(splited_date)
-    #     #Give year , month and date a variable
-    #     year = splited_date[0]
-    #     month = splited_date[1]
-    #     day = splited_date[2]
-
-    #     #create a python date object
-    #     x = datetime.datetime(int(year), int(month), int(day))
-
-    #     print(x) 
-    #     #since we want to display multiple profits of raw_materials and 
-
-    #     # profit = profits_for_raw_materials(x,raw_item)
-    #     #display each raw material
-    #     list_of_raw_materials = ['maize_bran','cotton','sun_flower','fish','general_purpose_premix','layers_premix','shells','meat_boaster','egg_boaster','calcium','soya_bean','brown_salt','common_salt','animal_salt','pig_concentrate','coconut','wonder_pig','big_pig']
-    #     for material in list_of_raw_materials:
-    #         profit = profits_for_raw_materials(x,material)
-    #         #we add to the profit dictionary
-    #         profit_dictionary[material] = profit
-
-    # select profits of raw materials
-    selected_date = request.GET.get('select_date')
-    raw_material_profits = RawMaterialProfits.objects.filter(date=selected_date).last()
-
-
-    #look for product profits
-    #the unit price is coming from the product sales
-    # print("Working on product profits now")
-    # #dictionary to handle_profits
-    # product_profit = {}
-    # list_of_products = ['broilers_marsh','chick_marsh','pig_marsh','growers_marsh','layers_marsh']
-    # picked_date = request.GET.get('pick_date')
-    # for item in list_of_products:
-    #     processed_profit = process_product_profits(picked_date,item)
-    #     print(processed_profit)
-    #     product_profit[item]=processed_profit
-    
-    print("Working on product profits now")
-    picked_date = request.GET.get('pick_date')
-    product_profits = ProductProfits.objects.filter(date=picked_date).last()
-
-    return render(request, "index.html",{'raw_material_profits':raw_material_profits,'raw_material_stock':raw_material_stock,'product_stock':product_stock , 'product_profits':product_profits} )
-
+        return render(request, "index.html",{'raw_material_stock':raw_material_stock,'raw_material_profits':raw_material_profits,'product_stock':product_stock , 'product_profits':product_profits} )
+    else:
+        return render(request,"index.html",{})
 def creating_net_income(request):
     #now we are going to get the income statement # Net income/loss = product_sales + raw_material_sales - expenses # revenue = product_sales + raw_material_sales 
     # profit / loss = sales  - expenses
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
     #Products
     # p_sales = ProductSales.objects.values_list('total', 'date =[start_date, end_date]')
     p_sales = ProductSales.objects.filter(date__range=[start_date, end_date])
@@ -159,9 +120,9 @@ def creating_supplies(request):
 @snoop
 def viewing_supplies(request):
     #get the date from the user 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-    raw_material = request.GET.get('raw_material_option')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    raw_material = request.POST.get('raw_material_option')
 
     # run a query to get all the supplies on that date
     supplies = RawMaterial.objects.filter(date__range=[start_date, end_date]).filter(item=raw_material)
@@ -297,8 +258,8 @@ def create_product(request):
 
 def viewing_product(request):
     #get the date from the user 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
     # six_months.strftime('%Y%m%d')
     # run a query to get all the supplies on that date
     products = Product.objects.filter(date__range=[start_date, end_date]).filter()
@@ -501,8 +462,8 @@ def deleting_product_prices(request):
 @snoop
 def doing_product_sales(request):
     #get the date from the user 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
 
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
 
@@ -564,9 +525,9 @@ def doing_product_sales(request):
 
 def viewing_product_sales(request):
     #get the date from the user 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-    picked_product = request.GET.get('product_option')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    picked_product = request.POST.get('product_option')
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
 
     # run a query to get all the supplies on that date
@@ -726,9 +687,9 @@ def doing_raw_material_sales(request):
 @snoop
 def viewing_raw_material_sales(request):
     #get the date from the user 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-    selected_raw_material = request.GET.get('pick_raw_material')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    selected_raw_material = request.POST.get('pick_raw_material')
     raw_material_sales_dictionary = {}
 
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
@@ -901,8 +862,8 @@ def getting_expenses(request):
 
 def viewing_expenses(request):
     #get the date from the user 
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
 
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
 

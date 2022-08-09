@@ -118,12 +118,15 @@ input[type=submit]:hover {
 
     <div class="raw_material_quantities" >
         <h3> Raw Material Stock</h3>
-        <form action="{% url 'index' %}" method="get">
+        <form action="{% url 'index' %}" method="post">
+            {% csrf_token %}
                 
                 <label>Date</label>
                 <input name="start_date" type="date" ><br/><br/> 
                 <input type="submit" name="submit" value="COMPILE"/>    
                
+                 
+
                 <table>
                     <tr>
                         <th>Date</th>
@@ -211,7 +214,10 @@ input[type=submit]:hover {
 
     <div class="profit_showcase">
             <h3>Raw Material Profits</h3>
-            <form action="{% url 'index' %}" method="get">
+            
+
+            <form action="{% url 'index' %}" method="post">
+                {% csrf_token %}
                 <!-- <label>Childid</label>
                 <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
                 <label>Date</label>
@@ -219,6 +225,7 @@ input[type=submit]:hover {
                 
                 <input type="submit" name="submit" value="COMPILE"/>   
                 <table style="border:1px">
+                      
                     <tr>
                         <th>Date</th>
 
@@ -334,13 +341,15 @@ input[type=submit]:hover {
         </div>
 
 <div>
-    <form action="{% url 'index' %}" method="get">
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
             <h3> Product Stock</h3>
             <div class="product_quantities" >
                         <label>Date</label>
                                 <input name="choosen_date" type="date" ><br/><br/> 
                                 <input type="submit" name="submit" value="COMPILE"/> 
-                        
+                          
+
                             <table th = height: 5px;>
                                     <tr>
                                     <th>DATE</th>
@@ -372,13 +381,15 @@ input[type=submit]:hover {
 </div>
 
 <div>
-    <form action="{% url 'index' %}" method="get">
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
             <h3> Product Profits</h3>
             <div class="product_quantities" >
                         <label>Date</label>
                                 <input name="pick_date" type="date" ><br/><br/> 
                                 <input type="submit" name="submit" value="COMPILE"/> 
-                        
+                          
+
                             <table th = height: 5px;>
                                     <tr>
                                     <th>DATE</th>

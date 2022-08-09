@@ -14,17 +14,17 @@ def compute_quantities():
    check_row = RawMaterialQuantities.objects.count()
 
    if check_row >= 1:
-      #here am going to introduct a function because item get the item that has been supplied
-      #but first , i need to get it from the form
+      #here am going to introduct a function because item post the item that has been supplied
+      #but first , i need to post it from the form
       #so here due the technical difficulty we shall not care to find out which specific item
       #at first was supplied   
       # we also have to check if the Raw material model is populated or not
       check_supplies = RawMaterial.objects.count()
 
       if check_supplies >= 1: 
-         #we get a list of all the raw materials
+         #we post a list of all the raw materials
          raw_material_list = ['maize_bran','cotton','sun_flower','fish','layers_premix','general_purpose_premix','shells','meat_boaster','egg_boaster','pig_concentrate','soya_bean','calcium','brown_salt','animal_salt','common_salt','coconut','wonder_pig','big_pig']
-         #we get the last entry 
+         #we post the last entry 
          get_lastest_item_supplied = RawMaterial.objects.last()
          quantity_of_lastest_item  = get_lastest_item_supplied.quantity
          lastest_item_supplied     = get_lastest_item_supplied.item
@@ -2106,10 +2106,31 @@ def if_its_a_newday():
                                                                            ,big_pig = 0 )
 
 
-         #for the raw_material_stock_we create a duplicate using today's date       
-         raw_material_stock.date = datetime.datetime.now()
-         raw_material_stock.time = timezone.now()
-         raw_material_stock.save()
+         #for the raw_material_stock_we create a duplicate using today's date  
+      new_stock_for_the_day = RawMaterialQuantities.objects.create(
+                                                                  date = datetime.datetime.now()
+                                                                  ,time = timezone.now()
+                                                                  ,maize_bran = raw_material_stock.maize_bran
+                                                                  ,cotton = raw_material_stock.cotton
+                                                                  ,sun_flower = raw_material_stock.sun_flower
+                                                                  ,fish = raw_material_stock.fish
+                                                                  ,common_salt = raw_material_stock.common_salt
+                                                                  ,general_purpose_premix = raw_material_stock.general_purpose_premix
+                                                                  ,layers_premix = raw_material_stock.layers_premix
+                                                                  ,shells = raw_material_stock.shells
+                                                                  ,meat_boaster = raw_material_stock.meat_boaster
+                                                                  ,egg_boaster = raw_material_stock.egg_boaster
+                                                                  ,calcium = raw_material_stock.calcium
+                                                                  ,soya_bean = raw_material_stock.soya_bean
+                                                                  ,brown_salt = raw_material_stock.brown_salt
+                                                                  ,animal_salt = raw_material_stock.animal_salt
+                                                                  ,pig_concentrate = raw_material_stock.pig_concentrate
+                                                                  ,coconut = raw_material_stock.coconut
+                                                                  ,wonder_pig = raw_material_stock.wonder_pig
+                                                                  ,big_pig = raw_material_stock.big_pig )     
+         # raw_material_stock.date = datetime.datetime.now()
+         # raw_material_stock.time = timezone.now()
+         # raw_material_stock.save()
 
    if product_sales == None:
       pass 
@@ -2120,11 +2141,23 @@ def if_its_a_newday():
          create_no_product_sales = ProductProfits.objects.create(
                                                                   date = datetime.datetime.now()
                                                                   ,time = timezone.now()
+                                                                  ,broilers_marsh = 0
                                                                   ,chick_marsh = 0
                                                                   ,growers_marsh = 0
-                                                                  ,layers_marsh = 0)
+                                                                  ,layers_marsh = 0
+                                                                  ,pig_marsh = 0
+                                                                  )
          #for the product stock we create a duplicate using today's date
-         product_stock.date = datetime.datetime.now()
-         product_stock.time = timezone.now()
-         product_stock.save()
+         new_stock_for_the_day = ProductQuantities.objects.create(date = datetime.datetime.now()
+                                                                  ,time = timezone.now()
+                                                                  ,broilers_marsh = product_stock.broilers_marsh
+                                                                  ,chick_marsh = product_stock.chick_marsh
+                                                                  ,growers_marsh = product_stock.growers_marsh
+                                                                  ,layers_marsh = product_stock.layers_marsh
+                                                                  ,pig_marsh = product_stock.pig_marsh
+                                                                  )
+            
+         # product_stock.date = datetime.datetime.now()
+         # product_stock.time = timezone.now()
+         # product_stock.save()
    return "All systems go"
