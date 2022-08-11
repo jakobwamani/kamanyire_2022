@@ -1606,7 +1606,6 @@ def raw_material_sales_quantity_deduction(raw_material,quantity):
       last_raw_material.save()
 
 def check_if_product_quantities_are_empty():   
-
    product_quantity = ProductQuantities.objects.count()
    if product_quantity == 0:
       default_product_quantities = ProductQuantities.objects.create(  
