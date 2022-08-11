@@ -1,7 +1,50 @@
 # kamanyire_2022
 Accounting System for a Poultry and Animal Feeds Business
 
+#### User Story 
+- A client goes to Mbarara district in Uganda buys 1000kg of maize bran at 1000 ugx per kilo gram 
+
+- Once the 1000kg reach Hoima in Uganda the client is charged a fee of 50,000ugx for transport
+
+- Then also off loading the client is charged 4000ugx for 1000 kilograms
+
+- Then the client adds up the total cost of bringing the maize bran to his shop.
+
+#### Calculation 
+
+Purchase = 1000kgs of maizebran * 1000ugx = 1,000,000ugx 
+
+Transportation expenses = 50,000ugx + 4000ugx
+
+What is the cost of bringing maize bran from Mbarara district to Hoima district is 
+1,000,000ugx + 50,000ugx + 4000ugx = 1,054,000ugx
+
+What is the cost of kilogram of maize bran from Mbarara?
+1,054,000 ugx / 1000 kgs = 1054 ugx 
+
+
+total profit = unit price * quantity - unit cost * quantity
+
+
+After getting the profit of maize bran now we can get the profit of all other raw materials and 
+then save them by the date that he can select as we pleases.
+fatal: Authentication failed for 
+
+###### Cost price is derived using a method below
+If a new purchase of a specified raw material has been made on that day 
+
+Then we get the quantity of the specified raw material before the new purhase had been made
+
+Multiply it by the cost price of the last purchase of a specified raw material before a new purhase been made.
+
+Then Get the quantity of the specified raw material of the new purchase
+
+Multiply it with the new cost price 
+
+Add the two multiplications together and divide it by total quantity of the specified raw material
 #### Personal Access Tokens for this project
+July 30th 2022
+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
 July 23rd 2022
 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
 
@@ -153,6 +196,20 @@ https://forums.raspberrypi.com/viewtopic.php?t=288769
 #### How to make calculations in html
 https://www.youtube.com/watch?v=v5pNyxmtp9g
 
+
+#### Deployment plan
+-Django Application running on Start up
+-Command to run on Start up
+-Django application must be present
+-Python 3.8.10 must be present
+
+-i uninstalled Mozilla Firefox on Clients Computer
+-i reinstalled it
+-i installed python to client's computer on C:\Users\user\AppData\Local\Programs\Python\Python38
+-i installed all python libraries that i might need for the Django application to work
+-i now installed Git. to C:\Program Files\Git
+-Pull the django application into the computer using Git.
+
 ### PATs
 March 16 2022
 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
@@ -164,3 +221,13 @@ Rendering Django Forms Manually
 https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
 
 https://www.geeksforgeeks.org/render-django-form-fields-manually/
+
+
+https://stackoverflow.com/questions/51936217/arithmetic-operations-between-django-fields-belonging-to-the-same-class-model-i
+
+
+https://pypi.org/project/django-mathfilters/
+
+https://stackoverflow.com/questions/420703/how-do-i-add-multiple-arguments-to-my-custom-template-filter-in-a-django-templat
+
+
