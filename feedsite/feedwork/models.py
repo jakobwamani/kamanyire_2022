@@ -67,7 +67,7 @@ class Product(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialQuantities(models.Model):
-	date = models.DateField(default=datetime.date.today)
+	date = models.DateField(default=datetime.date.today())
 	time = models.TimeField(default=timezone.now())
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
@@ -92,7 +92,7 @@ class RawMaterialQuantities(models.Model):
 		return '{}'.format(self.date)
 
 class ProductQuantities(models.Model):
-	date = models.DateField(default=datetime.date.today)
+	date = models.DateField(default=datetime.date.today())
 	time = models.TimeField(default=timezone.now())
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -200,7 +200,7 @@ class RawMaterialProfits(models.Model):
 		return '{}'.format(self.date)
 
 class ProductProfits(models.Model):
-	date = models.DateField(default=datetime.date.today)
+	date = models.DateField(default=datetime.date.today())
 	time = models.TimeField(default=timezone.now())
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
