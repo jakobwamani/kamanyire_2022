@@ -37,6 +37,7 @@ input[type=submit] {
                     
                     <tr>
                         <th>Supply Id</th>
+                        <th>Date</th>
                         <th>Expense</th>
                         <th>Supplier</th>
                         <th>Unit</th>
@@ -50,15 +51,14 @@ input[type=submit] {
                     {% for expense in daily_expenses %}
                     <tr>
                         <td>{{ expense.id}} </td>
+                        <td>{{ expense.date }}</td>
                         <td>{{ expense.expense }} </td>
                         <td>{{ expense.supplier }}</td>
                         <td>{{ expense.unit }}</td>
                         <td>{{ expense.quantity }}</td>
                         <td>{{ expense.rate }}</td>
-                        <!-- <td>{{ expense.unit }}</td> -->
-
-
-                        <td>{{ expense.total }}</td>
+                        <td>{{ expense.amount }}</td>
+                        
                         
                         <td><a href="../update_expenses/?id={{ expense.id }}">Update</a></td>
                         <td><a href="../delete_expenses/?id={{ expense.id }}">Delete</a></td>

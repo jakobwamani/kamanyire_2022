@@ -15,9 +15,9 @@ RAW_MATERIAL_CHOICES = (("maize_bran" , "maize bran"),("cotton", "cotton")
 ,("layers_premix" , "layers premix"),("brown_salt","brown_salt"),("shells" , "shells"),("meat_boaster" , "meat boaster"),("egg_boaster" ,"egg boaster"))
 # creating a form
 
-expense_categories = (	("Loading","Loading")
-						,("Offloading","Offloading")
-						,("Allowance","Allowance")
+expense_categories = (	
+						
+						("Allowance","Allowance")
 						,("Overtime_allowance","Overtime_allowance")
 						,("Milling","Milling")
 						,("Lunch_Allowance","Lunch_Allowance")
@@ -32,6 +32,14 @@ expense_categories = (	("Loading","Loading")
 						,("Electricity","Electricity")
 						,("Accounting","Accounting")
 					 )
+
+expense_units = (
+				("days","days")
+				,("kilograms","kilograms")
+				,("per_route","per_route")
+				,("lumpsum","lumpsum")
+				,("numbers","numbers")
+				)
 class RawMaterialForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	# date = forms.DateField(widget=forms.SplitDateTimeWidget(),initial=timezone.now())
@@ -67,20 +75,21 @@ class RawMaterialForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
-    #birth_date= forms.DateField(label='What is your birth date?', widget=forms.SelectDateWidget(years=YEARS))
+    
+	time = forms.TimeField(initial=timezone.now())
 	expense = forms.ChoiceField(choices = expense_categories)
 	supplier = forms.CharField(max_length= 50)
-	unit = forms.DecimalField(max_digits=10, decimal_places=3 , initial=0.0)
+	unit = forms.ChoiceField(choices = expense_units)
 	quantity = forms.DecimalField(max_digits=10, decimal_places=3 , initial=0.0)
 	rate = forms.DecimalField(max_digits=10, decimal_places=3 , initial=0.0)
 	amount = forms.DecimalField(
-        widget=calculation.FormulaInput('unit*quantity*rate') )
+        widget=calculation.FormulaInput('quantity*rate') )
 	
 	class Meta:
 		# specify model to be used
 		model = Expenses
 		# exclude = ["amount","fullamount",]
-		fields = ["date","expense","supplier","unit","quantity","rate","amount"]
+		fields = ["date","time","expense","supplier","quantity","unit","rate","amount"]
 
 #supply form
 class SupplyForm(forms.ModelForm):

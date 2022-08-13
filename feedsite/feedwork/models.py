@@ -67,8 +67,8 @@ class Product(models.Model):
 		return '{}'.format(self.date)
 
 class RawMaterialQuantities(models.Model):
-	date = models.DateField(default=datetime.date.today())
-	time = models.TimeField(default=timezone.now())
+	date = models.DateField()
+	time = models.TimeField()
 	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
 	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
 	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
@@ -92,8 +92,8 @@ class RawMaterialQuantities(models.Model):
 		return '{}'.format(self.date)
 
 class ProductQuantities(models.Model):
-	date = models.DateField(default=datetime.date.today())
-	time = models.TimeField(default=timezone.now())
+	date = models.DateField()
+	time = models.TimeField()
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
@@ -164,10 +164,11 @@ class RawMaterialSales(models.Model):
 		return '{}'.format(self.date)
 
 class Expenses(models.Model):
-	date = models.DateTimeField()
+	date = models.DateField()
+	time = models.TimeField()
 	expense = models.CharField(max_length = 50)
 	supplier = models.CharField(max_length= 50)
-	unit = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+	unit = models.CharField(max_length= 50)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	rate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	amount = models.DecimalField(max_digits = 10 , decimal_places=3 , default = 0.0)
@@ -201,7 +202,7 @@ class RawMaterialProfits(models.Model):
 
 class ProductProfits(models.Model):
 	date = models.DateField(default=datetime.date.today())
-	time = models.TimeField(default=timezone.now())
+	time = models.TimeField(default=timezone.now)
 	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
