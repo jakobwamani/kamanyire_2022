@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title> View Expenses </title>
+	<title> View Employee Terms</title>
 	{% load supply_extras %}
     <style type="text/css">
         table, th, td {
@@ -21,8 +21,8 @@ input[type=submit] {
     </style>
 </head>
 <body>
-    <h1>View Expenses</h1>
-  <form action="{% url 'view_expenses' %}" method="post">
+    <h1>View Employees Terms</h1>
+  <form action="{% url 'view_employee_terms' %}" method="post">
                 {% csrf_token %}
                 
                 <label>From</label>
@@ -36,41 +36,35 @@ input[type=submit] {
                     <ul>
                     
                     <tr>
-                        <th>Supply Id</th>
+                        <th>Employee Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Date</th>
-                        <th>Expense</th>
-                        <th>Supplier</th>
-                        <th>Unit</th>
-                        <th>Raw Material</th>
-                        <th>Quantity</th>
-                        <th>Rate</th>
-                        <th>Total</th>
+                        <th>Time</th>
+                        <th>Agreed Salary </th>
+                        <th>Salary Start Date</th>
+                        <th>Salary End Date</th>
                         <th>Update</th>
                         <th>Delete</th>
       
                     </tr>
-                    {% for expense in daily_expenses %}
-                    <tr>
-                        <td>{{ expense.id}} </td>
-                        <td>{{ expense.date }}</td>
-                        <td>{{ expense.expense }} </td>
-                        <td>{{ expense.supplier }}</td>
-                        <td>{{ expense.unit }}</td>
-                        <td>{{ expense.raw_material }}</td>
-                        <td>{{ expense.quantity }}</td>
-                        <td>{{ expense.rate }}</td>
-                        <td>{{ expense.amount }}</td>
-                        
-                        
-                        <td><a href="../update_expenses/?id={{ expense.id }}">Update</a></td>
-                        <td><a href="../delete_expenses/?id={{ expense.id }}">Delete</a></td>
-                        <!-- <td><a href="update_supply/?id={{ supply.id }}">Update</a></td> -->
-
-                    </tr>
-
-                    
-                    {% endfor %}
-                  <p>The Total expenses for a selected period is  {{ sum_of_expenses }} UGX </p>
+                
+                        {% for term in terms %}
+                        <tr>
+                            <td>{{ term.employee_id.id}}</td> 
+                            <td>{{ term.employee_id.first_name}}</td>
+                            <td>{{ term.employee_id.last_name}}</td>  
+                            <td>{{ term.date }}</td>
+                            <td>{{ term.time }} </td>
+                            <td>{{ term.agreed_salary }}</td>
+                            <td>{{ term.salary_start_date }}</td>
+                            <td>{{ term.salary_end_date }}</td>
+                            <td><a href="../update_employment_terms/?id={{ term.id }}">Update</a></td>
+                            <td><a href="../delete_employment_terms/?id={{ term.id }}">Delete</a></td>
+                         
+                        </tr>          
+                        {% endfor %}
+                  
                 </table>
 </body>
  	

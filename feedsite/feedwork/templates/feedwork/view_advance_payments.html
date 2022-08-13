@@ -1,0 +1,108 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> View Advance Payments</title>
+	{% load supply_extras %}
+    {% load mathfilters %}
+    <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <h1>View Advance Payment</h1>
+  <form action="{% url 'view_advance_payments' %}" method="post">
+                {% csrf_token %}
+                
+                <label>From</label>
+                <input name="start_date" type="date" ><br/><br/>
+                <labe>To</labe>
+                <input name="end_date" type="date" ><br/><br/>
+                <input type="submit" name="submit" value="Search"/>                
+    </form>
+
+     <table style="border:1px">
+                    <ul>
+                    
+                    <tr>
+                        <th>Employee Id</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Advance </th>
+                        <th>Salary Left</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+      
+                    </tr>
+                
+                        {% for pay in payments %}
+                        <tr>
+                            <td>{{ pay.employee_id.id}}</td> 
+                            <td>{{ pay.employee_id.first_name}}</td>
+                            <td>{{ pay.employee_id.last_name}}</td> 
+                            <td>{{ pay.date }}</td>
+                            <td>{{ pay.time }}</td>
+                            <td>{{ pay.advance}}</td>
+                            <td>
+                            {% for term in terms %}
+                                {% if term.employee_id.id == pay.employee_id.id %}
+                                    
+                                    {{ term.agreed_salary|sub:pay.advance }}
+                                    
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                            
+                            <td><a href="../update_advance_payments/?id={{ pay.id }}">Update</a></td>
+                            <td><a href="../delete_advance_payments/?id={{ pay.id }}">Delete</a></td>
+                         
+                        </tr>          
+                        {% endfor %}
+                  
+                </table>
+</body>
+ 	
+    <div>
+     <a href="{% url 'index' %}"><p>Home</p></a><br/>
+
+     <a href="{% url 'get_supply' %}"><p>Purchases</p></a><br/>
+     <a href="{% url 'view_supply' %}"><p>View Purchases</p></a><br/>
+         <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
+    <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
+
+
+     <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
+     <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
+  
+     <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
+     <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p><br/>
+     <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
+     <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
+
+
+    </div>
+    
+    
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+</html>

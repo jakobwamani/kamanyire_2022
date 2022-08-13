@@ -173,8 +173,21 @@ class Expenses(models.Model):
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	rate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
 	amount = models.DecimalField(max_digits = 10 , decimal_places=3 , default = 0.0)
+
+	def save(self, *args, **kwargs):
+        # Using the regular field, set the value of the read-only field.
+        
+		self.amount = (self.quantity * self.rate)
+		
+		
+		super(Expenses, self).save(*args, **kwargs)
+
+	
 	def __str__(self):
 		return '{}'.format(self.date)	
+
+
+
       
 class RawMaterialProfits(models.Model):
 	date = models.DateField()
@@ -212,7 +225,38 @@ class ProductProfits(models.Model):
 	def __str__(self):
 		return '{}'.format(self.date)
 
+class employee_enrollment(models.Model):
+	date = models.DateField()
+	time = models.TimeField()
+	first_name = models.CharField(max_length = 50)
+	last_name = models.CharField(max_length = 50)
+	gender = models.CharField(max_length = 50)
+	phone_number_one = models.CharField(max_length = 50)
+	phone_number_two = models.CharField(max_length = 50)
+	employment_start_date = models.DateField()
 
+	def __str__(self):
+		return '{}: {} {}'.format(self.id,self.first_name,self.last_name)
+
+class employment_terms(models.Model):
+	employee_id = models.ForeignKey(employee_enrollment, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	agreed_salary = models.IntegerField()
+	salary_start_date = models.DateField()
+	salary_end_date = models.DateField()
+
+	def __str__(self):
+		return '{}'.format(self.date)
+
+class advance_payment(models.Model):
+	employee_id = models.ForeignKey(employee_enrollment, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	advance = models.IntegerField()
+	
+	def __str__(self):
+		return '{}'.format(self.date)
 
 
 	

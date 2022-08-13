@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		Advance Payment
+	</title>
+</head>
+<body>
+<form method="POST" enctype="multipart/form-data">
+	<!-- Security token  Make sure you put this immediately after the form tag-->
+	{% csrf_token %}
+	
+			
+			<h1>Advance Payment</h1>
+			
+     <!-- Using the formset -->
+    {{ form.as_p }}
+	
+	<input type="submit" value="Submit"> 
+</form>
+</body>
+
+	<center>
+		 <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+	</center>
+    
+
+</html>

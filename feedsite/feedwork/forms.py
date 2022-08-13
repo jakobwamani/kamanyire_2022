@@ -265,3 +265,47 @@ class RawMaterialSalesForm(forms.ModelForm):
 	class Meta:
 		model = RawMaterialSales
 		fields = ["date","time","raw_material","quantity","selling_price","total"]
+
+employee_ids = employee_enrollment.objects.all()
+
+gender_choices = (("Male","Male"),("Female","Female"))
+
+class employee_enrollment_form(forms.ModelForm):
+	YEARS= [x for x in range(2000,2030)]
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	time = forms.TimeField(initial=timezone.now())
+	first_name = forms.CharField(max_length = 50)
+	last_name = forms.CharField(max_length = 50)
+	gender = forms.ChoiceField(choices=gender_choices)
+	phone_number_one = forms.CharField(max_length = 50)
+	phone_number_two = forms.CharField(max_length = 50)
+	employment_start_date = forms.DateField(widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+
+	class Meta:
+		model = employee_enrollment
+		fields = ["date","time","first_name","last_name","gender","phone_number_one","phone_number_two","employment_start_date"]
+
+class employment_terms_form(forms.ModelForm):
+	YEARS= [x for x in range(2000,2030)]
+	employee_id = forms.ModelChoiceField(queryset = employee_ids)
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	time = forms.TimeField(initial=timezone.now())
+	agreed_salary = forms.IntegerField()
+	salary_start_date = forms.DateField( widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	salary_end_date = forms.DateField( widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+
+	class Meta:
+		model = employment_terms
+		fields = ["employee_id","date","time","agreed_salary","salary_start_date","salary_end_date"]
+
+class advance_payment_form(forms.ModelForm):
+	YEARS= [x for x in range(2000,2030)]
+	employee_id = forms.ModelChoiceField(queryset = employee_ids)
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	time = forms.TimeField(initial=timezone.now())
+	
+	advance = models.IntegerField()
+	
+	class Meta:
+		model = advance_payment
+		fields = ["employee_id","date","time","advance"]
