@@ -15,6 +15,14 @@ RAW_MATERIAL_CHOICES = (("maize_bran" , "maize bran"),("cotton", "cotton")
 ,("layers_premix" , "layers premix"),("brown_salt","brown_salt"),("shells" , "shells"),("meat_boaster" , "meat boaster"),("egg_boaster" ,"egg boaster"))
 # creating a form
 
+RAW_MATERIAL_EXPENSE_CHOICES = (("None","None"),("maize_bran" , "maize bran"),("cotton", "cotton")
+,("sun_flower" , "sun flower"),("fish" , "fish"),("calcium" , "calcium"),("soya_bean","soya bean")
+,("animal_salt","animal salt"),("common_salt","common salt"),("coconut","coconut"),("pig_concentrate","pig concentrate")
+,("wonder_pig","wonder pig"),("big_pig","big pig"),("general_purpose_premix" , "general purpose premix")
+,("layers_premix" , "layers premix"),("brown_salt","brown_salt"),("shells" , "shells"),("meat_boaster" , "meat boaster"),("egg_boaster" ,"egg boaster"))
+# creating a form
+
+
 expense_categories = (	
 						
 						("Allowance","Allowance")
@@ -75,9 +83,9 @@ class RawMaterialForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
-    
 	time = forms.TimeField(initial=timezone.now())
 	expense = forms.ChoiceField(choices = expense_categories)
+	raw_material = forms.ChoiceField(choices = RAW_MATERIAL_EXPENSE_CHOICES)
 	supplier = forms.CharField(max_length= 50)
 	unit = forms.ChoiceField(choices = expense_units)
 	quantity = forms.DecimalField(max_digits=10, decimal_places=3 , initial=0.0)
@@ -89,7 +97,7 @@ class ExpenseForm(forms.ModelForm):
 		# specify model to be used
 		model = Expenses
 		# exclude = ["amount","fullamount",]
-		fields = ["date","time","expense","supplier","quantity","unit","rate","amount"]
+		fields = ["date","time","expense","supplier","raw_material","quantity","unit","rate","amount"]
 
 #supply form
 class SupplyForm(forms.ModelForm):

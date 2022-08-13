@@ -167,6 +167,7 @@ class Expenses(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	expense = models.CharField(max_length = 50)
+	raw_material = models.CharField(max_length = 50)
 	supplier = models.CharField(max_length= 50)
 	unit = models.CharField(max_length= 50)
 	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
