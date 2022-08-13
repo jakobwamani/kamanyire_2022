@@ -869,9 +869,15 @@ def viewing_expenses(request):
 
     # run a query to get all the supplies on that date
     daily_expenses = Expenses.objects.filter(date__range=[start_date, end_date])
-    # print(type(supplies))     
-    # return render(request, "view_supply.html", context)
-    return render(request, "view_expenses.html", {'daily_expenses':daily_expenses})
+    
+    #showing Total of expenses
+    expense_list = []
+    for expense in daily_expenses:
+        expense_list.append(expense.amount)
+
+    sum_of_expenses = sum(expense_list)
+
+    return render(request, "view_expenses.html", {'daily_expenses':daily_expenses,'sum_of_expenses':sum_of_expenses})
 
 def updating_expenses(request):
     context_dict = {}

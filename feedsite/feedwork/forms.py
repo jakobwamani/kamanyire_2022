@@ -27,6 +27,7 @@ expense_categories = (
 						
 						("Allowance","Allowance")
 						,("Overtime_allowance","Overtime_allowance")
+						,("Advance","Advance")
 						,("Milling","Milling")
 						,("Lunch_Allowance","Lunch_Allowance")
 						,("Permit_for_Mukene","Permit_for_Mukene")
