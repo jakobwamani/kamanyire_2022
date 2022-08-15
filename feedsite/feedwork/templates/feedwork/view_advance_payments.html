@@ -44,6 +44,7 @@ input[type=submit] {
                         <th>Time</th>
                         <th>Advance </th>
                         <th>Salary Left</th>
+                        
                         <th>Update</th>
                         <th>Delete</th>
       
@@ -57,15 +58,16 @@ input[type=submit] {
                             <td>{{ pay.date }}</td>
                             <td>{{ pay.time }}</td>
                             <td>{{ pay.advance}}</td>
-                            <td>
-                            {% for term in terms %}
-                                {% if term.employee_id.id == pay.employee_id.id %}
-                                    
-                                    {{ term.agreed_salary|sub:pay.advance }}
-                                    
-                                {% endif %}
-                            {% endfor %}
-                            </td>
+                            
+                                {% for term in terms %}
+                                    {% if pay.employee_id.id == term.employee_id.id %}
+                                        
+                                        <td>{{term.agreed_salary|sub:pay.advance }}</td>
+                                    {% endif%}
+                                {% endfor %}
+                            
+                            
+                            
                             
                             <td><a href="../update_advance_payments/?id={{ pay.id }}">Update</a></td>
                             <td><a href="../delete_advance_payments/?id={{ pay.id }}">Delete</a></td>

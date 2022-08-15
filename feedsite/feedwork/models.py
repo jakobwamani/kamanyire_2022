@@ -249,6 +249,7 @@ class employment_terms(models.Model):
 	def __str__(self):
 		return '{}'.format(self.date)
 
+	
 class advance_payment(models.Model):
 	employee_id = models.ForeignKey(employee_enrollment, on_delete=models.CASCADE)
 	date = models.DateField()
