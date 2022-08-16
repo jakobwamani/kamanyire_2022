@@ -21,7 +21,7 @@ class suppliers(models.Model):
 		return '{} : {}'.format(self.id,self.supplier_name)
 
 class logistics(models.Model):
-	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	loading = models.IntegerField()
@@ -32,9 +32,9 @@ class logistics(models.Model):
 		return '{} : {}'.format(self.id,self.raw_material_name)
 
 class purchases(models.Model):
-	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
-	supplier = models.ForeignKey(suppliers, on_delete=models.CASCADE)
-	logistics = models.ForeignKey(logistics, on_delete=models.CASCADE)
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE, null=True)
+	supplier = models.ForeignKey(suppliers, on_delete=models.CASCADE, null=True)
+	logistics = models.ForeignKey(logistics, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	unit_price = models.IntegerField()
@@ -45,7 +45,7 @@ class purchases(models.Model):
 
 	
 class raw_material_sales(models.Model):
-	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	unit_price = models.IntegerField()
@@ -58,13 +58,13 @@ class raw_material_sales(models.Model):
 class product_names(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
-	product_name = models.CharField(max_length=50)
+	product_name = models.CharField(max_length=50 , )
 
 	def __str__(self):
 		return '{} : {}',format(self.id,self.product_name)
 
 class products(models.Model):
-	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
+	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
@@ -73,8 +73,8 @@ class products(models.Model):
 		return '{} : {} : {}',format(self.id,self.product_name,self.quantity)
 
 class raw_material_separations(models.Model):
-	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
-	product = models.ForeignKey(products, on_delete=models.CASCADE)
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE, null=True)
+	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	separation_name = models.CharField(max_length=50)
@@ -86,7 +86,7 @@ class raw_material_separations(models.Model):
 
 
 class product_sales(models.Model):
-	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
+	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
@@ -112,8 +112,8 @@ class expense_units(models.Model):
 		return '{} : {}',format(self.id,self.unit_name)
 
 class expenses(models.Model):
-	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE)
-	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE)
+	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE, null=True)
+	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
@@ -121,8 +121,6 @@ class expenses(models.Model):
 	def __str__(self):
 		return '{} : {} : {}',format(self.id,self.expense_name,self.quantity)
 
-
-	
 class employee(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
@@ -134,10 +132,10 @@ class employee(models.Model):
 	employment_start_date = models.DateField()
 
 	def __str__(self):
-		return '{}: {} {}'.format(self.id,self.first_name,self.last_name)
+		return '{} : {} : {}'.format(self.id,self.first_name,self.last_name)
 
 class employment_terms(models.Model):
-	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
+	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	agreed_salary = models.IntegerField()
@@ -145,25 +143,25 @@ class employment_terms(models.Model):
 	salary_end_date = models.DateField()
 
 	def __str__(self):
-		return '{}'.format(self.date)
+		return '{} : {} : {}'.format(self.id,self.employee_id,self.agreed_salary)
 
 	
 class advance_payments(models.Model):
-	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
+	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	advance = models.IntegerField()
 	
 	def __str__(self):
-		return '{}'.format(self.date)
+		return '{} : {} : {}'.format(self.id,self.employee_id,self.advance)
 
 class salary_payments(models.Model):
-	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
+	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE, null=True)
 	date = models.DateField()
 	time = models.TimeField()
 	salary = models.IntegerField()
 	
 	def __str__(self):
-		return '{}'.format(self.date)
+		return '{} : {} : {}'.format(self.id,self.self.employee_id,self.salary)
 
 	
