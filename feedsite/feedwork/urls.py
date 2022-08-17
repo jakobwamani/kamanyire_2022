@@ -73,5 +73,11 @@ urlpatterns = [
     path('logistics/',views.setup_logistics,name="setup_logistics"),
     path('view_logistics/',views.view_logistics,name="view_logistics"),
     path('update_logistics/',views.update_logistics,name="update_logistics"),
-    path('delete_logistics/',views.delete_logistics,name="delete_logistics")
+    path('delete_logistics/',views.delete_logistics,name="delete_logistics"),
+
+    path('purchases/',views.execute_purchases,name="purchases"),
+    path('view_purchase/',views.see_purchases,name="see_purchases"),
+    path('update_purchases/',views.update_purchases,name="update_purchases"),
+    path('delete_purchases/',views.delete_purchases,name="delete_purchases"),
+    
     ]

@@ -146,6 +146,7 @@ def setup_logistics(request):
             return HttpResponseRedirect('http://127.0.0.1:8000/') 
     else:
         context['form'] = form
+        # HttpResponse('A Purchase cant be transported more than once' )
 
     return render(request, "logistics.html",context=context)
 
@@ -193,6 +194,66 @@ def delete_logistics(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_logistics/')
 
+def execute_purchases(request):
+    context = {}
+    # add the dictionary during initialization
+    form = purchase_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():
+      
+            form.save()
+
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "purchases.html",context=context)
+
+def see_purchases(request):
+    #get the date from the user 
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+
+    purchase = purchases.objects.filter(date__range=[start_date, end_date])
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_purchase.html", {'purchase':purchase})
+
+
+def update_purchases(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        purchase_record = purchases.objects.get(id=clean_pk)
+        form = purchase_form(request.POST or None, instance=purchase_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_purchases.html",context=context_dict)
+
+def delete_purchases(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        purchase_to_delete = purchases.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        purchase_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_purchases/')
 
 def enroll_employee(request):
     context = {}

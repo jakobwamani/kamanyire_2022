@@ -10,7 +10,7 @@ class raw_materials(models.Model):
 	raw_material_name = models.CharField(max_length=50)
 		
 	def __str__(self):		   
-		return '{} : {}'.format(self.id,self.raw_material_name)
+		return ' {}'.format(self.raw_material_name)
 
 class suppliers(models.Model):
 	date = models.DateField()
@@ -18,10 +18,22 @@ class suppliers(models.Model):
 	supplier_name = models.CharField(max_length=50)
 		
 	def __str__(self):		   
-		return '{} : {}'.format(self.id,self.supplier_name)
+		return '{}'.format(self.supplier_name)
+
+class purchases(models.Model):
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	supplier = models.ForeignKey(suppliers, on_delete=models.CASCADE)
+	# logistics = models.ForeignKey(logistics, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	unit_price = models.IntegerField()
+	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+
+	def __str__(self):
+		return 'Purchase id: {} :Purchase Date: {} :Purchase Time: {} : Raw Material: {} : Supplier: {} : Unit Price: {} : Quantity: {}'.format(self.id,self.date,self.time,self.raw_material_name,self.supplier,self.unit_price,self.quantity)
 
 class logistics(models.Model):
-	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	purchase = models.OneToOneField(purchases,on_delete=models.CASCADE,primary_key=True,)
 	date = models.DateField()
 	time = models.TimeField()
 	loading = models.IntegerField()
@@ -29,19 +41,8 @@ class logistics(models.Model):
 	transport = models.IntegerField()
 
 	def __str__(self):		   
-		return '{} : {}'.format(self.id,self.raw_material_name)
+		return ' {} : {} : {}'.format(self.date,self.time,self.purchase)
 
-class purchases(models.Model):
-	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
-	supplier = models.ForeignKey(suppliers, on_delete=models.CASCADE)
-	logistics = models.ForeignKey(logistics, on_delete=models.CASCADE)
-	date = models.DateField()
-	time = models.TimeField()
-	unit_price = models.IntegerField()
-	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-
-	def __str__():
-		return '{} : {} : {} : {} : {}'.format(self.id,self.raw_material_name,self.supplier,self.unit_price,self.quantity)
 
 	
 class raw_material_sales(models.Model):

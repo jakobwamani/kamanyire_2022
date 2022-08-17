@@ -16,6 +16,7 @@ product_name_query = product_names.objects.all()
 expense_name_query = expense_names.objects.all()
 expense_unit_query = expense_units.objects.all()
 employee_query = employee.objects.all()
+purchase_query = purchases.objects.all()
 
 class raw_material_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
@@ -41,19 +42,19 @@ class logistic_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
-	raw_material_name = forms.ModelChoiceField(queryset = raw_material_query)
+	purchase = forms.ModelChoiceField(queryset = purchase_query)
 	loading = forms.IntegerField()
 	off_loading = forms.IntegerField()
 	transport = forms.IntegerField()
 
 	class Meta:
 		model = logistics
-		fields = ["date","time","raw_material_name","loading","off_loading","transport"]
+		fields = ["date","time","purchase","loading","off_loading","transport"]
 
 class purchase_form(forms.ModelForm):
 	raw_material_name = forms.ModelChoiceField(queryset = raw_material_query)
 	supplier = forms.ModelChoiceField(queryset = supplier_query)
-	logistics = forms.ModelChoiceField(queryset = logistic_query)
+	
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
@@ -61,7 +62,8 @@ class purchase_form(forms.ModelForm):
 	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 
 	class Meta:
-		fields = ["date","time","raw_material_name","supplier","logistics","unit_price","quantity"]
+		model = purchases
+		fields = ["date","time","raw_material_name","supplier","unit_price","quantity"]
 
 class raw_material_sale_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
