@@ -33,7 +33,7 @@ class purchases(models.Model):
 		return 'Purchase id: {} :Purchase Date: {} :Purchase Time: {} : Raw Material: {} : Supplier: {} : Unit Price: {} : Quantity: {}'.format(self.id,self.date,self.time,self.raw_material_name,self.supplier,self.unit_price,self.quantity)
 
 class logistics(models.Model):
-	purchase = models.OneToOneField(purchases,on_delete=models.CASCADE,primary_key=True,)
+	purchase = models.ForeignKey(purchases,on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
 	loading = models.IntegerField()

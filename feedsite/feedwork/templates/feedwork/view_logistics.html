@@ -39,7 +39,7 @@ input[type=submit] {
                         <th>Logistic Id</th>
                         <th>Date</th>
                         <th>Time</th>
-                        <th>Raw Material</th>
+                        <th>Purchase</th>
                         <th>Loading</th>
                         <th>Off Loading</th>
                         <th>Transport</th>
@@ -50,10 +50,10 @@ input[type=submit] {
                     </tr>
                     {% for movement in logistic %}
                     <tr>
-                        <td>{{ movement.id}} </td>
+                        <td>{{ movement.id }} </td>
                         <td>{{ movement.date }}</td>
                         <td>{{ movement.time }} </td>
-                        <td>{{ movement.raw_material_name.raw_material_name }}</td>
+                        <td>{{ movement.purchase }}</td>
                         <td>{{ movement.loading }}</td>
                         <td>{{ movement.off_loading }}</td>
                         <td>{{ movement.transport }}</td>
