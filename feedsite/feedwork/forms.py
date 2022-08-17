@@ -16,14 +16,15 @@ product_name_query = product_names.objects.all()
 expense_name_query = expense_names.objects.all()
 expense_unit_query = expense_units.objects.all()
 employee_query = employee.objects.all()
+
 class raw_material_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
-	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	date = forms.DateField(widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
 	raw_material_name = forms.CharField(max_length=50)
 		
 	class Meta:
-		model:raw_materials
+		model = raw_materials
 		fields = ["date","time","raw_material_name"]
 
 class supplier_form(forms.ModelForm):
@@ -166,7 +167,6 @@ class employment_term_form(forms.ModelForm):
 
 	class Meta:
 		fields = ["date","time","employee_id","agreed_salary","salary_start_date","salary_end_date"]
-	
 	
 class advance_payment_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
