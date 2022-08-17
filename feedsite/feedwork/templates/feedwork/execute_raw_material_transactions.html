@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Raw_Materials Sales</title>       
+       <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+</head>
+<body>
+    <h1>Raw Material Sales</h1>
+   
+   
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{{ form.media }}
+
+</body>
+<div>
+    <a href="{% url 'index' %}"><p>Home</p></a><br/>
+</div>  
+
+
+<center>
+    <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+</center>
+     
+
+</html>

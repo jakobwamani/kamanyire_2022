@@ -45,7 +45,7 @@ class logistics(models.Model):
 
 
 	
-class raw_material_sales(models.Model):
+class raw_material_transactions(models.Model):
 	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
@@ -53,7 +53,7 @@ class raw_material_sales(models.Model):
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	
 	def __str__(self):
-		return '{} : {} : {}'.format(self.id,self.raw_material_name,self.unit_price,self.quantity)
+		return 'id : {} : Date : {} : Time : {}  Raw Material : {}'.format(self.id,self.date,self.time,self.raw_material_name)
 
 
 class product_names(models.Model):

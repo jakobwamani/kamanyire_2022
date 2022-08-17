@@ -28,10 +28,20 @@ class raw_material_form(forms.ModelForm):
 		model = raw_materials
 		fields = ["date","time","raw_material_name"]
 
-class supplier_form(forms.ModelForm):
+class raw_material_transactions_form(forms.ModelForm):
+	raw_material_name = forms.ModelChoiceField(queryset = raw_material_query)
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
+	unit_price = forms.IntegerField()
+	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	
+	class Meta:
+		model = raw_material_transactions
+		fields = ["date","time","raw_material_name","unit_price","quantity"]
+
+class supplier_form(forms.ModelForm):
+	
 	supplier_name = forms.CharField(max_length=50)
 		
 	class Meta:
@@ -65,7 +75,7 @@ class purchase_form(forms.ModelForm):
 		model = purchases
 		fields = ["date","time","raw_material_name","supplier","unit_price","quantity"]
 
-class raw_material_sale_form(forms.ModelForm):
+class raw_material_transaction_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
@@ -74,6 +84,7 @@ class raw_material_sale_form(forms.ModelForm):
 	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 	
 	class Meta:
+		model = raw_material_transactions
 		fields = ["date","time","raw_material_name","unit_price","quantity"]
 
 class product_name_form(forms.ModelForm):

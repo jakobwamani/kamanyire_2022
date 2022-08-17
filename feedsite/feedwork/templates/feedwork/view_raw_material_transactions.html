@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>
-		View Purchases
-	</title>
+    <meta charset="utf-8">
+    <title>
+        View Raw Materials
+    </title>
     <style type="text/css">
         table, th, td {
   border: 1px solid black;
@@ -23,8 +23,8 @@ input[type=submit] {
     </style>
 </head>
 <body>
-<h1>View Purchases</h1>
-    <form action="{% url 'see_purchases' %}" method="post">
+<h1>View Raw Material Sales</h1>
+    <form action="{% url 'view_raw_material_sales' %}" method="post">
                 {% csrf_token %}
                 <label>From</label>
                 <input name="start_date" type="date" ><br/><br/>
@@ -33,10 +33,9 @@ input[type=submit] {
                 <input type="submit" name="submit" value="Search"/>                
     </form>
 
-     <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+     <table>
                     <ul>
-        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
-        meat_boaster ,egg_boaster  -->
+       
                     <tr>
                         <th>Purchase Id</th>
                         <th>Date</th>
@@ -49,18 +48,18 @@ input[type=submit] {
                         <th>Delete</th>
                        
                     </tr>
-                    {% for item in purchase %}
+                    {% for value in material_sales %}
                     <tr>
-                        <td>{{ item.id}} </td>
-                        <td>{{ item.date }} </td>
-                        <th>{{ item.time }}</th>
-                        <th>{{ item.raw_material_name}}</th>
+                        <td>{{ value.id}} </td>
+                        <td>{{ value.date }} </td>
+                        <th>{{ value.time }}</th>
+                        <th>{{ value.raw_material_name}}</th>
                         
-                        <td>{{ item.unit_price }}</td>
-                        <td>{{ item.quantity }}</td>
+                        <td>{{ value.unit_price }}</td>
+                        <td>{{ value.quantity }}</td>
                         
-                        <td><a href="../update_purchases/?id={{ item.id }}">Update</a></td>
-                        <td><a href="../delete_purchases/?id={{ item.id }}">Delete</a></td>
+                        <td><a href="../update_raw_material_transactions/?id={{ value.id }}">Update</a></td>
+                        <td><a href="../delete_raw_material_transactions/?id={{ value.id }}">Delete</a></td>
 
                     </tr>
                     {% endfor %}

@@ -255,16 +255,77 @@ def delete_purchases(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_purchases/')
 
-def enroll_employee(request):
+def execute_raw_material_transactions(request):
     context = {}
     # add the dictionary during initialization
-    form = employee_enrollment_form(request.POST or None)
+    form = raw_material_transaction_form(request.POST or None)
     if request.method == 'POST':
 
         if form.is_valid():
       
             form.save()
 
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "execute_raw_material_transactions.html",context=context)
+
+@snoop
+def view_raw_material_transactions(request):
+    #get the date from the user 
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+
+    material_sales = raw_material_transactions.objects.filter(date__range=[start_date, end_date])
+     
+    # context ={'material_sales': material_sales}
+
+    return render(request, "view_raw_material_transactions.html", {'material_sales':material_sales})
+
+def update_raw_material_transactions(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        transaction_record = raw_material_transactions.objects.get(id=clean_pk)
+        form = raw_material_transactions_form(request.POST or None, instance=transaction_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_raw_material_transactions.html",context=context_dict)
+
+def delete_raw_material_transactions(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        transaction_to_delete = raw_material_transactions.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        transaction_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_transactions/')
+
+
+def enroll_employee(request):
+    context = {}
+    # add the dictionary during initialization
+    form = employee_enrollment_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():   
+            form.save()
             return HttpResponseRedirect('http://127.0.0.1:8000/') 
     else:
         context['form'] = form
