@@ -47,6 +47,7 @@ class logistic_form(forms.ModelForm):
 	transport = forms.IntegerField()
 
 	class Meta:
+		model = logistics
 		fields = ["date","time","raw_material_name","loading","off_loading","transport"]
 
 class purchase_form(forms.ModelForm):

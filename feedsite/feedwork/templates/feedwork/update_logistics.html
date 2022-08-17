@@ -7,20 +7,21 @@
 	</title>
 </head>
 <body>
-	<h1>Update Logistics</h1>
+	<h1>Update logistics</h1>
 <form method="POST"> 
                 <!-- Security token by Django -->
                 {% csrf_token %} 
         
-          
+                <!-- form as paragraph -->
                 {{ form.as_p }} 
+        
 				<input type="submit" value="Update"> 
 </form> 
-
+{{ expense_form.media }}
 </body>
 <div>
-     <a href="{% url 'index' %}"><p>Home</p></a><br/>    
-</div>
+     <a href="{% url 'index' %}"><p>Home</p></a><br/>
+    </div>
 
     
 <center>

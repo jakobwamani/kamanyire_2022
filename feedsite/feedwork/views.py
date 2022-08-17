@@ -133,6 +133,67 @@ def delete_suppliers(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_suppliers/')
 
+def setup_logistics(request):
+    context = {}
+    # add the dictionary during initialization
+    form = logistic_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():
+      
+            form.save()
+
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "logistics.html",context=context)
+
+def view_logistics(request):
+    #get the date from the user 
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+
+    logistic = logistics.objects.filter(date__range=[start_date, end_date])
+     
+    return render(request, "view_logistics.html", {'logistic':logistic})
+
+def update_logistics(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        logistic_record = logistics.objects.get(id=clean_pk)
+        form = logistic_form(request.POST or None, instance=logistic_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_employees.html",context=context_dict)
+
+def delete_logistics(request):
+
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        logistic_to_delete = logistics.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        logistic_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_logistics/')
+
+
 def enroll_employee(request):
     context = {}
     # add the dictionary during initialization

@@ -69,4 +69,9 @@ urlpatterns = [
     path('view_suppliers/',views.view_suppliers,name="view_suppliers"),
     path('update_suppliers/',views.update_suppliers,name="update_suppliers"),
     path('delete_suppliers/',views.delete_suppliers,name="delete_suppliers"),
+
+    path('logistics/',views.setup_logistics,name="setup_logistics"),
+    path('view_logistics/',views.view_logistics,name="view_logistics"),
+    path('update_logistics/',views.update_logistics,name="update_logistics"),
+    path('delete_logistics/',views.delete_logistics,name="delete_logistics")
     ]
