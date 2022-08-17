@@ -94,6 +94,7 @@ class product_name_form(forms.ModelForm):
 	product_name = forms.CharField(max_length=50)
 
 	class Meta:
+		model = product_names
 		fields = ["date","time","product_name"]
 
 class product_form(forms.ModelForm):
@@ -104,6 +105,7 @@ class product_form(forms.ModelForm):
 	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 
 	class Meta:
+		model = products
 		fields = ["date","time","product_name","quantity"]
 
 class raw_material_separation_form(forms.ModelForm):

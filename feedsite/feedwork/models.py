@@ -62,7 +62,7 @@ class product_names(models.Model):
 	product_name = models.CharField(max_length=50 , )
 
 	def __str__(self):
-		return '{} : {}',format(self.id,self.product_name)
+		return 'id : {} : product_name : {}'.format(self.id,self.product_name)
 
 class products(models.Model):
 	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)

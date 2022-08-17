@@ -24,7 +24,7 @@ input[type=submit] {
 </head>
 <body>
 <h1>View Product</h1>
-    <form action="{% url 'view_product' %}" method="post">
+    <form action="{% url 'view_products' %}" method="post">
                 {% csrf_token %}
                 <label>From</label>
                 <input name="start_date" type="date" ><br/><br/>
@@ -40,60 +40,22 @@ input[type=submit] {
                     <tr>
                         <th>Product Id</th>
                         <th>Date</th>
-                        <th>Product</th>
-                        <th>Maize_bran</th>
-                        <th>Cotton</th>
-                        <th>Sun_Flower</th>
-                        <th>Fish</th>
-                        <th>Salt</th>
-                        <th>General Purpose_Premix</th>
-                        <th>Layers_Premix</th>
-                        <th>Shells</th>
-                        <th>Meat Boaster</th>
-                        <th>Egg Boaster</th>
-                        <!-- <th>Cost of Supply</th> -->
-                       <!--  <th>Total</th>
-                        <th>Cost of Supply</th>
-                        <th>Pricing</th> -->
-                        <th>Calcium</th>
-						<th>Soya Bean</th>
-						<th>Brown Salt</th>
-						<th>Animal Salt</th>
-						<th>Common Salt</th>
-						<th>Coconut</th>
-						<th>Pig concentrate</th>
-						<th>wonder pig</th>
+                        <th>Time</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
                         <th>Update</th>
                         <th>Delete</th>
                        
                     </tr>
-                    {% for product in products %}
+                    {% for item in product %}
                     <tr>
-                        <td>{{ product.id}} </td>
-                        <td>{{ product.date }} </td>
-                        <th>{{ product.product }}
-                        <td>{{ product.maize_bran }}</td>
-                        <td>{{ product.cotton }}</td>
-                        <td>{{ product.sun_flower }}</td>
-                        <td>{{ product.fish }}</td>
-                        <td>{{ product.salt }}</td>                      
-                        <td>{{ product.general_purpose_premix }} </td>
-                        <td>{{ product.layers_premix }} </td>
-                        <td>{{ product.shells }} </td>
-                        <td>{{ product.meat_boaster }} </td>
-                        <td>{{ product.egg_boaster }}</td>
-                        <th>{{ product.calcium }}</th>
-						<th>{{ product.soya_bean }}</th>
-						<th>{{ product.brown_salt }}</th>
-						<th>{{ product.animal_salt }}</th>
-						<th>{{ product.common_salt }}</th>
-						<th>{{ product.coconut }}</th>
-						<th>{{ product.pig_concentrate }}</th>
-						<th>{{ product.wonder_pig }}</th>
-                        <!-- <td>{{ product.cost_of_supply}}</td> -->
-                        <!--I dnot know why i had to back reference it , it just couldn't work with it -->
-                        <td><a href="update_products/?id={{ product.id }}">Update</a></td>
-                        <td><a href="delete_products/?id={{ product.id }}">Delete</a></td>
+                        <td>{{ item.id}} </td>
+                        <td>{{ item.date }} </td>
+                        <th>{{ item.time }}
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td><a href="../update_products/?id={{ item.id }}">Update</a></td>
+                        <td><a href="../delete_products/?id={{ item.id }}">Delete</a></td>
 
                     </tr>
                     {% endfor %}
@@ -102,27 +64,6 @@ input[type=submit] {
        
 </body>
 <a href="{% url 'index' %}"><p>Home</p></a><br/>
-<a href="{% url 'get_supply' %}"><p>Purchases</p></a><br/>
-     <a href="{% url 'view_supply' %}"><p>View Purchases</p></a><br/>
-     <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
-         <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
-             <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
-
-
-     <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
-     <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
-    <!--  <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
-     <a href="{% url 'create_product_prices' %}"><p>Set Product Prices</p></a><br/>
-     <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/> -->
-     <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
-     <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p><br/>
-    <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
-    <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
-
-
-
-     
-
 <center>
 
      <footer>

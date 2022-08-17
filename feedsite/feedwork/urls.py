@@ -33,4 +33,14 @@ urlpatterns = [
     path('view_raw_material_transactions/',views.view_raw_material_transactions,name="view_raw_material_sales"),
     path('update_raw_material_transactions/',views.update_raw_material_transactions,name="update_raw_material_transactions"),
     path('delete_raw_material_transactions/',views.delete_raw_material_transactions,name="delete_raw_material_transactins"),
+
+    path('setup_product_names/',views.setup_product_names,name="setup_product_names"),
+    path('view_product_names/',views.view_product_names,name="view_product_names"),
+    path('update_product_names/',views.update_product_names,name="update_product_names"),
+    path('delete_product_names/',views.delete_product_names,name="delete_product_names"),
+
+    path('products/',views.setup_products,name="setup_products"),
+    path('view_products/',views.view_products,name="view_products"),
+    path('update_products/',views.update_products,name="update_products"),
+    path('delete_products/',views.delete_products,name="delete_products"),
     ]

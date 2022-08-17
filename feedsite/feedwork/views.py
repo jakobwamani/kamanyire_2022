@@ -317,6 +317,120 @@ def delete_raw_material_transactions(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_transactions/')
 
+def setup_product_names(request):
+    context = {}
+    # add the dictionary during initialization
+    form = product_name_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():   
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "setup_product_names.html",context=context)
+
+def view_product_names(request):
+    #get the date from the user 
+    # start_date = request.POST.get('start_date')
+    # end_date = request.POST.get('end_date')
+
+    names = product_names.objects.all()
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_product_names.html", {'names':names})
+
+def update_product_names(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        name_record = product_names.objects.get(id=clean_pk)
+        form = product_name_form(request.POST or None, instance=name_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_product_names.html",context=context_dict)    
+
+def delete_product_names(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        name_to_delete = product_names.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        name_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_product_names/')
+
+def setup_products(request):
+    context = {}
+    # add the dictionary during initialization
+    form = product_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():   
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "products.html",context=context)
+
+def view_products(request):
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    
+    product = products.objects.filter(date__range=[start_date, end_date])
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_products.html", {'product':product})
+
+def update_products(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        product_record = products.objects.get(id=clean_pk)
+        form = product_form(request.POST or None, instance=product_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_products.html",context=context_dict)
+
+def delete_products(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        product_to_delete = products.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        product_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_products/')    
 
 def enroll_employee(request):
     context = {}
