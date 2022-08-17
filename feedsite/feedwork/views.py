@@ -77,6 +77,62 @@ def delete_raw_material_name(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_names/')
 
+def enroll_suppliers(request):
+    context = {}
+    # add the dictionary during initialization
+    form = supplier_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():
+      
+            form.save()
+
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "suppliers.html",context=context)
+
+def view_suppliers(request):
+    # run a query to get all the supplies on that date
+    all_suppliers = suppliers.objects.all()
+     
+    return render(request, "view_suppliers.html", {'all_suppliers':all_suppliers})
+
+def update_suppliers(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        supply_record = suppliers.objects.get(id=clean_pk)
+        form = supplier_form(request.POST or None, instance=supply_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_suppliers.html",context=context_dict)
+
+def delete_suppliers(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        supplier_to_delete = suppliers.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        supplier_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_suppliers/')
+
 def enroll_employee(request):
     context = {}
     # add the dictionary during initialization

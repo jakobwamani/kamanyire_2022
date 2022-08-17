@@ -64,4 +64,9 @@ urlpatterns = [
     path('view_raw_material_names/',views.view_raw_material_names,name="view_raw_material_names"),
     path('update_raw_material_names/',views.update_raw_material_name,name="update_raw_material_names"),
     path('delete_raw_material_names/',views.delete_raw_material_name,name="delete_raw_material_names"),
+
+    path('suppliers/',views.enroll_suppliers,name="setup_suppliers"),
+    path('view_suppliers/',views.view_suppliers,name="view_suppliers"),
+    path('update_suppliers/',views.update_suppliers,name="update_suppliers"),
+    path('delete_suppliers/',views.delete_suppliers,name="delete_suppliers"),
     ]

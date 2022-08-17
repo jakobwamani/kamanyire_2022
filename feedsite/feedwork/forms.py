@@ -34,6 +34,7 @@ class supplier_form(forms.ModelForm):
 	supplier_name = forms.CharField(max_length=50)
 		
 	class Meta:
+		model = suppliers
 		fields = ["date","time","supplier_name"]
 
 class logistic_form(forms.ModelForm):

@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Delete Supplier</title>
+	</head>
+	<body>
+		<body>
+    <h1>Delete a Supplier</h1>
+    <form>
+        <h1> Delete child</h1>
+        <form method="post">{% csrf_token %}
+            Are you sure you want to delete "{{ object }}" ?
+            <input type="submit" value="Submit" />
+        </form>
+        </div> 
+    </form>
+	</body>
+    <div>
+        <a href="{% url 'index' %}"><p>Home</p></a><br/>
+    </div>
+     
+<center>
+    <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+</center>
+     
+
+</html>
