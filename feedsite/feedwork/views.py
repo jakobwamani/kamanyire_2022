@@ -432,6 +432,65 @@ def delete_products(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_products/')    
 
+
+def setup_raw_material_separations(request):
+    context = {}
+    # add the dictionary during initialization
+    form = raw_material_separation_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():   
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "raw_material_separations.html",context=context)
+
+def view_raw_material_separations(request):
+    #get the date from the user 
+    # start_date = request.POST.get('start_date')
+    # end_date = request.POST.get('end_date')    
+    seperations = raw_material_separations.objects.all()
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_raw_material_separations.html", {'seperations':seperations})
+
+def update_raw_material_separations(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        separation_record = raw_material_separations.objects.get(id=clean_pk)
+        form = raw_material_separation_form(request.POST or None, instance=separation_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_raw_material_separations.html",context=context_dict)   
+     
+def delete_raw_material_separations(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        separation_to_delete = raw_material_separations.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        separation_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_separations/') 
+
+
 def enroll_employee(request):
     context = {}
     # add the dictionary during initialization

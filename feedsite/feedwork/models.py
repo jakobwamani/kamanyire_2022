@@ -71,7 +71,7 @@ class products(models.Model):
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 
 	def __str__(self):
-		return '{} : {} : {}',format(self.id,self.product_name,self.quantity)
+		return 'date : {} : product_name : {} : quantity : {}'.format(self.id,self.date,self.product_name,self.quantity)
 
 class raw_material_separations(models.Model):
 	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
@@ -82,7 +82,7 @@ class raw_material_separations(models.Model):
 	ratio = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 
 	def __str__(self):
-		return '{} : {} : {} : {} : {}',format(self.id,self.raw_material_name,self.product,self.separation_name,self.ratio)
+		return '{} : {} : {} : {} : {}'.format(self.id,self.raw_material_name,self.product_name,self.separation_name,self.ratio)
 
 
 

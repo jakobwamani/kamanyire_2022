@@ -118,6 +118,7 @@ class raw_material_separation_form(forms.ModelForm):
 	ratio = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 
 	class Meta:
+		model = raw_material_separations
 		fields = ["date","time","raw_material_name","product_name","separation_name","ratio"]
 
 class product_sale_form(forms.ModelForm):

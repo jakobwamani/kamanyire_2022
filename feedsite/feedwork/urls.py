@@ -43,4 +43,9 @@ urlpatterns = [
     path('view_products/',views.view_products,name="view_products"),
     path('update_products/',views.update_products,name="update_products"),
     path('delete_products/',views.delete_products,name="delete_products"),
+
+    path('raw_material_separations/',views.setup_raw_material_separations,name="setup_raw_material_separations"),
+    path('view_raw_material_separations/',views.view_raw_material_separations,name="view_raw_material_separations"),
+    path('update_raw_material_separations/',views.update_raw_material_separations,name="update_raw_material_separations"),
+    path('delete_raw_material_separations/',views.delete_raw_material_separations,name="delete_raw_material_separations"),
     ]
