@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title> View Expense Names </title>
+	<title> View Expenses units </title>
 	{% load supply_extras %}
     <style type="text/css">
         table, th, td {
@@ -21,10 +21,15 @@ input[type=submit] {
     </style>
 </head>
 <body>
-    <h1>View Expense Names</h1>
-  <form action="{% url 'view_expense_names' %}" method="post">
+    <h1>View Expense Units</h1>
+  <form action="{% url 'view_expense_units' %}" method="post">
                 {% csrf_token %}
-                           
+                
+                <!-- <label>From</label>
+                <input name="start_date" type="date" ><br/><br/>
+                <labe>To</labe>
+                <input name="end_date" type="date" ><br/><br/>
+                <input type="submit" name="submit" value="Search"/>   -->              
     </form>
 
      <table style="border:1px">
@@ -34,30 +39,30 @@ input[type=submit] {
                         <th>Id</th>
                         <th>Date</th>
                         <th>Time</th>
-                        <th>Expense Name</th>
+                        <th>Expense Unit</th>
                         <th>Update</th>
                         <th>Delete</th>
       
                     </tr>
-                    {% for name in names %}
+                    {% for unit in units %}
                     <tr>
-                        <td>{{ name.id}} </td>
-                        <td>{{ name.date }}</td>
-                        <td>{{ name.time }} </td>
-                        <td>{{ name.expense_name }}</td>
-                        <td><a href="../update_expense_names/?id={{ name.id }}">Update</a></td>
-                        <td><a href="../delete_expense_names/?id={{ name.id }}">Delete</a></td>
+                        <td>{{ unit.id}} </td>
+                        <td>{{ unit.date }}</td>
+                        <td>{{ unit.time }} </td>
+                        <td>{{ unit.unit_name }}</td>
+                        <td><a href="../update_expense_units/?id={{ unit.id }}">Update</a></td>
+                        <td><a href="../delete_expense_units/?id={{ unit.id }}">Delete</a></td>
+                        
                     </tr>
+
+                    
                     {% endfor %}
-                  
+                 
                 </table>
 </body>
- 	
     <div>
      <a href="{% url 'index' %}"><p>Home</p></a><br/>
     </div>
-    
-    
 <center>
 
      <footer>

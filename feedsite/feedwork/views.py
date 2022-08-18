@@ -594,7 +594,7 @@ def update_expense_names(request):
 
     return render(request,"update_expense_names.html",context=context_dict)
 
-def delete_expense_name(request):
+def delete_expense_names(request):
     context_dict = {}
     if 'id' in request.GET:
         pk = request.GET['id']
@@ -607,6 +607,69 @@ def delete_expense_name(request):
         expense_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_names/')
+
+
+def setup_expense_units(request):
+    context = {}
+    # add the dictionary during initialization
+    form = expense_unit_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():   
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "expense_units.html",context=context)
+
+def view_expense_units(request):
+    #get the date from the user 
+    # start_date = request.POST.get('start_date')
+    # end_date = request.POST.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    units = expense_units.objects.all()
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_expense_units.html", {'units':units})
+
+def delete_expense_units(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        unit_to_delete = expense_units.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        unit_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_units/')
+
+
+def update_expense_units(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        expense_record = expense_units.objects.get(id=clean_pk)
+        form = expense_unit_form(request.POST or None, instance=expense_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_expense_units.html",context=context_dict)
 
 
 def enroll_employee(request):

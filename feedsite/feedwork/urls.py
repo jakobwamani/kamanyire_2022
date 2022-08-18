@@ -57,5 +57,11 @@ urlpatterns = [
     path('expense_names/',views.setup_expense_names,name="setup_expense_names"),
     path('view_expense_names/',views.view_expense_names,name="view_expense_names"),
     path('update_expense_names/',views.update_expense_names,name="update_expense_names"),
-    
+    path('delete_expense_names/',views.delete_expense_names,name="delete_expense_names"),
+
+    path('expense_units/',views.setup_expense_units,name="setup_expense_units"),
+    path('update_expense_units/',views.update_expense_units,name="update_expense_units"),
+    path('view_expense_units/',views.view_expense_units,name="view_expense_units"),
+    path('delete_expense_units/',views.delete_expense_units,name="delete_expense_units"),
+
     ]
