@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Viewing_Raw_Materials</title>
+    <script type="text/javascript">
+        function autofill(value){
+            var x, y;
+             x = value;
+             // x = document.getElementById('id_quantity').value;
+             y = document.getElementById('id_selling_price').value;
+            if(x > 0 )
+            {
+            document.getElementById('id_total').value = x * y ;
+            }
+                            }
+    </script>
+       <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+</head>
+<body>
+    <h1>Product Sales</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{{ form.media }}
+</body>
+
+            <div>
+                <a href="{% url 'index' %}"><p>Home</p></a><br/>
+
+    </div>
+<center>
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+</center>
+    
+</html>
+

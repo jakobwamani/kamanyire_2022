@@ -91,9 +91,9 @@ class product_sales(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-
+	unit_price = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	def __str__(self):
-		return '{} : {} : {}',format(self.id,self.product_name,self.quantity)
+		return '{} : {} : {} : {}'.format(self.id,self.product_name,self.quantity,self.unit_price)
 
 class expense_names(models.Model):
 	date = models.DateField()

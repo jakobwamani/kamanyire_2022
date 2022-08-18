@@ -127,9 +127,10 @@ class product_sale_form(forms.ModelForm):
 	time = forms.TimeField(initial=timezone.now())
 	product_name = forms.ModelChoiceField(queryset = product_name_query)
 	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-
+	unit_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 	class Meta:
-		fields = ["date","time","product_name","quantity"]
+		model = product_sales
+		fields = ["date","time","product_name","quantity","unit_price"]
 
 class expense_name_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]

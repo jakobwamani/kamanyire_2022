@@ -490,7 +490,66 @@ def delete_raw_material_separations(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_separations/') 
 
+def execute_product_sales(request):
+    context = {}
+    # add the dictionary during initialization
+    form = product_sale_form(request.POST or None)
+    if request.method == 'POST':
 
+        if form.is_valid():   
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "execute_product_sales.html",context=context)
+
+def view_product_sales(request):
+    #get the date from the user 
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+
+    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+
+    # run a query to get all the supplies on that date
+    sales = product_sales.objects.filter(date__range=[start_date, end_date])
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_product_sales.html", {'sales':sales})
+
+def update_product_sales(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        sale_record = product_sales.objects.get(id=clean_pk)
+        form = product_sale_form(request.POST or None, instance=sale_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_product_sales.html",context=context_dict)
+
+def delete_product_sales(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        sale_to_delete = product_sales.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        sale_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_product_sales/')
 def enroll_employee(request):
     context = {}
     # add the dictionary during initialization
