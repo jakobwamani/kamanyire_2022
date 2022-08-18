@@ -159,9 +159,10 @@ class expense_form(forms.ModelForm):
 	expense_name = forms.ModelChoiceField(queryset = expense_name_query)
 	expense_unit = forms.ModelChoiceField(queryset = expense_unit_query)
 	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-
+	unit_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
 	class Meta:
-		fields = ["date","time","expense_name","expense_unit","quantity"]
+		model = expenses
+		fields = ["date","time","expense_name","expense_unit","unit_price","quantity"]
 
 class employee_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
