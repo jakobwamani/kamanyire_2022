@@ -69,5 +69,14 @@ urlpatterns = [
     path('update_expenses/',views.update_expenses,name="update_expenses"),
     path('delete_expenses/',views.delete_expenses,name="delete_expenses"),
 
+    path('employee/',views.enroll_employee,name="enroll_employees"),
+    path('view_employees/',views.see_employees,name="view_employees"),
+    path('update_employees/',views.update_employees,name="update_employees"),
+
+    path('employee_terms/',views.make_employee_terms,name="make_employee_terms"),
+    path('view_employee_terms/',views.view_employment_terms,name="view_employee_terms"),
+    path('update_employment_terms/',views.updating_employment_terms,name="update_employee_terms"),
+    path('delete_employement_terms/',views.deleting_employment_terms,name="delete_employment_terms"),
+
 
     ]

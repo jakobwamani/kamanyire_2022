@@ -25,11 +25,11 @@ input[type=submit] {
   <form action="{% url 'view_employee_terms' %}" method="post">
                 {% csrf_token %}
                 
-                <label>From</label>
+                <!-- <label>From</label>
                 <input name="start_date" type="date" ><br/><br/>
                 <labe>To</labe>
                 <input name="end_date" type="date" ><br/><br/>
-                <input type="submit" name="submit" value="Search"/>                
+                <input type="submit" name="submit" value="Search"/>  -->               
     </form>
 
      <table style="border:1px">
@@ -60,7 +60,7 @@ input[type=submit] {
                             <td>{{ term.salary_start_date }}</td>
                             <td>{{ term.salary_end_date }}</td>
                             <td><a href="../update_employment_terms/?id={{ term.id }}">Update</a></td>
-                            <td><a href="../delete_employment_terms/?id={{ term.id }}">Delete</a></td>
+                            <td><a href="../delete_employement_terms/?id={{ term.id }}">Delete</a></td>
                          
                         </tr>          
                         {% endfor %}
@@ -70,25 +70,6 @@ input[type=submit] {
  	
     <div>
      <a href="{% url 'index' %}"><p>Home</p></a><br/>
-
-     <a href="{% url 'get_supply' %}"><p>Purchases</p></a><br/>
-     <a href="{% url 'view_supply' %}"><p>View Purchases</p></a><br/>
-         <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
-             <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
-
-
-     <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
-     <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
-  <!--    <a href="{% url 'raw_material_prices' %}"><p>Set Raw Material Prices</p></a><br/>
-     <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
-     <a href="{% url 'create_product_prices' %}"><p>Set  Product Prices</p></a><br/>
-     <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/> -->
-     <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
-     <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p><br/>
-     <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
-     <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
-
-
     </div>
     
     

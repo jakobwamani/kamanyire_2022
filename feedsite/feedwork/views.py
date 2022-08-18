@@ -733,7 +733,7 @@ def delete_expenses(request):
 def enroll_employee(request):
     context = {}
     # add the dictionary during initialization
-    form = employee_enrollment_form(request.POST or None)
+    form = employee_form(request.POST or None)
     if request.method == 'POST':
 
         if form.is_valid():   
@@ -742,7 +742,7 @@ def enroll_employee(request):
     else:
         context['form'] = form
 
-    return render(request, "employee_enrollment.html",context=context)
+    return render(request, "employee.html",context=context)
 
 @snoop
 def see_employees(request):
@@ -753,7 +753,7 @@ def see_employees(request):
     # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
 
     # run a query to get all the supplies on that date
-    employees = employee.objects.filter(date__range=[start_date, end_date])
+    employees = employee.objects.all()
      
     # return render(request, "view_supply.html", context)
     return render(request, "view_employees.html", {'employees':employees})
@@ -768,7 +768,7 @@ def update_employees(request):
         clean_pk = pk.strip("/")
         print (clean_pk)
         employee_record = employee.objects.get(id=clean_pk)
-        form = employee_enrollment_form(request.POST or None, instance=employee_record)
+        form = employee_form(request.POST or None, instance=employee_record)
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
@@ -782,7 +782,7 @@ def update_employees(request):
 def make_employee_terms(request):
     context = {}
     # add the dictionary during initialization
-    form = employment_terms_form(request.POST or None)
+    form = employment_term_form(request.POST or None)
     if request.method == 'POST':
 
         if form.is_valid():
@@ -801,7 +801,7 @@ def view_employment_terms(request):
     end_date = request.POST.get('end_date')
 
     
-    terms = employment_terms.objects.filter(date__range=[start_date, end_date])
+    terms = employment_terms.objects.all()
      
     # return render(request, "view_supply.html", context)
     return render(request, "view_employee_terms.html", {'terms':terms})
@@ -816,7 +816,7 @@ def updating_employment_terms(request):
         clean_pk = pk.strip("/")
         print (clean_pk)
         employee_term = employment_terms.objects.get(id=clean_pk)
-        form = employment_terms_form(request.POST or None, instance=employee_term)
+        form = employment_term_form(request.POST or None, instance=employee_term)
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
@@ -826,7 +826,7 @@ def updating_employment_terms(request):
 
     return render(request,"update_employment_terms.html",context=context_dict)
 
-def delete_employment_terms(request):
+def deleting_employment_terms(request):
     
     context_dict = {}
     if 'id' in request.GET:

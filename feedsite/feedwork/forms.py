@@ -18,6 +18,8 @@ expense_unit_query = expense_units.objects.all()
 employee_query = employee.objects.all()
 purchase_query = purchases.objects.all()
 
+#choice 
+gender_type = (("Male","Male"),("Female","Female"))
 class raw_material_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
@@ -170,12 +172,13 @@ class employee_form(forms.ModelForm):
 	time = forms.TimeField(initial=timezone.now())
 	first_name = forms.CharField(max_length = 50)
 	last_name = forms.CharField(max_length = 50)
-	gender = forms.CharField(max_length = 50)
+	gender = forms.ChoiceField(choices=gender_type)
 	phone_number_one = forms.CharField(max_length = 50)
 	phone_number_two = forms.CharField(max_length = 50)
-	employment_start_date = forms.DateField()
+	employment_start_date = forms.DateField(widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 
 	class Meta:
+		model = employee
 		fields = ["date","time","first_name","last_name","gender","phone_number_one","phone_number_two","employment_start_date"]
 
 class employment_term_form(forms.ModelForm):
@@ -184,10 +187,11 @@ class employment_term_form(forms.ModelForm):
 	time = forms.TimeField(initial=timezone.now())
 	employee_id = forms.ModelChoiceField(queryset = employee_query)
 	agreed_salary = forms.IntegerField()
-	salary_start_date = forms.DateField()
-	salary_end_date = forms.DateField()
+	salary_start_date = forms.DateField(widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	salary_end_date = forms.DateField(widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 
 	class Meta:
+		model = employment_terms
 		fields = ["date","time","employee_id","agreed_salary","salary_start_date","salary_end_date"]
 	
 class advance_payment_form(forms.ModelForm):
