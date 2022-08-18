@@ -101,7 +101,7 @@ class expense_names(models.Model):
 	expense_name = models.CharField(max_length=50)
 
 	def __str__(self):
-		return '{} : {}',format(self.id,self.expense_name)
+		return '{} : {}'.format(self.id,self.expense_name)
 
 class expense_units(models.Model):
 	date = models.DateField()
@@ -109,7 +109,7 @@ class expense_units(models.Model):
 	unit_name = models.CharField(max_length=50)
 
 	def __str__(self):
-		return '{} : {}',format(self.id,self.unit_name)
+		return '{} : {}'.format(self.id,self.unit_name)
 
 class expenses(models.Model):
 	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE)
@@ -119,7 +119,7 @@ class expenses(models.Model):
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 
 	def __str__(self):
-		return '{} : {} : {}',format(self.id,self.expense_name,self.quantity)
+		return '{} : {} : {}'.format(self.id,self.expense_name,self.quantity)
 
 class employee(models.Model):
 	date = models.DateField()

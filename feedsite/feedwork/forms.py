@@ -139,6 +139,7 @@ class expense_name_form(forms.ModelForm):
 	expense_name = forms.CharField(max_length=50)
 
 	class Meta:
+		model = expense_names
 		fields = ["date","time","expense_name"]
 
 class expense_unit_form(forms.ModelForm):

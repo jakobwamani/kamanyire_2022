@@ -53,4 +53,9 @@ urlpatterns = [
     path('view_product_sales/',views.view_product_sales,name="view_product_sales"),
     path('update_product_sales/',views.update_product_sales,name="update_product_sales"),
     path('delete_product_sales/',views.delete_product_sales,name="delete_product_sales"),
+
+    path('expense_names/',views.setup_expense_names,name="setup_expense_names"),
+    path('view_expense_names/',views.view_expense_names,name="view_expense_names"),
+    path('update_expense_names/',views.update_expense_names,name="update_expense_names"),
+    
     ]

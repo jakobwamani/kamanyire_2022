@@ -550,6 +550,65 @@ def delete_product_sales(request):
         sale_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_product_sales/')
+
+def setup_expense_names(request):
+    context = {}
+    # add the dictionary during initialization
+    form = expense_name_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():   
+            form.save()
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "expense_names.html",context=context)
+
+def view_expense_names(request):
+    #get the date from the user 
+    # start_date = request.POST.get('start_date')
+    # end_date = request.POST.get('end_date')
+    names = expense_names.objects.all()
+     
+    # return render(request, "view_supply.html", context)
+    return render(request, "view_expense_names.html", {'names':names})
+
+def update_expense_names(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        name_record = expense_names.objects.get(id=clean_pk)
+        form = expense_name_form(request.POST or None, instance=name_record)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_expense_names.html",context=context_dict)
+
+def delete_expense_name(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        expense_to_delete = expense_names.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        expense_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_names/')
+
+
 def enroll_employee(request):
     context = {}
     # add the dictionary during initialization

@@ -3,16 +3,16 @@
 <head>
 	<meta charset="utf-8">
 	<title>
-		Create Product Prices
+		Expense Names
 	</title>
 </head>
 <body>
 <form method="POST" enctype="multipart/form-data">
 	<!-- Security token  Make sure you put this immediately after the form tag-->
 	{% csrf_token %}
-	<p>Product Prices</p>
+	
 			
-			<h1>Product Prices</h1>
+			<h1>Expense names</h1>
 			
      <!-- Using the formset -->
     {{ form.as_p }}
