@@ -83,4 +83,8 @@ urlpatterns = [
     path('update_advance_payments/',views.update_advance,name="update_advances"),
     path('delete_advance_payments/',views.delete_advance,name="delete_advances"),
 
+    path('salary/',views.pay_salary,name="pay_salary"),
+    path('view_salaries/',views.view_salary,name="view_salaries"),
+    path('update_salaries/',views.update_salary,name="update_salaries"),
+    path('delete_salaries/',views.delete_salary,name="delete_salaries"),
     ]

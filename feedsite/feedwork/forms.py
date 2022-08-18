@@ -210,9 +210,10 @@ class salary_payment_form(forms.ModelForm):
 	YEARS = [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
-	salary = forms.IntegerField()
+	salary_amount = forms.IntegerField()
 	
 	class Meta:
-		fields = ["date","time","employee_id","salary"]
+		model = salary_payments
+		fields = ["date","time","employee_id","salary_amount"]
 	
 

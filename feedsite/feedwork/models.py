@@ -160,9 +160,9 @@ class salary_payments(models.Model):
 	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
-	salary = models.IntegerField()
+	salary_amount = models.IntegerField()
 	
 	def __str__(self):
-		return '{} : {} : {}'.format(self.id,self.self.employee_id,self.salary)
+		return '{} : {} : {} : {}'.format(self.id,self.date,self.employee_id,self.salary)
 
 	

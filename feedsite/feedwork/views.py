@@ -903,3 +903,67 @@ def delete_advance(request):
         advance_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_advance_payments/')
+
+def pay_salary(request):
+    context = {}
+    # add the dictionary during initialization
+    form = salary_payment_form(request.POST or None)
+    if request.method == 'POST':
+
+        if form.is_valid():
+      
+            form.save()
+
+            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+    else:
+        context['form'] = form
+
+    return render(request, "salary.html",context=context)
+
+
+def view_salary(request):
+    
+    #get the date from the user 
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date') 
+
+    # run a query to get all the supplies on that date
+    salaries = salary_payments.objects.filter(date__range=[start_date, end_date])
+     
+    terms = employment_terms.objects.filter(date__range=[start_date, end_date])
+    return render(request,"view_salaries.html",{'salaries':salaries,'terms':terms})
+
+def update_salary(request):
+    context_dict = {}
+
+    if 'id' in request.GET:
+        pk = request.GET['id']
+
+        print (pk)
+        clean_pk = pk.strip("/")
+        print (clean_pk)
+        payment = salary_payments.objects.get(id=clean_pk)
+        form = salary_payment_form(request.POST or None, instance=payment)
+        if request.method == 'POST':
+            if form.is_valid():           
+                form.save()
+                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+        else:
+            context_dict["form"] = form 
+
+    return render(request,"update_salaries.html",context=context_dict)
+
+
+def delete_salary(request):
+    context_dict = {}
+    if 'id' in request.GET:
+        pk = request.GET['id']
+        clean_pk = pk.strip("/")
+        cleaned_pk = int(clean_pk)
+        salary_to_delete = salary_payments.objects.get(id=cleaned_pk) 
+        #But before we delete , we must reduce on the amount in the RMQ model
+        #since this is an object , i will create a function right away
+        
+        salary_to_delete.delete()
+    
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_salaries/')
