@@ -23,7 +23,7 @@ input[type=submit] {
 </head>
 <body>
     <h1>View Advance Payment</h1>
-  <form action="{% url 'view_advance_payments' %}" method="post">
+  <form action="{% url 'view_advances' %}" method="post">
                 {% csrf_token %}
                 
                 <label>From</label>
@@ -63,6 +63,9 @@ input[type=submit] {
                                     {% if pay.employee_id.id == term.employee_id.id %}
                                         
                                         <td>{{term.agreed_salary|sub:pay.advance }}</td>
+
+                                    {% else %}
+                                        <td>{{ 0 }}</td>
                                     {% endif%}
                                 {% endfor %}
                             
@@ -80,22 +83,6 @@ input[type=submit] {
  	
     <div>
      <a href="{% url 'index' %}"><p>Home</p></a><br/>
-
-     <a href="{% url 'get_supply' %}"><p>Purchases</p></a><br/>
-     <a href="{% url 'view_supply' %}"><p>View Purchases</p></a><br/>
-         <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
-    <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
-
-
-     <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
-     <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
-  
-     <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
-     <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p><br/>
-     <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
-     <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
-
-
     </div>
     
     

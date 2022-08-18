@@ -78,5 +78,9 @@ urlpatterns = [
     path('update_employment_terms/',views.updating_employment_terms,name="update_employee_terms"),
     path('delete_employement_terms/',views.deleting_employment_terms,name="delete_employment_terms"),
 
+    path('advance/',views.make_advance,name="make_advance"),
+    path('view_advance_payments/',views.view_advance,name="view_advances"),
+    path('update_advance_payments/',views.update_advance,name="update_advances"),
+    path('delete_advance_payments/',views.delete_advance,name="delete_advances"),
 
     ]

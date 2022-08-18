@@ -202,6 +202,7 @@ class advance_payment_form(forms.ModelForm):
 	advance = forms.IntegerField()
 	
 	class Meta:
+		model = advance_payments
 		fields = ["date","time","employee_id","advance"]
 
 class salary_payment_form(forms.ModelForm):

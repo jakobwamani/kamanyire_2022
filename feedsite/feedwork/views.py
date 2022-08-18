@@ -864,7 +864,7 @@ def view_advance(request):
     end_date = request.POST.get('end_date') 
 
     # run a query to get all the supplies on that date
-    payments = advance_payment.objects.filter(date__range=[start_date, end_date])
+    payments = advance_payments.objects.filter(date__range=[start_date, end_date])
      
     terms = employment_terms.objects.filter(date__range=[start_date, end_date])
     return render(request,"view_advance_payments.html",{'payments':payments,'terms':terms})
@@ -878,7 +878,7 @@ def update_advance(request):
         print (pk)
         clean_pk = pk.strip("/")
         print (clean_pk)
-        employee_term = advance_payment.objects.get(id=clean_pk)
+        employee_term = advance_payments.objects.get(id=clean_pk)
         form = advance_payment_form(request.POST or None, instance=employee_term)
         if request.method == 'POST':
             if form.is_valid():           
@@ -896,7 +896,7 @@ def delete_advance(request):
         pk = request.GET['id']
         clean_pk = pk.strip("/")
         cleaned_pk = int(clean_pk)
-        advance_to_delete = advance_payment.objects.get(id=cleaned_pk) 
+        advance_to_delete = advance_payments.objects.get(id=cleaned_pk) 
         #But before we delete , we must reduce on the amount in the RMQ model
         #since this is an object , i will create a function right away
         
