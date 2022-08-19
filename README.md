@@ -371,6 +371,83 @@ stock balance = quantity_of_purchases - quantity_of_sales -
 ***stock balance = amount_of_product_that_has_been_mixed by a particular date - amount of product that has been sold by a particular date***
 
 # cost price of a particular raw material by date
-1. Get
+1. Get the unit price of a particular raw material in its last purchase
+```python
+new_purchase = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date='date').last()
+new_unit_price = new_purchase.unit_price
+```
+2. Get the quantity of the a particular raw material in its last purchase
+```python
+new_quantity = new_purchase.quantity
+```
+3. Get the logistics of that a particular raw material in its last purchase
+```python
+new_logistics = new.objects.filter(purchase='last_purchase.id').filter(date='date')
+new_loading = new_logistics.loading
+new_off_loading = new_logistics.offloading
+new_transport = new_logistics.transport
+
+# Add the logistics together
+logistics = new_loading + new_off_loading + new_transport
+```
+4. To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
+```python
+new_total_cost = (new_unit_price * new_quantity) + logistics
+```
+5. Divide the addition above by the quantity of the raw material that was purchased 
+```python
+new_cost_price = new_total_cost / new_quantity
+```
+6. Check to see if there is a difference in the unit price from the second last purchase of a particular raw material
+```python 
+purchases = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date='date')
+loop = 0
+for purchase in purchases
+    loop += 1
+    if loop == 1:
+        #get date of the current occurance of purchases
+        old_date = purchases.date
+        #get the unit price of the current occurance of purchases
+        old_unit_price = purchases.unit_price
+        #then we compare the old unit price and the new unit price
+        #then compare the unit prices
+        if old_unit_price == new_unit_price:
+            pass 
+        else:
+            
+
+
+        break
+```
+7. if there is a difference , then we calculate the stock balance of that particular raw material till a particular date.
+```python
+#we use a function that we have used above
+```
+8. To get the old cost price we multiply the stock balance with the unit price of the raw material in its second last purchase
+9. Divide it by the stock balance
+
+10. To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
+
+# cost price of a particular a product by date
+1. Select a particular product in a product sale
+2. Find out the raw materials that are involved in that product
+3. Find the cost prices of the different raw materials involved in that product
+4. Divide those cost prices by the specific ratios involved in the standard weight of a product
+5. Findout the cost prices involved in one kilogram of the product
+6. Sum up all those costprices to get one cost price in one kilogram of the product
+7. Mulitply that with the quantity of the product that has been sold till a particular date.
+
+
 # profit of a particular raw material by date
-- profit = unit_price_of_raw_material_sale * quantity_of_raw_material_sale - cost_price_of_raw_material * quantity_of_raw_material_sale
+1. Get the unit price of the raw material sale on a specific date
+2. Get the quantity of the raw material sale on a specific date
+3. Get the cost price of the raw material on a specific date
+4. Do the basic formula below and get the profit
+***profit = (unit_price_of_raw_material_sale * quantity_of_raw_material_sale) - (cost_price_of_raw_material * quantity_of_raw_material_sale)***
+
+# profit of a particular product by date
+1. Get the unit price of the product sale on a specific date
+2. Get the quantity of the product sale on a specific date
+3. Get the cost price of the product on a specific date
+4. Do the basic formula below and get the profit
+***profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price_of_product * quantity_of_product_sale)***
