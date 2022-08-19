@@ -43,6 +43,9 @@ Multiply it with the new cost price
 
 Add the two multiplications together and divide it by total quantity of the specified raw material
 #### Personal Access Tokens for this project
+August 16th 2022
+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
+
 July 30th 2022
 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
 July 23rd 2022
@@ -231,3 +234,143 @@ https://pypi.org/project/django-mathfilters/
 https://stackoverflow.com/questions/420703/how-do-i-add-multiple-arguments-to-my-custom-template-filter-in-a-django-templat
 
 
+https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+
+
+# stock balance of particular raw_material by date
+
+## amount_of_purchases_of_raw_material_by_a_particular_date
+
+### get the date the first raw_material purchase was sold
+```python
+first_purchase = purchases.objects.filter(raw_material_name='specified_raw_material').first()
+
+```
+
+### get the purchases that have been made since that date up to the selected date
+
+```python
+
+purchases = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date__range=first_purchase.date,'specified_date')
+
+purchases_list = []
+for purchase in purchases:
+    amount = purchase.unit_price * purchase.amount
+    puchases_list.append(amount)
+quantity_of_purchases = sum(purchases_list)
+```
+
+## amount_of_raw_material_sales_by_a_particular_date
+#get the date the first raw_material_was sold
+```python
+first_sale = raw_material_sales.objects.filter(raw_material_name='specified_raw_material').first()
+
+```
+
+### get the sales that have been made since that date up to the selected date
+```python
+sales = raw_material_sales.objects.filter(raw_material_name='specified_raw_material').filter(date__range=first_purchase.date,'specified_date')
+
+sales_list = []
+for sale in sales:
+    amount = sale.unit_price * sale.amount
+    sales_list.append(amount)
+quantity_of_sales = sum(sales_list)
+```
+## amount_raw_material_that_has_been_used_to_make_products_till a particular_date
+0. get to know one product where the raw material is involved
+```python
+    one_product = raw_material_separations.objects.filter(raw_material_name='specified_raw_material')
+    # the above query will be get us many instances but shall select the last one for instance 
+    one_product = raw_material_separations.objects.filter(raw_material_name='specified_raw_material').last()
+    one_product.product_name.product_name
+```
+1. get the standard weight of a particular product
+```python
+    standard_weight_list = []
+    weights = raw_material_separations.objects.filter(product_name='one_product.product_name.product_name')
+    for weight in weights:
+        standard_weight_list.append(weight.ratio)
+
+    standard_weight = sum(standard_weight_list)
+```
+2. understand how much of the raw material can be separated in the standard weight of a particular_product
+```python
+    weights = raw_material_separations.objects.filter(product_name='one_product.product_name.product_name').filter(raw_material_name='specified_raw_material')
+    #get the weight
+    standard_weight_of_raw_material = weights.ratio
+```
+3. understand how much raw_material can be separated in one kilogram of a particular product
+```python
+    standard_weight = standard_weight_of_raw_material
+    #how about one kilo of the standard weight
+    one_kilogram_of_standard_weight = standard_weight / standard_weight_of_raw_material
+```
+5. get the total number of kilograms that has been mixed for a particular product till a particular date.
+```python
+raw_material_quantity = []
+#get the first product mixture
+first_product_quantity = products.objects.filter(product_name='specified_product_name').first()
+first_date = product_quantities.date 
+#get the different product mixtures done till a particular date
+product_quantities = products.objects.filter(product_name='specified_product_name').filter(date__range='first_date','specified_date')
+for product in product_quantities:
+    raw_material_quantity.append(product_quantities.quantity)
+
+quantity_of_raw_material_mixed = sum(raw_material_quantity)
+```
+5. understand how much raw_material can be mixed in the total number of kilograms for a particular product that has been mixed till a particular date.
+```python
+total_weight_of_raw_material_mixed = one_kilogram_of_standard_weight * quantity_of_product_sold
+```
+6. Stock Balance
+```python
+stock balance = quantity_of_purchases - quantity_of_sales -
+```
+7. Scale
+***If we have been able to do it for one product then we can do it for other products and then add together the stock balances***
+
+
+
+### Basic formula
+***stock balance = amount of purchases of raw material by a particular date - amount of raw material sales by a particular date - amount raw material used to make products by a paticular date
+***
+
+
+# Stock balance for a particular product by a particular date
+
+1. Get date of the first mixture of a particular product
+```python
+    product = products.objects.filter(product_name='specified_product_name').first()
+    start_date = product.date
+```
+2. Get amount of the product that had been mixture till a particular date
+```python
+    product_quantity_list = []
+    products = products.objects.filter(date__range='start_date','specified_date')
+    for product in products:
+        product_quantity_list.append(product.quantity)
+    product_quantity_summation = sum(product_quantity_list)
+```
+4. Get date of the first sale of a particular product
+```python
+    product = product_sales.objects.filter(product_name='specified_product_name').first()
+    start_date = product.date
+```
+5. Get amount of the product that had been sold till a particular date
+```python
+    product_sale_list = []
+    sales = product_sales.objects.filter(date__range='start_date','specified_date')
+    for sale in sales:
+        product_sale_list.append(sale.quantity)
+    product_sale_summation = sum(product_sale_list)
+```
+6. Compute the formula
+
+### Basic formula
+***stock balance = amount_of_product_that_has_been_mixed by a particular date - amount of product that has been sold by a particular date***
+
+# cost price of a particular raw material by date
+1. Get
+# profit of a particular raw material by date
+- profit = unit_price_of_raw_material_sale * quantity_of_raw_material_sale - cost_price_of_raw_material * quantity_of_raw_material_sale
