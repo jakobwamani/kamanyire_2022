@@ -27,7 +27,7 @@ class purchases(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	unit_price = models.IntegerField()
-	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 
 	def __str__(self):
 		return 'Purchase id: {} :Purchase Date: {} :Purchase Time: {} : Raw Material: {} : Supplier: {} : Unit Price: {} : Quantity: {}'.format(self.id,self.date,self.time,self.raw_material_name,self.supplier,self.unit_price,self.quantity)
@@ -50,25 +50,25 @@ class raw_material_transactions(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	unit_price = models.IntegerField()
-	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 	
 	def __str__(self):
-		return 'id : {} : Date : {} : Time : {}  Raw Material : {}'.format(self.id,self.date,self.time,self.raw_material_name)
+		return 'id : {} : Date : {} : Time : {}  Raw Material : {}  : Unit_price : {} : Quantity : {}'.format(self.id,self.date,self.time,self.raw_material_name,self.unit_price,self.quantity)
 
 
 class product_names(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
-	product_name = models.CharField(max_length=50 , )
+	product_name = models.CharField(max_length=50 )
 
 	def __str__(self):
-		return 'id : {} : product_name : {}'.format(self.id,self.product_name)
+		return '{}'.format(self.product_name)
 
 class products(models.Model):
 	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
-	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 
 	def __str__(self):
 		return 'date : {} : product_name : {} : quantity : {}'.format(self.id,self.date,self.product_name,self.quantity)
@@ -79,10 +79,10 @@ class raw_material_separations(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	separation_name = models.CharField(max_length=50)
-	ratio = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	ratio = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 
 	def __str__(self):
-		return '{} : {} : {} : {} : {}'.format(self.id,self.raw_material_name,self.product_name,self.separation_name,self.ratio)
+		return '{} : {} : {} : {} : {}'.format(self.id,self.product_name,self.raw_material_name,self.separation_name,self.ratio)
 
 
 
@@ -90,8 +90,8 @@ class product_sales(models.Model):
 	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
-	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	unit_price = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	unit_price = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 	def __str__(self):
 		return '{} : {} : {} : {}'.format(self.id,self.product_name,self.quantity,self.unit_price)
 
@@ -116,8 +116,8 @@ class expenses(models.Model):
 	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
-	unit_price = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
-	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	unit_price = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 
 	def __str__(self):
 		return 'id : {} : expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.expense_name,self.unit_price,self.quantity)
@@ -164,5 +164,6 @@ class salary_payments(models.Model):
 	
 	def __str__(self):
 		return '{} : {} : {} : {}'.format(self.id,self.date,self.employee_id,self.salary)
+
 
 	

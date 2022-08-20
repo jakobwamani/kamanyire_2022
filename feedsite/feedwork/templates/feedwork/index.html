@@ -58,14 +58,42 @@ input[type=submit]:hover {
 } 
 
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
 </style>
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <body>
     <center><h3>STS POULTRY AND ANIMAL FEEDS</h3></center>
 
+    <form action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+                
+                <label>Date</label>
+                <input name="start_date" type="date" ><br/><br/> 
+                <input type="submit" name="submit" value="COMPILE"/>            
+    </form>
+    <strong>Raw Material Stock Balance</strong>
+    {% for key , value in raw_material_stock_balance.items %}
     
-
-   {{ form.media }}
+        
+        <p>{{ key }}     {{ value }}</p>
+        
+       
+    </table>
+    {% endfor %}
 </body>
 
 <center>
@@ -76,6 +104,8 @@ input[type=submit]:hover {
 </footer> 
 
 </center>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 
 </html>

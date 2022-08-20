@@ -36,7 +36,7 @@ class raw_material_transactions_form(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
 	unit_price = forms.IntegerField()
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	
 	class Meta:
 		model = raw_material_transactions
@@ -71,7 +71,7 @@ class purchase_form(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
 	unit_price = forms.IntegerField()
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 
 	class Meta:
 		model = purchases
@@ -83,7 +83,7 @@ class raw_material_transaction_form(forms.ModelForm):
 	time = forms.TimeField(initial=timezone.now())
 	raw_material_name = forms.ModelChoiceField(queryset = raw_material_query)
 	unit_price = forms.IntegerField()
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	
 	class Meta:
 		model = raw_material_transactions
@@ -104,7 +104,7 @@ class product_form(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
 	product_name = forms.ModelChoiceField(queryset = product_name_query)
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 
 	class Meta:
 		model = products
@@ -117,7 +117,7 @@ class raw_material_separation_form(forms.ModelForm):
 	raw_material_name = forms.ModelChoiceField(queryset = raw_material_query)
 	product_name = forms.ModelChoiceField(queryset = product_name_query)
 	separation_name = forms.CharField(max_length=50)
-	ratio = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	ratio = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 
 	class Meta:
 		model = raw_material_separations
@@ -128,8 +128,8 @@ class product_sale_form(forms.ModelForm):
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
 	product_name = forms.ModelChoiceField(queryset = product_name_query)
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	unit_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
+	unit_price = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	class Meta:
 		model = product_sales
 		fields = ["date","time","product_name","quantity","unit_price"]
@@ -160,8 +160,8 @@ class expense_form(forms.ModelForm):
 	time = forms.TimeField(initial=timezone.now())
 	expense_name = forms.ModelChoiceField(queryset = expense_name_query)
 	expense_unit = forms.ModelChoiceField(queryset = expense_unit_query)
-	quantity = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
-	unit_price = forms.DecimalField(max_digits=10, decimal_places=2 , initial=0.0)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
+	unit_price = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	class Meta:
 		model = expenses
 		fields = ["date","time","expense_name","expense_unit","unit_price","quantity"]

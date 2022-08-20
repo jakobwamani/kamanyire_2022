@@ -3,18 +3,32 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 from feedwork.models import *
+
 from feedwork.forms import *
 from feedwork.helper_functions import * 
 from django.db.models import Q
 from django.utils import timezone
 
 from django.http import HttpResponseRedirect
-
+from feedwork.models import *
 import snoop
+import json
 @snoop
 def index(request):
-    
-    return render(request,"index.html",{})
+    if request.method == 'POST':
+        
+        selected_date = request.POST.get('start_date')
+
+        basic_inputs = raw_materials.objects.all()
+
+        raw_material_stock_balance = {}
+
+        for basic_input in basic_inputs:
+            name = basic_input.raw_material_name
+            raw_material_stock_balance[name] = int(stock_balance_for_raw_materials(selected_date,basic_input.raw_material_name))
+
+
+    return render(request,"index.html",{'raw_material_stock_balance':raw_material_stock_balance})
 
 def setup_raw_material_names(request):
     context = {}

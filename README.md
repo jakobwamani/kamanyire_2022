@@ -242,48 +242,49 @@ https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-man
 ## amount_of_purchases_of_raw_material_by_a_particular_date
 
 ### get the date the first raw_material purchase was sold
-```python
-first_purchase = purchases.objects.filter(raw_material_name='specified_raw_material').first()
 
+```python
+first_purchase = purchases.objects.filter(raw_material_name__raw_material_name = 'maize_bran').first()
+#get the date the the raw material was first purchased
+start_date = first_purchase.date
 ```
+*The is a specific way on how to get data from related tables*
+[How to deal with One To Many Relationships](https://docs.djangoproject.com/en/4.1/topics/db/examples/many_to_one/)
 
 ### get the purchases that have been made since that date up to the selected date
 
 ```python
 
-purchases = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date__range=first_purchase.date,'specified_date')
-
+purchases = purchases.objects.filter(raw_material_name__raw_material_name = 'maize_bran').filter(date__range=['2022-08-17', '2022-08-19'])
 purchases_list = []
 for purchase in purchases:
-    amount = purchase.unit_price * purchase.amount
-    puchases_list.append(amount)
+    puchases_list.append(purchase.quantity)
 quantity_of_purchases = sum(purchases_list)
 ```
 
-## amount_of_raw_material_sales_by_a_particular_date
+## amount_of_sales of a particular raw material by a particular date
 #get the date the first raw_material_was sold
 ```python
-first_sale = raw_material_sales.objects.filter(raw_material_name='specified_raw_material').first()
+first_sale = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = 'maize_bran').first()
 
 ```
 
-### get the sales that have been made since that date up to the selected date
+### get the sales of that particular raw material that have been sold since that date up to the selected date
 ```python
 sales = raw_material_sales.objects.filter(raw_material_name='specified_raw_material').filter(date__range=first_purchase.date,'specified_date')
 
 sales_list = []
 for sale in sales:
-    amount = sale.unit_price * sale.amount
-    sales_list.append(amount)
+    sales_list.append(sale.quantity)
 quantity_of_sales = sum(sales_list)
 ```
 ## amount_raw_material_that_has_been_used_to_make_products_till a particular_date
 0. get to know one product where the raw material is involved
 ```python
-    one_product = raw_material_separations.objects.filter(raw_material_name='specified_raw_material')
+    products = raw_material_separations.objects.filter(product_name__product_name='layers marsh')
     # the above query will be get us many instances but shall select the last one for instance 
-    one_product = raw_material_separations.objects.filter(raw_material_name='specified_raw_material').last()
-    one_product.product_name.product_name
+    products = raw_material_separations.objects.filter(product_name__product_name='layers marsh').last()
+    products.product_name.product_name
 ```
 1. get the standard weight of a particular product
 ```python
@@ -296,36 +297,43 @@ quantity_of_sales = sum(sales_list)
 ```
 2. understand how much of the raw material can be separated in the standard weight of a particular_product
 ```python
-    weights = raw_material_separations.objects.filter(product_name='one_product.product_name.product_name').filter(raw_material_name='specified_raw_material')
+    module_weight = raw_material_separations.objects.filter(product_name__product_name='layers marsh').filter(raw_material_name__raw_material_name = 'maize_bran')
     #get the weight
     standard_weight_of_raw_material = weights.ratio
 ```
 3. understand how much raw_material can be separated in one kilogram of a particular product
 ```python
-    standard_weight = standard_weight_of_raw_material
+    
     #how about one kilo of the standard weight
     one_kilogram_of_standard_weight = standard_weight / standard_weight_of_raw_material
 ```
 5. get the total number of kilograms that has been mixed for a particular product till a particular date.
 ```python
+
 raw_material_quantity = []
+
 #get the first product mixture
-first_product_quantity = products.objects.filter(product_name='specified_product_name').first()
-first_date = product_quantities.date 
+
+product_quantity = products.objects.filter(product_name__product_name='layers marsh').first()
+
+start_date = product_quantity.date
+ 
+
 #get the different product mixtures done till a particular date
-product_quantities = products.objects.filter(product_name='specified_product_name').filter(date__range='first_date','specified_date')
+product_quantities = products.objects.filter(product_name__product_name='layers marsh').filter(date__range='first_date','specified_date')
+
 for product in product_quantities:
     raw_material_quantity.append(product_quantities.quantity)
 
-quantity_of_raw_material_mixed = sum(raw_material_quantity)
+quantity_of_product_mixed = sum(raw_material_quantity)
 ```
 5. understand how much raw_material can be mixed in the total number of kilograms for a particular product that has been mixed till a particular date.
 ```python
-total_weight_of_raw_material_mixed = one_kilogram_of_standard_weight * quantity_of_product_sold
+total_weight_of_raw_material_mixed = one_kilogram_of_standard_weight * quantity_of_product_mixed
 ```
 6. Stock Balance
 ```python
-stock balance = quantity_of_purchases - quantity_of_sales -
+stock balance = quantity_of_purchases - quantity_of_sales - total_weight_of_raw_material_mixed
 ```
 7. Scale
 ***If we have been able to do it for one product then we can do it for other products and then add together the stock balances***
@@ -423,31 +431,127 @@ for purchase in purchases
 ```python
 #we use a function that we have used above
 ```
-8. To get the old cost price we multiply the stock balance with the unit price of the raw material in its second last purchase
-9. Divide it by the stock balance
+8. To get the old_total_cost we multiply the stock balance with the unit price of the raw material in its second last purchase
+
+9. To get the old_cost_price we divide the old_total_cost by the stock balance  
 
 10. To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
 
 # cost price of a particular a product by date
-1. Select a particular product in a product sale
+1. Select a particular product in a product sale on a particular date
+```python
+product = products.objects.filter(product_name='specified_product_name').filter(date='date').last()
+```
 2. Find out the raw materials that are involved in that product
+```python
+#one begins by know how the product has been seperated
+separations = raw_material_separations.objects.filter(product_name='specified_product_name')
+names = []
+for separation in separations:
+    names.append(separation.product_name)
+#understand to which raw material do those separation names belong
+#by removing any duplicate
+names = list(dict.fromkeys(names))
+print(names)
+```
 3. Find the cost prices of the different raw materials involved in that product
-4. Divide those cost prices by the specific ratios involved in the standard weight of a product
-5. Findout the cost prices involved in one kilogram of the product
-6. Sum up all those costprices to get one cost price in one kilogram of the product
-7. Mulitply that with the quantity of the product that has been sold till a particular date.
+```python
+#the cost price of each and every raw material found in that names list
+cost_price_dict = {}
+for name in names:
+    #use the above function to find the cost price by a specific date
+```
+4. Find the standard weight of the product
+```python
+separations = raw_material_separations.objects.filter(product_name='specified_product_name')
+ratios ={}
+standard_weight = 0
+for separation in separations:
+    ratios[separation.raw_material_name]=separation.ratio
+for key, value in ratios.items()
+    standard_weight += value
+```
+5. Divide those cost prices by the specific ratios involved in the standard weight of a product
+```python
+    divided_cost_price_dict = {}
+    for raw_material, cost_price in cost_price_dict.items()
+        for raw_material_separation , ratio in ratios.items()
+            divided_cost_price_dict[raw_material] = cost_price/ratio
+```
+6. Findout the cost prices involved in one kilogram of the product
+```python
+standard_cost_price = 0 
+for key , value in divided_cost_price_dict.items()
+    standard_cost_price += value
 
+standard_weight = standard_cost_price
+one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
+```
+
+7. Mulitply that with the quantity of the product that has been sold till a particular date.
+```python
+
+    #Get date of the first sale of a particular product
+
+    product = product_sales.objects.filter(product_name='specified_product_name').first()
+    start_date = product.date
+
+    #Get amount of the product that had been sold till a particular date
+    product_sale_list = []
+    sales = product_sales.objects.filter(date__range='start_date','specified_date')
+    for sale in sales:
+        product_sale_list.append(sale.quantity)
+    product_sale_summation = sum(product_sale_list)
+
+
+    cost_price = one_kilogram_of_standard_weight * product_sale_summation
+```
 
 # profit of a particular raw material by date
 1. Get the unit price of the raw material sale on a specific date
+```python
+sales = raw_material_sales.objects.filter(raw_material_name='specified_raw_material').filter(date='date')
+for sale in sales:
+    #get the unit price
+    sale.unit_price
+```
 2. Get the quantity of the raw material sale on a specific date
+```python
+#get the quantity
+    sale.quantity
+```
 3. Get the cost price of the raw material on a specific date
+```python
+    #get the cost price of raw material using the above defined function
+```
 4. Do the basic formula below and get the profit
+```python
+    #do this with a the basic profit formula below
+    #do the above steps for every occurance and then add the profits 
+```
 ***profit = (unit_price_of_raw_material_sale * quantity_of_raw_material_sale) - (cost_price_of_raw_material * quantity_of_raw_material_sale)***
+
 
 # profit of a particular product by date
 1. Get the unit price of the product sale on a specific date
+```python
+sales = product_sales.objects.filter(product_name='specified_product_name').filter(date='date')
+for sale in sales:
+    #get the unit_price
+    sale.unit_price
+```
 2. Get the quantity of the product sale on a specific date
+```python
+    #get the quantity
+    sale.quantity
+```
 3. Get the cost price of the product on a specific date
+```python
+    #get the cost price of the product using the above defined function
+```
 4. Do the basic formula below and get the profit
+```python
+    #do this with a the basic profit formula below
+    #do the above steps for every occurance and then add the profits 
+```
 ***profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price_of_product * quantity_of_product_sale)***
