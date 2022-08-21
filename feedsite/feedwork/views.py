@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 from feedwork.models import *
-
+import statistics
 from feedwork.forms import *
 from feedwork.helper_functions import * 
 from django.db.models import Q
@@ -19,17 +19,150 @@ def index(request):
         
         selected_date = request.POST.get('start_date')
 
-        basic_inputs = raw_materials.objects.all()
+        # basic_inputs = raw_materials.objects.all()
 
-        raw_material_stock_balance = {}
+        # raw_material_stock_balance = {}
 
-        for basic_input in basic_inputs:
-            name = basic_input.raw_material_name
-            raw_material_stock_balance[name] = int(stock_balance_for_raw_materials(selected_date,basic_input.raw_material_name))
+        # for basic_input in basic_inputs:
+
+        #     name = basic_input.raw_material_name
+
+        #     raw_material_stock_balance[name] = stock_balance_for_raw_materials(selected_date,basic_input.raw_material_name)
+
+        # #Stock balance for products
+        # out_come_names = product_names.objects.all()
+
+        # product_stock_balance = {}
+
+        # for out_come_name in out_come_names:
+
+        #     product_stock_balance[out_come_name.product_name] = stock_balance_for_products(out_come_name.product_name,selected_date)
+    
+
+        print("The cost price of raw material is ",cost_price_of_raw_material(selected_date,'maize_bran'))
+
+        # cost price of a particular a product by date
+
+        result_name = product_names.objects.filter(product_name='layers marsh')
+
+        # Find out the raw materials that are involved in that product
+
+        separations = raw_material_separations.objects.filter(product_name__product_name='layers marsh')
+
+        names = {}
+
+        for separation in separations:
+
+            names[separation.separation_name]=separation.raw_material_name.raw_material_name
+
+        # understand to which raw material do those separation names belong
+
+        print(names)
 
 
-    return render(request,"index.html",{'raw_material_stock_balance':raw_material_stock_balance})
+        # Find the cost prices of the different raw materials involved in that product
 
+        cost_price_dict = {}
+
+        for key , value in names.items():
+
+            cost_price_dict[value]=cost_price_of_raw_material(selected_date,value)
+
+        print(cost_price_dict)
+        
+
+        #Find the standard weight of the product
+
+        separations = raw_material_separations.objects.filter(product_name__product_name='layers marsh')
+
+        ratios = {}
+
+        standard_weight = 0
+
+        for separation in separations:
+
+            ratios[separation.raw_material_name.raw_material_name]=separation.ratio
+
+        for key, value in ratios.items():
+
+            standard_weight += value
+
+        print(standard_weight)
+
+        print(ratios)
+
+        ## Divide those cost prices by the specific ratios involved in the standard weight of a product
+
+        divided_cost_price_dict = {}
+
+        loop = 0
+
+        for raw_material, cost_price in cost_price_dict.items():
+
+            print(raw_material,"",cost_price)
+
+            if raw_material in ratios.keys():
+
+                print("Yes, it exists and if so then...")
+
+                #divide the cost price of the raw material by the ratio that goes into the standard weight
+
+                divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material])
+
+        print(divided_cost_price_dict)
+
+      
+        ## Findout the cost prices involved in one kilogram of the product
+
+        standard_cost_price = 0 
+
+        for key , value in divided_cost_price_dict.items():
+
+            standard_cost_price += value
+
+        print(standard_cost_price)
+
+        #How about the cost price of one kilogram of standard weight of a product
+
+        one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
+
+        print(one_kilogram_of_standard_weight)
+
+        # Mulitply that with the quantity of the product that has been sold till a particular date.
+
+        #Get date of the first sale of a particular product
+
+        sale = product_sales.objects.filter(product_name__product_name='layers marsh').first()
+
+        if sale == None:
+
+            pass
+
+        else:
+
+            start_date = sale.date
+
+            #Get amount of the product that had been sold till a particular date
+
+            product_sale_list = []
+
+            sales = product_sales.objects.filter(date__range=[start_date,selected_date])
+
+            for deal in sales:
+
+                product_sale_list.append(deal.quantity)
+
+            total_deals = sum(product_sale_list)
+
+            cost_price = one_kilogram_of_standard_weight * total_deals
+
+            # return cost_price
+
+            
+        return render(request,"index.html",{})
+
+    else:
+        return render(request,"index.html",{})
 def setup_raw_material_names(request):
     context = {}
     # add the dictionary during initialization

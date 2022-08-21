@@ -349,13 +349,13 @@ stock balance = quantity_of_purchases - quantity_of_sales - total_weight_of_raw_
 
 1. Get date of the first mixture of a particular product
 ```python
-    product = products.objects.filter(product_name='specified_product_name').first()
-    start_date = product.date
+    out_come = products.objects.filter(product_name__product_name='layers marsh').first()
+    start_date = out_come.date
 ```
 2. Get amount of the product that had been mixture till a particular date
 ```python
     product_quantity_list = []
-    products = products.objects.filter(date__range='start_date','specified_date')
+    out_comes = products.objects.filter(date__range='start_date','specified_date')
     for product in products:
         product_quantity_list.append(product.quantity)
     product_quantity_summation = sum(product_quantity_list)
@@ -382,6 +382,7 @@ stock balance = quantity_of_purchases - quantity_of_sales - total_weight_of_raw_
 1. Get the unit price of a particular raw material in its last purchase
 ```python
 new_purchase = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date='date').last()
+
 new_unit_price = new_purchase.unit_price
 ```
 2. Get the quantity of the a particular raw material in its last purchase
@@ -390,13 +391,13 @@ new_quantity = new_purchase.quantity
 ```
 3. Get the logistics of that a particular raw material in its last purchase
 ```python
-new_logistics = new.objects.filter(purchase='last_purchase.id').filter(date='date')
-new_loading = new_logistics.loading
-new_off_loading = new_logistics.offloading
-new_transport = new_logistics.transport
+    new_logistics = new.objects.filter(purchase='last_purchase.id').filter(date='date')
+    new_loading = new_logistics.loading
+    new_off_loading = new_logistics.offloading
+    new_transport = new_logistics.transport
 
-# Add the logistics together
-logistics = new_loading + new_off_loading + new_transport
+    # Add the logistics together
+    logistics = new_loading + new_off_loading + new_transport
 ```
 4. To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
 ```python
@@ -409,23 +410,50 @@ new_cost_price = new_total_cost / new_quantity
 6. Check to see if there is a difference in the unit price from the second last purchase of a particular raw material
 ```python 
 purchases = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date='date')
-loop = 0
-for purchase in purchases
-    loop += 1
-    if loop == 1:
-        #get date of the current occurance of purchases
-        old_date = purchases.date
-        #get the unit price of the current occurance of purchases
-        old_unit_price = purchases.unit_price
-        #then we compare the old unit price and the new unit price
-        #then compare the unit prices
-        if old_unit_price == new_unit_price:
-            pass 
-        else:
-            
+
+if len(purchases) > 1:
+
+    loop = 0
+    for purchase in purchases
+        loop += 1
+        if loop == 1:
+            #get date of the current occurance of purchases
+            old_date = purchases.date
+            #get the unit price of the current occurance of purchases
+            old_unit_price = purchases.unit_price
+            #then we compare the old unit price and the new unit price
+            #then compare the unit prices
+            if old_unit_price == new_unit_price:
+                pass 
+            else:
+                
 
 
-        break
+            break
+elif len(purchases) == 0:
+
+    #get the date the first purchase was made
+    purchases = purchases.objects.filter(raw_material_name='specified_raw_material').first()
+    #to get the last date
+    last_purchases = purchases.objects.filter(raw_material_name='specified_raw_material').filter().last()
+    last_purchases.date 
+
+    first_date = purchases.date
+
+    range_stuff = purchases.objects.filter(raw_material_name='specified_raw_material').filter(date__range=[first_date,last_purchases.date])
+
+    loop = 0
+    for row in range_stuff:
+        loop += 1
+        if loop == 1:
+            old_date = range_stuff.date 
+
+            old_unit_price = range_stuff.unit_price 
+
+            if old_unit_price == new_unit_price:
+                pass 
+            else:
+                
 ```
 7. if there is a difference , then we calculate the stock balance of that particular raw material till a particular date.
 ```python
@@ -440,7 +468,8 @@ for purchase in purchases
 # cost price of a particular a product by date
 1. Select a particular product in a product sale on a particular date
 ```python
-product = products.objects.filter(product_name='specified_product_name').filter(date='date').last()
+result_name = product_names.objects.filter(product_name='broilers marsh')
+
 ```
 2. Find out the raw materials that are involved in that product
 ```python
@@ -448,7 +477,7 @@ product = products.objects.filter(product_name='specified_product_name').filter(
 separations = raw_material_separations.objects.filter(product_name='specified_product_name')
 names = []
 for separation in separations:
-    names.append(separation.product_name)
+    names.append(separation.raw_material_name)
 #understand to which raw material do those separation names belong
 #by removing any duplicate
 names = list(dict.fromkeys(names))
@@ -464,7 +493,7 @@ for name in names:
 4. Find the standard weight of the product
 ```python
 separations = raw_material_separations.objects.filter(product_name='specified_product_name')
-ratios ={}
+ratios = {}
 standard_weight = 0
 for separation in separations:
     ratios[separation.raw_material_name]=separation.ratio

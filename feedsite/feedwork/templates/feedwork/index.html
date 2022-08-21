@@ -85,15 +85,31 @@ tr:nth-child(even) {
                 <input name="start_date" type="date" ><br/><br/> 
                 <input type="submit" name="submit" value="COMPILE"/>            
     </form>
-    <strong>Raw Material Stock Balance</strong>
+    <div>
+        <strong>Raw Material Stock Balance</strong>
+    <table>
     {% for key , value in raw_material_stock_balance.items %}
     
         
         <p>{{ key }}     {{ value }}</p>
         
-       
-    </table>
     {% endfor %}
+    </table>
+
+    </div>
+    
+    <div>
+    <strong>Product Stock Balance</strong>
+    <table>
+    {% for key , value in product_stock_balance.items %}
+    
+        
+        <p>{{ key }}     {{ value }}</p>
+        
+    {% endfor %}
+    </table>
+    </div>
+
 </body>
 
 <center>
