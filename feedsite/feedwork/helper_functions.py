@@ -368,3 +368,121 @@ def cost_price_of_raw_material(picked_date,basic_input):
                   return optimal_cost_price
 
                      
+
+
+def cost_price_of_product(picked_date,out_come):
+
+   result_name = product_names.objects.filter(product_name=out_come)
+
+   # Find out the raw materials that are involved in that product
+
+   separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
+
+   names = {}
+
+   for separation in separations:
+
+      names[separation.separation_name]=separation.raw_material_name.raw_material_name
+
+   # understand to which raw material do those separation names belong
+
+   print(names)
+
+
+   # Find the cost prices of the different raw materials involved in that product
+
+   cost_price_dict = {}
+
+   for key , value in names.items():
+
+      cost_price_dict[value]=cost_price_of_raw_material(picked_date,value)
+
+   print(cost_price_dict)
+
+
+   #Find the standard weight of the product
+
+   separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
+
+   ratios = {}
+
+   standard_weight = 0
+
+   for separation in separations:
+
+      ratios[separation.raw_material_name.raw_material_name]=separation.ratio
+
+   for key, value in ratios.items():
+
+      standard_weight += value
+
+   print(standard_weight)
+
+   print(ratios)
+
+   ## Divide those cost prices by the specific ratios involved in the standard weight of a product
+
+   divided_cost_price_dict = {}
+
+   loop = 0
+
+   for raw_material, cost_price in cost_price_dict.items():
+
+      print(raw_material,"",cost_price)
+
+      if raw_material in ratios.keys():
+
+          print("Yes, it exists and if so then...")
+
+          #divide the cost price of the raw material by the ratio that goes into the standard weight
+
+          divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material])
+
+   print(divided_cost_price_dict)
+
+
+   ## Findout the cost prices involved in one kilogram of the product
+
+   standard_cost_price = 0 
+
+   for key , value in divided_cost_price_dict.items():
+
+      standard_cost_price += value
+
+   print(standard_cost_price)
+
+   #How about the cost price of one kilogram of standard weight of a product
+
+   one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
+
+   print(one_kilogram_of_standard_weight)
+
+   # Mulitply that with the quantity of the product that has been sold till a particular date.
+
+   #Get date of the first sale of a particular product
+
+   sale = product_sales.objects.filter(product_name__product_name=out_come).first()
+
+   if sale == None:
+
+      pass
+
+   else:
+
+      start_date = sale.date
+
+      #Get amount of the product that had been sold till a particular date
+
+      product_sale_list = []
+
+      sales = product_sales.objects.filter(date__range=[start_date,picked_date])
+
+      for deal in sales:
+
+          product_sale_list.append(deal.quantity)
+
+      total_deals = sum(product_sale_list)
+
+      cost_price = one_kilogram_of_standard_weight * total_deals
+
+      return cost_price
