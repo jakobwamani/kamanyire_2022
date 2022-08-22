@@ -43,7 +43,6 @@ class logistics(models.Model):
 	def __str__(self):		   
 		return ' {} : {} : {}'.format(self.date,self.time,self.purchase)
 
-
 	
 class raw_material_transactions(models.Model):
 	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)

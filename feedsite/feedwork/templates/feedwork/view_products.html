@@ -5,6 +5,7 @@
 	<title>
 		View Products
 	</title>
+    {% load supply_extras %}
     <style type="text/css">
         table, th, td {
   border: 1px solid black;
@@ -43,6 +44,7 @@ input[type=submit] {
                         <th>Time</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
+                        <th>Cost of One Kg</th>
                         <th>Update</th>
                         <th>Delete</th>
                        
@@ -54,6 +56,7 @@ input[type=submit] {
                         <th>{{ item.time }}
                         <td>{{ item.product_name }}</td>
                         <td>{{ item.quantity }}</td>
+                        <td>{{ item.date|cost_price_of_product:item.product_name.product_name}}</td>
                         <td><a href="../update_products/?id={{ item.id }}">Update</a></td>
                         <td><a href="../delete_products/?id={{ item.id }}">Delete</a></td>
 

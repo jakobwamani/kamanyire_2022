@@ -8,6 +8,16 @@ import snoop
 from django.utils import timezone
 from decimal import Decimal
 import datetime
+
+
+
+def division(x,y):
+    try:
+        return x/y
+    except ZeroDivisionError:
+        return 0
+
+
 @snoop
 
 def stock_balance_for_raw_materials(picked_date,basic_input):
@@ -153,15 +163,10 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
             return stock_balance
 
 
-def division(x,y):
-    try:
-        return x/y
-    except ZeroDivisionError:
-        return 0
 
 
 
-
+@snoop
 def stock_balance_for_products(product,picked_date):
    # Stock balance for a particular product by a particular date
 
@@ -216,7 +221,7 @@ def stock_balance_for_products(product,picked_date):
 
 
 
-
+@snoop
 def cost_price_of_raw_material(picked_date,basic_input):
    
    ## cost price of a particular raw material by date
@@ -369,120 +374,224 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
                      
 
-
+@snoop
 def cost_price_of_product(picked_date,out_come):
 
    result_name = product_names.objects.filter(product_name=out_come)
 
-   # Find out the raw materials that are involved in that product
-
-   separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
-
-   names = {}
-
-   for separation in separations:
-
-      names[separation.separation_name]=separation.raw_material_name.raw_material_name
-
-   # understand to which raw material do those separation names belong
-
-   print(names)
-
-
-   # Find the cost prices of the different raw materials involved in that product
-
-   cost_price_dict = {}
-
-   for key , value in names.items():
-
-      cost_price_dict[value]=cost_price_of_raw_material(picked_date,value)
-
-   print(cost_price_dict)
-
-
-   #Find the standard weight of the product
-
-   separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
-
-   ratios = {}
-
-   standard_weight = 0
-
-   for separation in separations:
-
-      ratios[separation.raw_material_name.raw_material_name]=separation.ratio
-
-   for key, value in ratios.items():
-
-      standard_weight += value
-
-   print(standard_weight)
-
-   print(ratios)
-
-   ## Divide those cost prices by the specific ratios involved in the standard weight of a product
-
-   divided_cost_price_dict = {}
-
-   loop = 0
-
-   for raw_material, cost_price in cost_price_dict.items():
-
-      print(raw_material,"",cost_price)
-
-      if raw_material in ratios.keys():
-
-          print("Yes, it exists and if so then...")
-
-          #divide the cost price of the raw material by the ratio that goes into the standard weight
-
-          divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material])
-
-   print(divided_cost_price_dict)
-
-
-   ## Findout the cost prices involved in one kilogram of the product
-
-   standard_cost_price = 0 
-
-   for key , value in divided_cost_price_dict.items():
-
-      standard_cost_price += value
-
-   print(standard_cost_price)
-
-   #How about the cost price of one kilogram of standard weight of a product
-
-   one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
-
-   print(one_kilogram_of_standard_weight)
-
-   # Mulitply that with the quantity of the product that has been sold till a particular date.
-
-   #Get date of the first sale of a particular product
-
-   sale = product_sales.objects.filter(product_name__product_name=out_come).first()
-
-   if sale == None:
+   if result_name == None:
 
       pass
 
    else:
+      # Find out the raw materials that are involved in that product
 
-      start_date = sale.date
+      separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
 
-      #Get amount of the product that had been sold till a particular date
+      names = {}
 
-      product_sale_list = []
+      for separation in separations:
 
-      sales = product_sales.objects.filter(date__range=[start_date,picked_date])
+         names[separation.separation_name]=separation.raw_material_name.raw_material_name
+
+      # understand to which raw material do those separation names belong
+
+      print(names)
+
+
+      # Find the cost prices of the different raw materials involved in that product
+
+      cost_price_dict = {}
+
+      for key , value in names.items():
+
+         cost_price_dict[value]=cost_price_of_raw_material(picked_date,value)
+
+      print(cost_price_dict)
+
+
+      #Find the standard weight of the product
+
+      separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
+
+      ratios = {}
+
+      standard_weight = 0
+
+      for separation in separations:
+
+         ratios[separation.raw_material_name.raw_material_name]=separation.ratio
+
+      for key, value in ratios.items():
+
+         standard_weight += value
+
+      print(standard_weight)
+
+      print(ratios)
+
+      ## Divide those cost prices by the specific ratios involved in the standard weight of a product
+
+      divided_cost_price_dict = {}
+
+      loop = 0
+
+      for raw_material, cost_price in cost_price_dict.items():
+
+         print(raw_material,"",cost_price)
+
+         if raw_material in ratios.keys():
+
+            print("Yes, it exists and if so then...")
+
+            #divide the cost price of the raw material by the ratio that goes into the standard weight
+
+             # but if cost price
+            if cost_price == None:
+
+               cost_price = 0
+
+               divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material])
+
+            else:
+
+               divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material]) 
+
+      print(divided_cost_price_dict)
+
+
+      ## Findout the cost prices involved in one kilogram of the product
+
+      standard_cost_price = 0 
+
+      for key , value in divided_cost_price_dict.items():
+
+         standard_cost_price += value
+
+      print(standard_cost_price)
+
+      # How about the cost price of one kilogram of standard weight of a product
+
+      # one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
+
+      one_kilogram_of_standard_weight = division(standard_weight , standard_cost_price)
+
+      print(one_kilogram_of_standard_weight)
+
+      # Mulitply that with the quantity of the product that has been sold till a particular date.
+
+      #Get date of the first sale of a particular product
+
+      sale = product_sales.objects.filter(product_name__product_name=out_come).first()
+
+      if sale == None:
+
+         pass
+
+      else:
+
+         start_date = sale.date
+
+         #Get amount of the product that had been sold till a particular date
+
+         product_sale_list = []
+
+         sales = product_sales.objects.filter(date__range=[start_date,picked_date])
+
+         for deal in sales:
+
+             product_sale_list.append(deal.quantity)
+
+         total_deals = sum(product_sale_list)
+
+         cost_price = one_kilogram_of_standard_weight * total_deals
+
+         return cost_price
+
+@snoop
+def profit_of_raw_material(material,picked_date):
+
+   deal_list = []
+
+   bulk_list = []
+
+   sales = raw_material_transactions.objects.filter(raw_material_name__raw_material_name=material).filter(date=picked_date)
+
+   if sales == None:
+
+      pass 
+
+   else:
 
       for deal in sales:
 
-          product_sale_list.append(deal.quantity)
+         #get the unit price
 
-      total_deals = sum(product_sale_list)
+         deal_list.append(deal.unit_price)
 
-      cost_price = one_kilogram_of_standard_weight * total_deals
+         #get the quantity
 
-      return cost_price
+         bulk_list.append(deal.quantity)
+
+      ## Unit Price Total
+      unit_price_of_raw_material_sale = sum(deal_list)
+
+      ## quantity_of_raw_material_sale
+      quantity_of_raw_material_sale = sum(bulk_list)
+
+      ## Get the cost price of the raw material on a specific date
+
+      cost_price = cost_price_of_raw_material(picked_date,material)
+
+      if cost_price == None:
+
+         cost_price = 0 
+      else:
+         pass
+
+      ## Do the basic formula below and get the profit
+
+      profit = (unit_price_of_raw_material_sale * quantity_of_raw_material_sale) - (cost_price * quantity_of_raw_material_sale)
+
+      return profit
+
+
+@snoop
+def profit_of_product(material,picked_date):
+   ## Get the unit price of the product sale on a specific date
+
+   sales = product_sales.objects.filter(product_name__product_name=material).filter(date=picked_date)
+
+   deal_list = []
+
+   bulk_list = []
+
+   for deal in sales:
+
+      #get the unit_price
+
+      deal_list.append(deal.unit_price)
+
+      #get the quantity
+
+      bulk_list.append(deal.quantity)
+
+   #unit price
+
+   unit_price_of_product_sale = sum(deal_list)
+
+   #quantity 
+
+   quantity_of_product_sale = sum(bulk_list)
+
+   ## Get the cost price of the product on a specific date
+
+   cost_price = cost_price_of_product(picked_date,material)
+
+   ## Do the basic formula below and get the profit
+
+   profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price * quantity_of_product_sale)
+
+   profit = int(profit)
+
+   return profit

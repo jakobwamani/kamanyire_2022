@@ -43,7 +43,9 @@ class raw_material_transactions_form(forms.ModelForm):
 		fields = ["date","time","raw_material_name","unit_price","quantity"]
 
 class supplier_form(forms.ModelForm):
-	
+	YEARS= [x for x in range(2000,2030)]
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	time = forms.TimeField(initial=timezone.now())
 	supplier_name = forms.CharField(max_length=50)
 		
 	class Meta:
