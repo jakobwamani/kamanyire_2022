@@ -1,5 +1,6 @@
 from requests import request
 from feedwork.models import *
+from django.conf.urls import *
 import datetime
 from django.db.models import Q
 # Import statistics Library
@@ -174,48 +175,52 @@ def stock_balance_for_products(product,picked_date):
 
    out_come = products.objects.filter(product_name__product_name=product).first()
 
-   start_date = out_come.date 
+   if out_come == None:
+      pass 
 
-   start_date = start_date.strftime("%Y-%m-%d")
+   else:
+      start_date = out_come.date 
 
-   ## Get amount of the product that had been mixture till a particular date
+      start_date = start_date.strftime("%Y-%m-%d")
 
-   product_quantity_list = []
+      ## Get amount of the product that had been mixture till a particular date
 
-   out_comes = out_comes = products.objects.filter(date__range=[start_date,picked_date])
+      product_quantity_list = []
 
-   for out_come in out_comes:
+      out_comes = out_comes = products.objects.filter(date__range=[start_date,picked_date])
 
-     product_quantity_list.append(out_come.quantity)
+      for out_come in out_comes:
 
-   product_quantity_mixed = sum(product_quantity_list)
+        product_quantity_list.append(out_come.quantity)
 
-   ## Get date of the first sale of a particular product
+      product_quantity_mixed = sum(product_quantity_list)
 
-   sale = product_sales.objects.filter(product_name__product_name=product).first()
+      ## Get date of the first sale of a particular product
 
-   start_date = sale.date
+      sale = product_sales.objects.filter(product_name__product_name=product).first()
 
-   start_date = start_date.strftime("%Y-%m-%d")
+      start_date = sale.date
 
-   # Get amount of the product that had been sold till a particular date
+      start_date = start_date.strftime("%Y-%m-%d")
 
-   product_sale_list = []
+      # Get amount of the product that had been sold till a particular date
 
-   sales = product_sales.objects.filter(product_name__product_name=product).filter(date__range=[start_date,picked_date])
+      product_sale_list = []
 
-   for sale in sales:
+      sales = product_sales.objects.filter(product_name__product_name=product).filter(date__range=[start_date,picked_date])
 
-     product_sale_list.append(sale.quantity)
+      for sale in sales:
 
-   total_product_sold = sum(product_sale_list)
+        product_sale_list.append(sale.quantity)
 
-   #stock balance
-   stock_balance = product_quantity_mixed - total_product_sold
+      total_product_sold = sum(product_sale_list)
 
-   print(stock_balance)
+      #stock balance
+      stock_balance = product_quantity_mixed - total_product_sold
 
-   return stock_balance
+      print(stock_balance)
+
+      return stock_balance
 
 
 
@@ -272,8 +277,11 @@ def cost_price_of_raw_material(picked_date,basic_input):
    enforcements = purchases.objects.filter(raw_material_name__raw_material_name=basic_input).filter(date=picked_date).order_by('time')
 
    ## This works if a another purchase was made that day
+   if len(enforcements) == 1:
 
-   if len(enforcements) >= 1:
+      return new_cost_price
+
+   elif len(enforcements) >= 1:
 
       loop = 0
 
@@ -358,19 +366,39 @@ def cost_price_of_raw_material(picked_date,basic_input):
                else:
 
                   stock_balance = stock_balance_for_raw_materials(picked_date,basic_input)
-                  ## To get the old_total_cost we multiply the stock balance with the unit price of the raw material in its second last purchase
 
-                  old_total_cost = stock_balance * old_unit_price
+                  if stock_balance == None:
 
-                  ## To get the old_cost_price we divide the old_total_cost by the stock balance 
+                     stock_balance = 0 
 
-                  old_cost_price = old_total_cost / stock_balance
+                     ## To get the old_total_cost we multiply the stock balance with the unit price of the raw material in its second last purchase
 
-                  ## To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
+                     old_total_cost = stock_balance * old_unit_price
 
-                  optimal_cost_price = statistics.mean([old_cost_price,new_cost_price])
+                     ## To get the old_cost_price we divide the old_total_cost by the stock balance 
 
-                  return optimal_cost_price
+                     old_cost_price = division(old_total_cost , stock_balance)
+
+                     ## To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
+
+                     optimal_cost_price = statistics.mean([old_cost_price,new_cost_price])
+
+                     return optimal_cost_price
+                  else:
+
+                     ## To get the old_total_cost we multiply the stock balance with the unit price of the raw material in its second last purchase
+
+                     old_total_cost = stock_balance * old_unit_price
+
+                     ## To get the old_cost_price we divide the old_total_cost by the stock balance 
+
+                     old_cost_price = old_total_cost / stock_balance
+
+                     ## To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
+
+                     optimal_cost_price = statistics.mean([old_cost_price,new_cost_price])
+
+                     return optimal_cost_price
 
                      
 
@@ -588,10 +616,24 @@ def profit_of_product(material,picked_date):
 
    cost_price = cost_price_of_product(picked_date,material)
 
-   ## Do the basic formula below and get the profit
+   if cost_price == None:
 
-   profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price * quantity_of_product_sale)
+      cost_price = 0
 
-   profit = int(profit)
+      ## Do the basic formula below and get the profit
 
-   return profit
+      profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price * quantity_of_product_sale)
+
+      profit = int(profit)
+
+      return profit
+
+   else:
+
+      ## Do the basic formula below and get the profit
+
+      profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price * quantity_of_product_sale)
+
+      profit = int(profit)
+
+      return profit

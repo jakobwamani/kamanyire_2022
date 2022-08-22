@@ -262,10 +262,18 @@ def see_purchases(request):
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
 
-    purchase = purchases.objects.filter(date__range=[start_date, end_date])
+    raw_material = request.POST.get('raw_material')
+
+    print(raw_material)
+
+    input_names = raw_materials.objects.values('raw_material_name').distinct()
+
+    purchase = purchases.objects.filter(date__range=[start_date, end_date]).filter(raw_material_name__raw_material_name=raw_material)
+
+    
      
     # return render(request, "view_supply.html", context)
-    return render(request, "view_purchase.html", {'purchase':purchase})
+    return render(request, "view_purchase.html", {'purchase':purchase,'input_names':input_names})
 
 
 def update_purchases(request):
@@ -322,13 +330,20 @@ def execute_raw_material_transactions(request):
 def view_raw_material_transactions(request):
     #get the date from the user 
     start_date = request.POST.get('start_date')
+
     end_date = request.POST.get('end_date')
 
-    material_sales = raw_material_transactions.objects.filter(date__range=[start_date, end_date])
+    raw_material = request.POST.get('raw_material')
+
+    print(raw_material)
+
+    input_names = raw_materials.objects.values('raw_material_name').distinct()
+
+    material_sales = raw_material_transactions.objects.filter(date__range=[start_date, end_date]).filter(raw_material_name__raw_material_name=raw_material )
      
     # context ={'material_sales': material_sales}
 
-    return render(request, "view_raw_material_transactions.html", {'material_sales':material_sales})
+    return render(request, "view_raw_material_transactions.html", {'material_sales':material_sales,'input_names':input_names})
 
 def update_raw_material_transactions(request):
     context_dict = {}
@@ -439,11 +454,17 @@ def setup_products(request):
 def view_products(request):
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
-    
-    product = products.objects.filter(date__range=[start_date, end_date])
+
+    product = request.POST.get('product')
+
+    print(product)
+
+    input_names = product_names.objects.values('product_name').distinct()
+
+    product = products.objects.filter(date__range=[start_date, end_date]).filter(product_name__product_name=product)
      
     # return render(request, "view_supply.html", context)
-    return render(request, "view_products.html", {'product':product})
+    return render(request, "view_products.html", {'product':product,'input_names':input_names})
 
 def update_products(request):
     context_dict = {}
@@ -478,7 +499,6 @@ def delete_products(request):
         product_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_products/')    
-
 
 def setup_raw_material_separations(request):
     context = {}
@@ -556,13 +576,16 @@ def view_product_sales(request):
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
 
-    # broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig 
+    product = request.POST.get('product')
 
-    # run a query to get all the supplies on that date
-    sales = product_sales.objects.filter(date__range=[start_date, end_date])
+    print(product)
+
+    input_names = product_names.objects.values('product_name').distinct()
+
+    sales = product_sales.objects.filter(date__range=[start_date, end_date]).filter(product_name__product_name = product)
      
     # return render(request, "view_supply.html", context)
-    return render(request, "view_product_sales.html", {'sales':sales})
+    return render(request, "view_product_sales.html", {'sales':sales,'input_names':input_names})
 
 def update_product_sales(request):
     context_dict = {}

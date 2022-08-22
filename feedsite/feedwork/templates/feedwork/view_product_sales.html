@@ -23,6 +23,13 @@
                 <label>To</label>
                 <input name="end_date" type="date" ><br/><br/> 
                 <br/>
+                <label for="raw_material_name">Raw Material:</label>
+
+                        <select name="product" id="product_name">
+                            {% for name in input_names %} 
+                                <option value={{ name.product_name }}>{{ name.product_name }}</option>
+                            {% endfor %}  
+                        </select>  
                 <input type="submit" name="submit" value="Search"/>                
     </form>
 

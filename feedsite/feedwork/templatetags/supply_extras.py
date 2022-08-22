@@ -244,7 +244,11 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
    ## This works if a another purchase was made that day
 
-   if len(enforcements) >= 1:
+   if len(enforcements) == 1:
+
+      return new_cost_price
+
+   elif len(enforcements) >= 1:
 
       loop = 0
 
@@ -268,7 +272,7 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
             if old_unit_price == new_unit_price:
 
-               pass 
+               pass
 
             else:
 

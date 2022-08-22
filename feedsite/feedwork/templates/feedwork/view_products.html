@@ -31,6 +31,16 @@ input[type=submit] {
                 <input name="start_date" type="date" ><br/><br/>
                 <labe>To</labe>
                 <input name="end_date" type="date" ><br/><br/>
+
+                  <label for="product">Product</label>
+
+                        <select name="product" id="product_name">
+                            {% for name in input_names %} 
+                                <option value={{ name.product_name }}>{{ name.product_name }}</option>
+                            {% endfor %}  
+                        </select>  
+                
+
                 <input type="submit" name="submit" value="Search"/>                
     </form>
 
