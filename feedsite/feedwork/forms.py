@@ -165,7 +165,7 @@ class expense_form(forms.ModelForm):
 	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	unit_price = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	class Meta:
-		model = expenses
+		model = indirect_expenses
 		fields = ["date","time","expense_name","expense_unit","unit_price","quantity"]
 
 class employee_form(forms.ModelForm):

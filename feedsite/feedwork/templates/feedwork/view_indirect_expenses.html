@@ -1,7 +1,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title> View Expenses </title>
+	<title> View Indirect Expenses </title>
+    {% load mathfilters %}
 	{% load supply_extras %}
     <style type="text/css">
         table, th, td {
@@ -21,7 +22,7 @@ input[type=submit] {
     </style>
 </head>
 <body>
-    <h1>View Expenses</h1>
+    <h1>View Indirect Expenses</h1>
   <form action="{% url 'view_expenses' %}" method="post">
                 {% csrf_token %}
                 
@@ -43,6 +44,7 @@ input[type=submit] {
                         <th>Unit</th>
                         <th>Unit Price</th>
                         <th>Quantity</th>
+                        <th>Total</th>
                         <th>Update</th>
                         <th>Delete</th>
       
@@ -56,15 +58,16 @@ input[type=submit] {
                         <td>{{ cost.expense_unit }}</td>
                         <td>{{ cost.unit_price }}</td>
                         <td>{{ cost.quantity }}</td>
-                        <td><a href="../update_expenses/?id={{ cost.id }}">Update</a></td>
-                        <td><a href="../delete_expenses/?id={{ cost.id }}">Delete</a></td>
+                        <th>{{  cost.unit_price|mul:cost.quantity }}</th>
+                        <td><a href="../update_indirect_expenses/?id={{ cost.id }}">Update</a></td>
+                        <td><a href="../delete_indirect_expenses/?id={{ cost.id }}">Delete</a></td>
                         <!-- <td><a href="update_supply/?id={{ supply.id }}">Update</a></td> -->
 
                     </tr>
 
                     
                     {% endfor %}
-                  <p>The Total expenses for a selected period is  {{ sum_of_expenses }} UGX </p>
+                  <!-- <p>The Total expenses for a selected period is  {{ sum_of_expenses }} UGX </p> -->
                 </table>
 </body>
  	

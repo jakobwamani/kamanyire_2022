@@ -110,7 +110,7 @@ class expense_units(models.Model):
 	def __str__(self):
 		return '{}'.format(self.unit_name)
 
-class expenses(models.Model):
+class indirect_expenses(models.Model):
 	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE)
 	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE)
 	date = models.DateField()
@@ -120,6 +120,19 @@ class expenses(models.Model):
 
 	def __str__(self):
 		return 'id : {} : expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.expense_name,self.unit_price,self.quantity)
+
+
+class direct_expenses(models.Model):
+	purchase = models.ForeignKey(purchases,on_delete=models.CASCADE)
+	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE)
+	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	unit_price = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+
+	def __str__(self):
+		return 'Purchase : {} : id : {} : direct_expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.expense_name,self.unit_price,self.quantity)
 
 class employee(models.Model):
 	date = models.DateField()

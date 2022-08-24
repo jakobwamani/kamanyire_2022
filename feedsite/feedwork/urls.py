@@ -64,10 +64,10 @@ urlpatterns = [
     path('view_expense_units/',views.view_expense_units,name="view_expense_units"),
     path('delete_expense_units/',views.delete_expense_units,name="delete_expense_units"),
 
-    path('expenses/',views.record_expenses,name="record_expenses"),
-    path('view_expenses/',views.view_expenses,name="view_expenses"),
-    path('update_expenses/',views.update_expenses,name="update_expenses"),
-    path('delete_expenses/',views.delete_expenses,name="delete_expenses"),
+    path('indirect_expenses/',views.record_expenses,name="record_expenses"),
+    path('view_indirect_expenses/',views.view_expenses,name="view_expenses"),
+    path('update_indirect_expenses/',views.update_expenses,name="update_expenses"),
+    path('delete_indirect_expenses/',views.delete_expenses,name="delete_expenses"),
 
     path('employee/',views.enroll_employee,name="enroll_employees"),
     path('view_employees/',views.see_employees,name="view_employees"),

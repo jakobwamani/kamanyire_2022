@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Expenses</title>
+	<title> Indirect Expenses</title>
 	<style>
 		input[type=submit] {
   width: 100%;
@@ -21,7 +21,7 @@
     <!-- Security token  Make sure you put this immediately after the form tag-->
     {% csrf_token %}
             
-    <h1>Expenses</h1>
+    <h1>Indirect Expenses</h1>
             
     {{ form.as_p }}
 
@@ -29,14 +29,14 @@
  
     <input type="submit" value="Submit"> 
 </form>
-{{ expense_form.media }}
+
 <div>
 	<a href="{% url 'index' %}"><p>Home</p></a><br/>
 </div>	
 </body>
 <div>
     
-    <a href="{% url 'view_expenses' %}"><p>View Expenses</p></a><br/>
+    <a href="{% url 'view_expenses' %}"><p>View Indirect Expenses</p></a><br/>
 </div> 
 <center>
 	<footer>

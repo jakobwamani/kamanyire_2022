@@ -753,7 +753,7 @@ def record_expenses(request):
     else:
         context['form'] = form
 
-    return render(request, "expenses.html",context=context)
+    return render(request, "indirect_expenses.html",context=context)
 
 def view_expenses(request):
         #get the date from the user 
@@ -761,10 +761,10 @@ def view_expenses(request):
     end_date = request.POST.get('end_date')
 
     
-    costs = expenses.objects.filter(date__range=[start_date, end_date])
+    costs = indirect_expenses.objects.filter(date__range=[start_date, end_date])
      
     # return render(request, "view_supply.html", context)
-    return render(request, "view_expenses.html", {'costs':costs})
+    return render(request, "view_indirect_expenses.html", {'costs':costs})
 
 def update_expenses(request):
     context_dict = {}
@@ -775,7 +775,7 @@ def update_expenses(request):
         print (pk)
         clean_pk = pk.strip("/")
         print (clean_pk)
-        expense_record = expenses.objects.get(id=clean_pk)
+        expense_record = indirect_expenses.objects.get(id=clean_pk)
         form = expense_form(request.POST or None, instance=expense_record)
         if request.method == 'POST':
             if form.is_valid():           
@@ -784,7 +784,7 @@ def update_expenses(request):
         else:
             context_dict["form"] = form 
 
-    return render(request,"update_expenses.html",context=context_dict)
+    return render(request,"update_indirect_expenses.html",context=context_dict)
 
 def delete_expenses(request):
     context_dict = {}
@@ -792,7 +792,7 @@ def delete_expenses(request):
         pk = request.GET['id']
         clean_pk = pk.strip("/")
         cleaned_pk = int(clean_pk)
-        expense_to_delete = expenses.objects.get(id=cleaned_pk) 
+        expense_to_delete = indirect_expenses.objects.get(id=cleaned_pk) 
         #But before we delete , we must reduce on the amount in the RMQ model
         #since this is an object , i will create a function right away
         
