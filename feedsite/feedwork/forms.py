@@ -164,9 +164,27 @@ class expense_form(forms.ModelForm):
 	expense_unit = forms.ModelChoiceField(queryset = expense_unit_query)
 	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
 	unit_price = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
+
 	class Meta:
 		model = indirect_expenses
 		fields = ["date","time","expense_name","expense_unit","unit_price","quantity"]
+
+
+class direct_expense_form(models.Model):
+	
+	YEARS= [x for x in range(2000,2030)]
+	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
+	time = forms.TimeField(initial=timezone.now())
+	purchase = forms.ModelChoiceField(queryset = purchase_query)
+	expense_name = forms.ModelChoiceField(queryset = expense_name_query)
+	expense_unit = forms.ModelChoiceField(queryset = expense_unit_query)
+	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
+	unit_price = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
+
+	class Meta:
+		model = direct_expenses
+		fields = ["date","time","purchase","expense_name","expense_unit","quantity","unit_price"]
+
 
 class employee_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
