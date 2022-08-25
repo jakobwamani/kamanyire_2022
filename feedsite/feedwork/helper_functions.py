@@ -683,7 +683,9 @@ def cost_price_of_product(picked_date,out_come):
 
       if sale == None:
 
-         pass
+         cost_price = 0 
+         
+         return cost_price
 
       else:
 

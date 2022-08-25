@@ -91,7 +91,7 @@ tr:nth-child(even) {
 <body>
     <center><h3>View Profits</h3></center>
 
-    <form action="{% url 'index' %}" method="post">
+    <form action="{% url 'view_profit' %}" method="post">
             {% csrf_token %}
                 
                 <label>Date</label>
