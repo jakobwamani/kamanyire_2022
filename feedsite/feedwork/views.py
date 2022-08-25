@@ -59,7 +59,7 @@ def index(request):
 
         print("The cost price of product is",cost_price_of_product(selected_date,'layers marsh'))
 
-        return render(request,"index.html",{'raw_material_stock_balance':raw_material_stock_balance,'raw_material_profits':raw_material_profits,'product_stock_balance':product_stock_balance,'product_profits':product_profits})
+        return render(request,"index.html",{'raw_material_profits':raw_material_profits,'product_stock_balance':product_stock_balance,'product_profits':product_profits})
 
     else:
         return render(request,"index.html",{})
@@ -274,7 +274,6 @@ def see_purchases(request):
      
     # return render(request, "view_supply.html", context)
     return render(request, "view_purchase.html", {'purchase':purchase,'input_names':input_names})
-
 
 def update_purchases(request):
     context_dict = {}
@@ -678,7 +677,6 @@ def delete_expense_names(request):
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_names/')
 
-
 def setup_expense_units(request):
     context = {}
     # add the dictionary during initialization
@@ -719,7 +717,6 @@ def delete_expense_units(request):
         unit_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_units/')
-
 
 def update_expense_units(request):
     context_dict = {}
@@ -1096,3 +1093,78 @@ def delete_salary(request):
         salary_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_salaries/')
+
+
+def view_stock_balance(request):
+    if request.method == 'POST':
+    
+        selected_date = request.POST.get('start_date')
+
+        basic_inputs = raw_materials.objects.all()
+
+        raw_material_stock_balance = {}
+
+        for basic_input in basic_inputs:
+
+            name = basic_input.raw_material_name
+
+            raw_material_stock_balance[name] = stock_balance_for_raw_materials(selected_date,basic_input.raw_material_name)
+
+
+        #Stock balance for products
+        out_come_names = product_names.objects.all()
+
+        product_stock_balance = {}
+
+        for out_come_name in out_come_names:
+
+            product_stock_balance[out_come_name.product_name] = stock_balance_for_products(out_come_name.product_name,selected_date)
+            
+        
+        return render(request,"view_stock_balances.html",{'raw_material_stock_balance':raw_material_stock_balance,'product_stock_balance':product_stock_balance})
+
+        
+
+    else:
+
+        return render(request,"view_stock_balances.html",{})
+
+
+def view_profit(request):
+    if request.method == 'POST':
+    
+        selected_date = request.POST.get('start_date')
+
+        basic_inputs = raw_materials.objects.all()
+
+        raw_material_profits = {}
+
+        for basic_input in basic_inputs:
+
+            name = basic_input.raw_material_name
+
+            #getting the raw material profits
+
+            raw_material_profits[name] = profit_of_raw_material(name,selected_date)
+
+
+        #Stock balance for products
+        out_come_names = product_names.objects.all()
+
+        product_stock_balance = {}
+
+        product_profits = {}
+
+        for out_come_name in out_come_names:
+
+            #Getting to know the product profits
+            product_profits[out_come_name.product_name] = profit_of_product(out_come_name.product_name,selected_date)
+        
+
+        return render(request,"view_profits.html",{'raw_material_profits':raw_material_profits,'product_profits':product_profits})
+
+        
+
+    else:
+
+        return render(request,"view_profits.html",{})

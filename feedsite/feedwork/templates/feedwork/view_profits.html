@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>HOME</title>
+	<title>View Profits</title>
             {% load static %}  
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -89,7 +89,7 @@ tr:nth-child(even) {
 </style>
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <body>
-    <center><h3>STS POULTRY AND ANIMAL FEEDS</h3></center>
+    <center><h3>View Profits</h3></center>
 
     <form action="{% url 'index' %}" method="post">
             {% csrf_token %}
@@ -146,7 +146,31 @@ tr:nth-child(even) {
 
     
 
+    <div>
+        <strong>Raw Material Profits</strong>
+        <table>
+        {% for key , value in raw_material_profits.items %}
+        
+            
+            <p>{{ key }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ value }}</p>
+            
+        {% endfor %}
+        </table>
+    </div>
 
+
+
+    <div>
+        <strong>Product  Profits</strong>
+        <table>
+        {% for key , value in product_profits.items %}
+        
+            
+            <p>{{ key }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ value }}</p>
+            
+        {% endfor %}
+        </table>
+    </div>
 
 </div>
     

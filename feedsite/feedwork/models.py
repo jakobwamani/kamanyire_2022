@@ -48,8 +48,8 @@ class raw_material_transactions(models.Model):
 	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
-	unit_price = models.IntegerField()
 	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	unit_price = models.IntegerField()
 	
 	def __str__(self):
 		return 'id : {} : Date : {} : Time : {}  Raw Material : {}  : Unit_price : {} : Quantity : {}'.format(self.id,self.date,self.time,self.raw_material_name,self.unit_price,self.quantity)

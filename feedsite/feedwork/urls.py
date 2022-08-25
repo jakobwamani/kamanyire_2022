@@ -92,4 +92,8 @@ urlpatterns = [
     path('view_salaries/',views.view_salary,name="view_salaries"),
     path('update_salaries/',views.update_salary,name="update_salaries"),
     path('delete_salaries/',views.delete_salary,name="delete_salaries"),
+
+    path('view_stock_balances/',views.view_stock_balance,name="view_stock_balance"),
+    path('view_profits/',views.view_profit,name="view_profit"),
+
     ]

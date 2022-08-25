@@ -9,7 +9,7 @@ import calculation
 import datetime
 
 #querysets
-raw_material_query = raw_materials.objects.all()
+raw_material_query = raw_materials.objects.all().order_by('raw_material_name')
 logistic_query = logistics.objects.all()
 supplier_query = suppliers.objects.all()
 product_name_query = product_names.objects.all()
@@ -35,12 +35,13 @@ class raw_material_transactions_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())
 	time = forms.TimeField(initial=timezone.now())
-	unit_price = forms.IntegerField()
 	quantity = forms.DecimalField(max_digits=10, decimal_places=4 , initial=0.0)
+	unit_price = forms.IntegerField()
+	
 	
 	class Meta:
 		model = raw_material_transactions
-		fields = ["date","time","raw_material_name","unit_price","quantity"]
+		fields = ["date","time","raw_material_name","quantity","unit_price"]
 
 class supplier_form(forms.ModelForm):
 	YEARS= [x for x in range(2000,2030)]
