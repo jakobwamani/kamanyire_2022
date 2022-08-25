@@ -49,7 +49,7 @@ class raw_material_transactions(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	unit_price = models.IntegerField()
-	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
 	
 	def __str__(self):
 		return 'id : {} : Date : {} : Time : {}  Raw Material : {}  : Unit_price : {} : Quantity : {}'.format(self.id,self.date,self.time,self.raw_material_name,self.unit_price,self.quantity)
@@ -132,7 +132,7 @@ class direct_expenses(models.Model):
 	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 
 	def __str__(self):
-		return 'Purchase : {} : id : {} : direct_expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.expense_name,self.unit_price,self.quantity)
+		return 'id : {} Purchase : {} : expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.purchase,self.expense_name,self.unit_price,self.quantity)
 
 class employee(models.Model):
 	date = models.DateField()

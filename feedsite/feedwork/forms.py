@@ -170,7 +170,7 @@ class expense_form(forms.ModelForm):
 		fields = ["date","time","expense_name","expense_unit","unit_price","quantity"]
 
 
-class direct_expense_form(models.Model):
+class direct_expense_form(forms.ModelForm):
 	
 	YEARS= [x for x in range(2000,2030)]
 	date = forms.DateField(label='Date', widget=forms.SelectDateWidget(years=YEARS),initial=timezone.now())

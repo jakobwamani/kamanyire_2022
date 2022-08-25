@@ -5,6 +5,9 @@
     <title>
         View Raw Materials
     </title>
+    {% load supply_extras %}
+    
+    {% load mathfilters %}
     <style type="text/css">
         table, th, td {
   border: 1px solid black;
@@ -53,6 +56,7 @@ input[type=submit] {
                         
                         <th>Unit Price</th>
                         <th>Quantity</th>
+                        <th>Total</th>
                         <th>Update</th>
                         <th>Delete</th>
                        
@@ -66,7 +70,7 @@ input[type=submit] {
                         
                         <td>{{ value.unit_price }}</td>
                         <td>{{ value.quantity }}</td>
-                        
+                        <td>{{ value.unit_price|mul:value.quantity }}</td>
                         <td><a href="../update_raw_material_transactions/?id={{ value.id }}">Update</a></td>
                         <td><a href="../delete_raw_material_transactions/?id={{ value.id }}">Delete</a></td>
 

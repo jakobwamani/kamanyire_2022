@@ -85,7 +85,9 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
       first_sale = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = basic_input).first()
 
       if first_sale == None:
-         pass 
+
+         quantity_of_sales = 0 
+
       else:
          ### get the date the raw was first sold
          start_date = first_sale.date
@@ -103,14 +105,20 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
 
 
 
-
-
       ## amount_raw_material_that_has_been_used_to_make_products_till a particular_date
 
       ### how when we do all the products
       results = product_names.objects.all()
 
       results_list = []
+
+      if len(results_list) == 0:
+
+         stock_balance = quantity_of_purchases - quantity_of_sales
+
+         print("stock_balance",stock_balance)
+
+         return stock_balance
 
       for result in results:
          ### start by one product where the raw material is involved
@@ -122,7 +130,13 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
          out_come_name = raw_material_separations.objects.filter(product_name__product_name=result).last()
 
          if out_come_name == None:
-            pass 
+            
+            stock_balance = quantity_of_purchases - quantity_of_sales
+
+            print("stock_balance",stock_balance)
+
+            return stock_balance
+
          else:
             specified_product = out_come_name.product_name.product_name
 
@@ -205,38 +219,62 @@ def cost_price_of_raw_material(picked_date,basic_input):
      new_cost_price = Decimal('0')
    else:
 
-      new_unit_price = new_purchase.unit_price
+      #now_get_the_direct_expenses_first
+      new_direct_expenses = direct_expenses.objects.filter(purchase__id=new_purchase.id)
 
-      ## Get the quantity of the a particular raw material in its last purchase
+      direct_expenses_list = []
 
-      new_quantity = new_purchase.quantity
+      for expense in new_direct_expenses:
 
-      ## Get the logistics of that a particular raw material in its last purchase
-      new_logistics = logistics.objects.filter(purchase__id=new_purchase.id).last()
+         expense_summation = expense.unit_price * expense.quantity
 
-      if new_logistics == None:
-         total_cost_price = new_unit_price * new_quantity
+         direct_expenses_list.append(expense_summation)
 
-         new_cost_price = total_cost_price / new_quantity
+      total_direct_expenses = sum(direct_expenses_list)
+
+      
+      if new_direct_expenses == None:
+         
+         total_direct_expenses = 0 
 
       else:
-         new_loading = new_logistics.loading
 
-         new_off_loading = new_logistics.off_loading
+         total_direct_expenses = int(total_direct_expenses)
 
-         new_transport = new_logistics.transport
+         #then work on the purchase
+         new_unit_price = new_purchase.unit_price
 
-         # Add the logistics together
+         ## Get the quantity of the a particular raw material in its last purchase
 
-         movement_costs = new_loading + new_off_loading + new_transport
+         new_quantity = new_purchase.quantity
 
-         ## To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
+         ## Get the logistics of that a particular raw material in its last purchase
+         new_logistics = logistics.objects.filter(purchase__id=new_purchase.id).last()
 
-         new_total_cost = (new_unit_price * new_quantity) + movement_costs
+         if new_logistics == None:
+            total_cost_price = (new_unit_price * new_quantity) + total_direct_expenses
 
-         ## Divide the addition above by the quantity of the raw material that was purchased 
+            new_cost_price = total_cost_price / new_quantity
 
-         new_cost_price = new_total_cost / new_quantity
+         else:
+            new_loading = new_logistics.loading
+
+            new_off_loading = new_logistics.off_loading
+
+            new_transport = new_logistics.transport
+
+            # Add the logistics together
+
+            movement_costs = new_loading + new_off_loading + new_transport
+
+            ## To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
+
+            new_total_cost = (new_unit_price * new_quantity) + movement_costs + total_direct_expenses
+
+            ## Divide the addition above by the quantity of the raw material that was purchased 
+
+            new_cost_price = new_total_cost / new_quantity
+
 
    ## Check to see if there is a difference in the unit price from the second last purchase of a particular raw material
 
@@ -272,7 +310,7 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
             if old_unit_price == new_unit_price:
 
-               pass
+               return new_unit_price
 
             else:
 
@@ -404,7 +442,6 @@ def stock_balance_for_products(product,picked_date):
    print(stock_balance)
 
    return stock_balance
-
 
 
 @register.filter

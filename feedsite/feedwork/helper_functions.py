@@ -57,7 +57,9 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
       first_sale = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = basic_input).first()
 
       if first_sale == None:
-         pass 
+         
+         quantity_of_sales = 0 
+
       else:
          ### get the date the raw was first sold
          start_date = first_sale.date
@@ -74,9 +76,6 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
          quantity_of_sales = sum(sales_list)
 
 
-
-
-
       ## amount_raw_material_that_has_been_used_to_make_products_till a particular_date
 
       ### how when we do all the products
@@ -84,86 +83,100 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
 
       results_list = []
 
-      for result in results:
-         ### start by one product where the raw material is involved
+      if len(results_list) == 0:
 
-         out_come_names = raw_material_separations.objects.filter(product_name__product_name=result)
+         stock_balance = quantity_of_purchases - quantity_of_sales
 
-         # the above query will be get us many instances but shall select the last one for instance 
+         print("stock_balance",stock_balance)
 
-         out_come_name = raw_material_separations.objects.filter(product_name__product_name=result).last()
+         return stock_balance
 
-         if out_come_name == None:
-            pass 
-         else:
-            specified_product = out_come_name.product_name.product_name
+      else:
 
-            #get the standard weight of a particular product
+         for result in results:
+            ### start by one product where the raw material is involved
 
-            standard_weight_list = []
+            out_come_names = raw_material_separations.objects.filter(product_name__product_name=result.product_name)
 
-            weights = raw_material_separations.objects.filter(product_name__product_name=specified_product)
+            # the above query will be get us many instances but shall select the last one for instance 
 
-            for weight in weights:
+            out_come_name = raw_material_separations.objects.filter(product_name__product_name=result.product_name).last()
 
-               standard_weight_list.append(weight.ratio)
+            if out_come_name == None:
+               
+               stock_balance = quantity_of_purchases - quantity_of_sales
 
-            standard_weight = sum(standard_weight_list)
+               print("stock_balance",stock_balance)
 
-            ## understand how much of the raw material can be separated in the standard weight of a particular_product
+               return stock_balance
 
-            module_weight = raw_material_separations.objects.filter(product_name__product_name=result).filter(raw_material_name__raw_material_name = basic_input)
+            else:
+               specified_product = out_come_name.product_name.product_name
 
-            module_weight_list = []
+               #get the standard weight of a particular product
 
-            for weight in module_weight:
+               standard_weight_list = []
 
-               module_weight_list.append(weight.ratio)
+               weights = raw_material_separations.objects.filter(product_name__product_name=specified_product)
 
-            standard_weight_of_raw_material = sum(module_weight_list)
+               for weight in weights:
 
-            ## understand how much raw_material can be separated in one kilogram of a particular product
+                  standard_weight_list.append(weight.ratio)
 
-            # one_kilogram_of_standard_weight = standard_weight / standard_weight_of_raw_material
-            one_kilogram_of_standard_weight = division(standard_weight,standard_weight_of_raw_material)
+               standard_weight = sum(standard_weight_list)
 
-            ## get the total number of kilograms that has been mixed for a particular product till a particular date.
+               ## understand how much of the raw material can be separated in the standard weight of a particular_product
 
-            out_come = products.objects.filter(product_name__product_name=result).first()
+               module_weight = raw_material_separations.objects.filter(product_name__product_name=result).filter(raw_material_name__raw_material_name = basic_input)
 
-            start_date = out_come.date
+               module_weight_list = []
 
-            ## get the different product mixtures done till a particular date
+               for weight in module_weight:
 
-            out_comes = products.objects.filter(product_name__product_name=result).filter(date__range=[start_date,picked_date])
+                  module_weight_list.append(weight.ratio)
 
-            product_quantities_list = []
+               standard_weight_of_raw_material = sum(module_weight_list)
 
-            for quantity in out_comes:
+               ## understand how much raw_material can be separated in one kilogram of a particular product
 
-               product_quantities_list.append(quantity.quantity)
+               # one_kilogram_of_standard_weight = standard_weight / standard_weight_of_raw_material
+               one_kilogram_of_standard_weight = division(standard_weight,standard_weight_of_raw_material)
 
-            quantity_of_product_mixed = sum(product_quantities_list)
+               ## get the total number of kilograms that has been mixed for a particular product till a particular date.
 
-            results_list.append(quantity_of_product_mixed)
+               out_come = products.objects.filter(product_name__product_name=result).first()
 
-            total_quantity_of_product_mixed_using_raw_material = sum(results_list)
+               start_date = out_come.date
 
-            ## understand how much raw_material can be mixed in the total number of kilograms for a particular product that has been mixed till a particular date.
+               ## get the different product mixtures done till a particular date
 
-            total_weight_of_raw_material_mixed = one_kilogram_of_standard_weight * total_quantity_of_product_mixed_using_raw_material
+               out_comes = products.objects.filter(product_name__product_name=result).filter(date__range=[start_date,picked_date])
+
+               product_quantities_list = []
+
+               for quantity in out_comes:
+
+                  product_quantities_list.append(quantity.quantity)
+
+               quantity_of_product_mixed = sum(product_quantities_list)
+
+               results_list.append(quantity_of_product_mixed)
+
+               total_quantity_of_product_mixed_using_raw_material = sum(results_list)
+
+               ## understand how much raw_material can be mixed in the total number of kilograms for a particular product that has been mixed till a particular date.
+
+               total_weight_of_raw_material_mixed = one_kilogram_of_standard_weight * total_quantity_of_product_mixed_using_raw_material
 
 
 
-            # stock Balance
+               # stock Balance
 
-            stock_balance = quantity_of_purchases - quantity_of_sales - total_weight_of_raw_material_mixed
+               stock_balance = quantity_of_purchases - quantity_of_sales - total_weight_of_raw_material_mixed
 
-            print("stock_balance",stock_balance)
+               print("stock_balance",stock_balance)
 
-            return stock_balance
-
-
+               return stock_balance
 
 
 
@@ -223,9 +236,6 @@ def stock_balance_for_products(product,picked_date):
       return stock_balance
 
 
-
-
-
 @snoop
 def cost_price_of_raw_material(picked_date,basic_input):
    
@@ -239,38 +249,66 @@ def cost_price_of_raw_material(picked_date,basic_input):
      new_cost_price = Decimal('0')
    else:
 
-      new_unit_price = new_purchase.unit_price
+      #now_get_the_direct_expenses_first
+      new_direct_expenses = direct_expenses.objects.filter(purchase__id=new_purchase.id)
 
-      ## Get the quantity of the a particular raw material in its last purchase
+      direct_expenses_list = []
 
-      new_quantity = new_purchase.quantity
+      for expense in new_direct_expenses:
 
-      ## Get the logistics of that a particular raw material in its last purchase
-      new_logistics = logistics.objects.filter(purchase__id=new_purchase.id).last()
+         expense_summation = expense.unit_price * expense.quantity
 
-      if new_logistics == None:
-         total_cost_price = new_unit_price * new_quantity
+         direct_expenses_list.append(expense_summation)
 
-         new_cost_price = total_cost_price / new_quantity
+      total_direct_expenses = sum(direct_expenses_list)
+
+      total_direct_expenses = int(total_direct_expenses)
+
+      if new_direct_expenses == None:
+
+         total_direct_expenses = 0 
 
       else:
-         new_loading = new_logistics.loading
 
-         new_off_loading = new_logistics.off_loading
+         total_direct_expenses = int(total_direct_expenses)
 
-         new_transport = new_logistics.transport
+         new_unit_price = new_purchase.unit_price
 
-         # Add the logistics together
+         ## Get the quantity of the a particular raw material in its last purchase
 
-         movement_costs = new_loading + new_off_loading + new_transport
+         new_quantity = new_purchase.quantity
 
-         ## To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
+         ## Get the logistics of that a particular raw material in its last purchase
+         new_logistics = logistics.objects.filter(purchase__id=new_purchase.id).last()
 
-         new_total_cost = (new_unit_price * new_quantity) + movement_costs
+         if new_logistics == None:
 
-         ## Divide the addition above by the quantity of the raw material that was purchased 
+            total_cost_price = new_unit_price * new_quantity + total_direct_expenses
 
-         new_cost_price = new_total_cost / new_quantity
+            new_cost_price = total_cost_price / new_quantity
+
+         else:
+            new_loading = new_logistics.loading
+
+            new_off_loading = new_logistics.off_loading
+
+            new_transport = new_logistics.transport
+
+            # Add the logistics together
+
+            movement_costs = new_loading + new_off_loading + new_transport
+
+            ## To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
+
+            new_total_cost = (new_unit_price * new_quantity) + movement_costs + total_direct_expenses
+
+            ## Divide the addition above by the quantity of the raw material that was purchased 
+
+            new_cost_price = new_total_cost / new_quantity
+
+      
+
+
 
    ## Check to see if there is a difference in the unit price from the second last purchase of a particular raw material
 
@@ -305,7 +343,7 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
             if old_unit_price == new_unit_price:
 
-               pass 
+               return new_unit_price 
 
             else:
 

@@ -70,7 +70,7 @@ urlpatterns = [
     path('delete_indirect_expenses/',views.delete_expenses,name="delete_expenses"),
 
     path('direct_expenses/',views.record_direct_expenses,name="record_direct_expenses"),
-    path('view_direct_expenses/',views.view__direct_expenses,name="view_direct_expenses"),
+    path('view_direct_expenses/',views.view_direct_expenses,name="view_direct_expenses"),
     path('update_direct_expenses/',views.update_direct_expenses,name="update_direct_expenses"),
     path('delete_direct_expenses/',views.delete_direct_expenses,name="delete_direct_expenses"),
 
