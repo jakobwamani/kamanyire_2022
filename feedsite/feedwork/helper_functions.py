@@ -683,7 +683,7 @@ def cost_price_of_product(picked_date,out_come):
 
       print(one_kilogram_of_standard_weight)
 
-      # Mulitply that with the quantity of the product that has been sold till a particular date.
+      # Mulitply that with the quantity of the product that has been mixed till a particular date.
 
       #Get date of the first sale of a particular product
 
@@ -699,7 +699,7 @@ def cost_price_of_product(picked_date,out_come):
 
          start_date = sale.date
 
-         #Get amount of the product that had been sold till a particular date
+         #Get amount of the product that had been mixed till a particular date
 
          product_sale_list = []
 

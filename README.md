@@ -43,6 +43,12 @@ Multiply it with the new cost price
 
 Add the two multiplications together and divide it by total quantity of the specified raw material
 #### Personal Access Tokens for this project
+August 30th 2022
+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
+
+August 23rd 2022 Kamanyire Version 3
+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
+
 August 16th 2022
 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
 
@@ -514,6 +520,7 @@ for key , value in divided_cost_price_dict.items()
     standard_cost_price += value
 
 standard_weight = standard_cost_price
+
 one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
 ```
 
@@ -539,7 +546,8 @@ one_kilogram_of_standard_weight = standard_weight/standard_cost_price
 # profit of a particular raw material by date
 1. Get the unit price of the raw material sale on a specific date
 ```python
-sales = raw_material_sales.objects.filter(raw_material_name='specified_raw_material').filter(date='date')
+sales = raw_material_transactions.objects.filter(raw_material_name__raw_material_name='maize_bran').filter(date='2022-08-21')
+
 for sale in sales:
     #get the unit price
     sale.unit_price
@@ -564,7 +572,8 @@ for sale in sales:
 # profit of a particular product by date
 1. Get the unit price of the product sale on a specific date
 ```python
-sales = product_sales.objects.filter(product_name='specified_product_name').filter(date='date')
+sales = product_sales.objects.filter(product_name__product_name='layers marsh').filter(date='2022-08-21')
+
 for sale in sales:
     #get the unit_price
     sale.unit_price
@@ -584,3 +593,21 @@ for sale in sales:
     #do the above steps for every occurance and then add the profits 
 ```
 ***profit = (unit_price_of_product_sale * quantity_of_product_sale) - (cost_price_of_product * quantity_of_product_sale)***
+
+
+# Models
+
+1. advance payments
+2. employment terms
+3. expense names
+4. logistics
+5. product sales
+6. purchases
+7. raw material names
+8. raw material sales
+9. suppliers 
+10. employee 
+11. product sales 
+12. salary 
+13. product 
+14. 
