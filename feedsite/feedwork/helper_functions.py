@@ -343,28 +343,36 @@ def stock_balance_for_products(product,picked_date):
 
       sale = product_sales.objects.filter(product_name__product_name=product).first()
 
-      start_date = sale.date
+      if sale == None:
 
-      start_date = start_date.strftime("%Y-%m-%d")
+         stock_balance = 0 
 
-      # Get amount of the product that had been sold till a particular date
+         return stock_balance
 
-      product_sale_list = []
+      else:
 
-      sales = product_sales.objects.filter(product_name__product_name=product).filter(date__range=[start_date,picked_date])
+         start_date = sale.date
 
-      for sale in sales:
+         start_date = start_date.strftime("%Y-%m-%d")
 
-        product_sale_list.append(sale.quantity)
+         # Get amount of the product that had been sold till a particular date
 
-      total_product_sold = sum(product_sale_list)
+         product_sale_list = []
 
-      #stock balance
-      stock_balance = product_quantity_mixed - total_product_sold
+         sales = product_sales.objects.filter(product_name__product_name=product).filter(date__range=[start_date,picked_date])
 
-      print(stock_balance)
+         for sale in sales:
 
-      return stock_balance
+           product_sale_list.append(sale.quantity)
+
+         total_product_sold = sum(product_sale_list)
+
+         #stock balance
+         stock_balance = product_quantity_mixed - total_product_sold
+
+         print(stock_balance)
+
+         return stock_balance
 
 
 @snoop
@@ -679,7 +687,7 @@ def cost_price_of_product(picked_date,out_come):
 
       #Get date of the first sale of a particular product
 
-      sale = product_sales.objects.filter(product_name__product_name=out_come).first()
+      sale = products.objects.filter(product_name__product_name=out_come).first()
 
       if sale == None:
 
@@ -695,17 +703,25 @@ def cost_price_of_product(picked_date,out_come):
 
          product_sale_list = []
 
-         sales = product_sales.objects.filter(date__range=[start_date,picked_date])
+         sales = products.objects.filter(date__range=[start_date,picked_date])
 
-         for deal in sales:
+         if sales == None:
 
-             product_sale_list.append(deal.quantity)
+            cost_price = 0
 
-         total_deals = sum(product_sale_list)
+            return cost_price 
 
-         cost_price = one_kilogram_of_standard_weight * total_deals
+         else:
 
-         return cost_price
+            for deal in sales:
+
+               product_sale_list.append(deal.quantity)
+
+            total_deals = sum(product_sale_list)
+
+            cost_price = one_kilogram_of_standard_weight * total_deals
+
+            return cost_price
 
 @snoop
 def profit_of_raw_material(material,picked_date):

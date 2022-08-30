@@ -548,28 +548,36 @@ def stock_balance_for_products(product,picked_date):
 
    sale = product_sales.objects.filter(product_name__product_name=product).first()
 
-   start_date = sale.date
+   if sale == None:
 
-   start_date = start_date.strftime("%Y-%m-%d")
+      stock_balance = 0 
 
-   # Get amount of the product that had been sold till a particular date
+      return stock_balance
+      
+   else: 
 
-   product_sale_list = []
+      start_date = sale.date
 
-   sales = product_sales.objects.filter(product_name__product_name=product).filter(date__range=[start_date,picked_date])
+      start_date = start_date.strftime("%Y-%m-%d")
 
-   for sale in sales:
+      # Get amount of the product that had been sold till a particular date
 
-     product_sale_list.append(sale.quantity)
+      product_sale_list = []
 
-   total_product_sold = sum(product_sale_list)
+      sales = product_sales.objects.filter(product_name__product_name=product).filter(date__range=[start_date,picked_date])
 
-   #stock balance
-   stock_balance = product_quantity_mixed - total_product_sold
+      for sale in sales:
 
-   print(stock_balance)
+        product_sale_list.append(sale.quantity)
 
-   return stock_balance
+      total_product_sold = sum(product_sale_list)
+
+      #stock balance
+      stock_balance = product_quantity_mixed - total_product_sold
+
+      print(stock_balance)
+
+      return stock_balance
 
 
 @register.filter
@@ -678,15 +686,17 @@ def cost_price_of_product(picked_date,out_come):
 
       print(one_kilogram_of_standard_weight)
 
-	   # Mulitply that with the quantity of the product that has been sold till a particular date.
+	   # Mulitply that with the quantity of the product that has been mixed till a particular date.
 
       #Get date of the first sale of a particular product
 
-      sale = product_sales.objects.filter(product_name__product_name=out_come).first()
+      sale = products.objects.filter(product_name__product_name=out_come).first()
 
       if sale == None:
 
-         pass
+         cost_price = 0
+
+         return cost_price
 
       else:
 
@@ -694,24 +704,33 @@ def cost_price_of_product(picked_date,out_come):
 
          #Get amount of the product that had been sold till a particular date
 
-         sales = product_sales.objects.filter(date__range=[picked_date,start_date])
+         sales = products.objects.filter(date__range=[picked_date,start_date])
 
          product_sale_list = []
 
-         for deal in sales:
+         if sales == None:
 
-            product_sale_list.append(deal.quantity)
+            cost_price = 0 
 
-            print(deal.quantity)
+            return cost_price
 
-         print(picked_date)
+         else:
 
-         print(start_date)
 
-         print(product_sale_list)
+            for deal in sales:
 
-         total_deals = sum(product_sale_list)
+               product_sale_list.append(deal.quantity)
 
-         cost_price = one_kilogram_of_standard_weight * total_deals
+               print(deal.quantity)
 
-         return cost_price
+            print(picked_date)
+
+            print(start_date)
+
+            print(product_sale_list)
+
+            total_deals = sum(product_sale_list)
+
+            cost_price = one_kilogram_of_standard_weight * total_deals
+
+            return cost_price

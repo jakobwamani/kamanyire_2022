@@ -19,7 +19,7 @@ def index(request):
         
         selected_date = request.POST.get('start_date')
 
-        basic_inputs = raw_materials.objects.all()
+        basic_inputs = raw_materials.objects.all().order_by('raw_material_name')
 
         raw_material_stock_balance = {}
 
@@ -37,7 +37,7 @@ def index(request):
 
 
         #Stock balance for products
-        out_come_names = product_names.objects.all()
+        out_come_names = product_names.objects.all().order_by('product_name')
 
         product_stock_balance = {}
 
@@ -1135,7 +1135,7 @@ def view_profit(request):
     
         selected_date = request.POST.get('start_date')
 
-        basic_inputs = raw_materials.objects.all()
+        basic_inputs = raw_materials.objects.all().order_by('raw_material_name')
 
         raw_material_profits = {}
 
@@ -1149,7 +1149,7 @@ def view_profit(request):
 
 
         #Stock balance for products
-        out_come_names = product_names.objects.all()
+        out_come_names = product_names.objects.all().order_by('product_name')
 
         product_stock_balance = {}
 
