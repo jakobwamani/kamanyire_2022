@@ -550,10 +550,10 @@ def stock_balance_for_products(product,picked_date):
 
    if sale == None:
 
-      stock_balance = 0 
+      stock_balance = product_quantity_mixed - 0 
 
       return stock_balance
-      
+
    else: 
 
       start_date = sale.date
