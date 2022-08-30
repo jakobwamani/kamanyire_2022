@@ -11,8 +11,8 @@ import datetime
 #querysets
 raw_material_query = raw_materials.objects.all().order_by('raw_material_name')
 logistic_query = logistics.objects.all()
-supplier_query = suppliers.objects.all()
-product_name_query = product_names.objects.all()
+supplier_query = suppliers.objects.all().order_by('supplier_name')
+product_name_query = product_names.objects.all().order_by('product_name')
 expense_name_query = expense_names.objects.all()
 expense_unit_query = expense_units.objects.all()
 employee_query = employee.objects.all()
