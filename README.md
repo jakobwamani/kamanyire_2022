@@ -43,9 +43,8 @@ Multiply it with the new cost price
 
 Add the two multiplications together and divide it by total quantity of the specified raw material
 #### Personal Access Tokens for this project
-
-August 30th 2022 - kamanyire computer
-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
+September 3rd 2022
+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
 
 August 30th 2022
 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
@@ -615,3 +614,21 @@ for sale in sales:
 12. salary 
 13. product 
 14. 
+
+
+# Cost price of a product
+
+there are 100kg of maize bran in the standard weight of the layers-mash-with-coconut
+
+How about one kilogram of the standard weight of the layers-mash-with-coconut
+
+how about the the quantity of the product that has been mixed
+
+basic quantity of an involved raw material * cost price of one kilogram
+
+addition of the cost prices
+
+division of the addition by the quantity of the product that has been mixed
+
+virtual environment of python anywhere
+/home/yakobo/.virtualenvs/tangibleai
