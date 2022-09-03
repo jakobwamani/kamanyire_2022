@@ -48,7 +48,115 @@ def multiple_ops(loading,off_loading,transport,quantity,unit_price):
    return cost_of_purchase
 
 
+def check_if_query_exists(x,y):
+   try:
+
+      standard_weight_fit  = raw_material_separations.objects.filter(product_name__product_name=x).get(raw_material_name__raw_material_name=y).ratio
+
+      return standard_weight_fit
+
+   except ObjectDoesNotExist:
+
+      standard_weight_fit = 0 
+
+      return standard_weight_fit
+@snoop
 def stock_balance_for_raw_materials(picked_date,basic_input):
+   # stock balance of particular raw_material by date
+
+   ## we get to know how much of raw_material has been purchased till a particular_date
+
+   ## We begin by getting the date the we first purchased that specific raw material
+   date_of_first_purchase = purchases.objects.filter(raw_material_name__raw_material_name = basic_input).first()
+   # first_purchase = purchases.objects.filter(raw_material_name__raw_material_name = basic_input).first()
+
+   if date_of_first_purchase == None:
+      pass
+   else:
+
+      purchase_quantity = purchases.objects.filter(raw_material_name__raw_material_name = basic_input).filter(date__range=[date_of_first_purchase.date,picked_date]).aggregate(Sum('quantity'))['quantity__sum']
+
+      if purchase_quantity == None:
+
+         purchase_quantity = 0 
+
+      else:
+
+         # amount_of_sales of a particular raw material by a particular date
+
+         ### get the date the first raw_material_was sold
+
+         date_of_the_first_sale = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = basic_input).first()
+
+         if date_of_the_first_sale == None:
+            pass
+         else:
+         ### get the sales of that particular raw material that have been sold since that date up to the selected date
+         
+            print(date_of_the_first_sale.date)
+
+
+            sales_quantity = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = basic_input).filter(date__range=[date_of_the_first_sale.date,picked_date]).aggregate(Sum('quantity'))['quantity__sum']
+
+            # ## amount_raw_material_that_has_been_used_to_make_products_till a particular_date
+
+            # ### how when we do all the products
+            results = product_names.objects.all()
+
+            total_amount_of_mixed_amounts = []
+
+            
+
+            if len(results) == 0:
+
+               stock_balance = purchase_quantity - sales_quantity
+
+               print("stock_balance",stock_balance)
+
+               return stock_balance
+
+            else:
+
+               
+
+               for result in results:
+
+                  standard_weight  = raw_material_separations.objects.filter(product_name__product_name=result.product_name).aggregate(Sum('ratio'))['ratio__sum']
+
+                  standard_weight_fit = check_if_query_exists(result.product_name,basic_input)
+
+                  mixture_weight = products.objects.filter(product_name__product_name=result.product_name).aggregate(Sum('quantity'))['quantity__sum']
+
+                  if mixture_weight == None:
+
+                     mixture_weight = 0 
+
+                     mixed_amount = (standard_weight_fit/standard_weight) * mixture_weight
+
+                     total_amount_of_mixed_amounts.append(int(mixed_amount))
+
+                  else:
+
+                     mixed_amount = (standard_weight_fit/standard_weight) * mixture_weight
+
+                     total_amount_of_mixed_amounts.append(int(mixed_amount))
+
+
+            # stock Balance
+            print(purchase_quantity)
+
+            print(sales_quantity)
+
+            print(sum(total_amount_of_mixed_amounts))
+
+            stock_balance = purchase_quantity - sales_quantity - sum(total_amount_of_mixed_amounts)
+
+            print("stock_balance",stock_balance)
+
+            return stock_balance
+
+
+def x_stock_balance_for_raw_materials(picked_date,basic_input):
    # stock balance of particular raw_material by date
 
    ## we get to know how much of raw_material has been purchased till a particular_date
@@ -384,6 +492,8 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
             new_cost_price = total_cost_price / new_quantity
 
+            return new_cost_price
+
          else:
             new_loading = new_logistics.loading
 
@@ -403,115 +513,8 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
             new_cost_price = new_total_cost / new_quantity
 
+            return new_cost_price
 
-   ## Check to see if there is a difference in the unit price from the second last purchase of a particular raw material
-
-   enforcements = purchases.objects.filter(raw_material_name__raw_material_name=basic_input).filter(date=picked_date).order_by('time')
-
-   ## This works if a another purchase was made that day
-
-   if len(enforcements) == 1:
-
-      return new_cost_price
-
-   elif len(enforcements) >= 1:
-
-      loop = 0
-
-      for enforcement in enforcements:
-
-         loop += 1
-
-         if loop == 1:
-
-            #get date of the current occurance of purchases
-
-            old_date = enforcement.date
-
-            #get the unit price of the current occurance of purchases
-
-            old_unit_price = enforcement.unit_price
-
-            #then we compare the old unit price and the new unit price
-
-            #then compare the unit prices
-
-            if old_unit_price == new_unit_price:
-
-               return new_unit_price
-
-            else:
-
-               ## if there is a difference , then we calculate the stock balance of that particular raw material till a particular date.
-
-               stock_balance = stock_balance_for_raw_materials(picked_date,basic_input)
-
-               ## To get the old_total_cost we multiply the stock balance with the unit price of the raw material in its second last purchase
-
-               old_total_cost = stock_balance * old_unit_price
-
-               ## To get the old_cost_price we divide the old_total_cost by the stock balance 
-
-               old_cost_price = old_total_cost / stock_balance
-
-               ## To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
-
-               optimal_cost_price = statistics.mean([old_cost_price,new_cost_price])
-
-               return optimal_cost_price
-
-   else:
-      ## if a purchase was made the previous days we the date of the first ever purchase 
-
-      first_enforcement = purchases.objects.filter(raw_material_name__raw_material_name=basic_input).first()
-
-      if first_enforcement == None:
-
-         optimal_cost_price = Decimal('0')
-
-         return optimal_cost_price
-
-      else:
-
-         ## first date
-         first_date = first_enforcement.date  
-
-         ## Find all the purchases that ever been made from the first purchase to the last selected purchase
-
-         enforcements = purchases.objects.filter(raw_material_name__raw_material_name=basic_input).filter(date__range=[first_date,picked_date])
-
-         loop = 0
-
-         for enforcement in enforcements:
-
-            loop += 1
-
-            if loop == 1:
-
-               old_date = enforcement.date 
-
-               old_unit_price = enforcement.unit_price
-
-
-               if old_unit_price == new_unit_price:
-                  pass 
-
-               else:
-
-                  stock_balance = stock_balance_for_raw_materials(picked_date,basic_input)
-                  ## To get the old_total_cost we multiply the stock balance with the unit price of the raw material in its second last purchase
-
-                  old_total_cost = stock_balance * old_unit_price
-
-                  ## To get the old_cost_price we divide the old_total_cost by the stock balance 
-
-                  old_cost_price = old_total_cost / stock_balance
-
-                  ## To find the optimal cost price we get the  mean of the between the old cost price and new cost price.
-
-                  optimal_cost_price = statistics.mean([old_cost_price,new_cost_price])
-
-                  return optimal_cost_price
 
 
 def division(x,y):
@@ -550,7 +553,7 @@ def stock_balance_for_products(product,picked_date):
 
    if sale == None:
 
-      stock_balance = product_quantity_mixed - 0 
+      stock_balance = product_quantity_mixed -  0 
 
       return stock_balance
 
@@ -578,6 +581,82 @@ def stock_balance_for_products(product,picked_date):
       print(stock_balance)
 
       return stock_balance
+
+
+@register.filter
+@snoop
+def cost_price_of_raw_material_with_no_date(basic_input):
+   
+   ## cost price of a particular raw material by date
+   ## Get the unit price of a particular raw material in its last purchase
+   new_purchase = purchases.objects.filter(raw_material_name__raw_material_name=basic_input).last()
+
+   ## Get the quantity of the a particular raw material in its last purchase
+   if new_purchase == None:
+     new_unit_price = Decimal('0')
+     new_cost_price = Decimal('0')
+   else:
+
+      #now_get_the_direct_expenses_first
+      new_direct_expenses = direct_expenses.objects.filter(purchase__id=new_purchase.id)
+
+      direct_expenses_list = []
+
+      for expense in new_direct_expenses:
+
+         expense_summation = expense.unit_price * expense.quantity
+
+         direct_expenses_list.append(expense_summation)
+
+      total_direct_expenses = sum(direct_expenses_list)
+
+      
+      if new_direct_expenses == None:
+         
+         total_direct_expenses = 0 
+
+      else:
+
+         total_direct_expenses = int(total_direct_expenses)
+
+         #then work on the purchase
+         new_unit_price = new_purchase.unit_price
+
+         ## Get the quantity of the a particular raw material in its last purchase
+
+         new_quantity = new_purchase.quantity
+
+         ## Get the logistics of that a particular raw material in its last purchase
+         new_logistics = logistics.objects.filter(purchase__id=new_purchase.id).last()
+
+         if new_logistics == None:
+            total_cost_price = (new_unit_price * new_quantity) + total_direct_expenses
+
+            new_cost_price = total_cost_price / new_quantity
+
+            return new_cost_price
+
+         else:
+            new_loading = new_logistics.loading
+
+            new_off_loading = new_logistics.off_loading
+
+            new_transport = new_logistics.transport
+
+            # Add the logistics together
+
+            movement_costs = new_loading + new_off_loading + new_transport
+
+            ## To get the new cost price we multiply the unit price by the quantity and then lastly add the logistics
+
+            new_total_cost = (new_unit_price * new_quantity) + movement_costs + total_direct_expenses
+
+            ## Divide the addition above by the quantity of the raw material that was purchased 
+
+            new_cost_price = new_total_cost / new_quantity
+
+            return new_cost_price
+
 
 
 @register.filter
@@ -612,18 +691,22 @@ def cost_price_of_product(picked_date,out_come):
 
       for key , value in names.items():
 
-         cost_price_dict[value]=cost_price_of_raw_material(picked_date,value)
+         cost_price_dict[value]=cost_price_of_raw_material_with_no_date(value)
 
       print(cost_price_dict)
 
 
+      #Find the weights of different raw material in the product 
 	   #Find the standard weight of the product
+      #Get the amount that has been sold 
 
       separations = raw_material_separations.objects.filter(product_name__product_name=out_come)
 
       ratios = {}
 
       standard_weight = 0
+
+      standard_cost = 0
 
       for separation in separations:
 
@@ -633,104 +716,32 @@ def cost_price_of_product(picked_date,out_come):
 
          standard_weight += value
 
+         for raw_material_name , cost_of_one_kg in cost_price_dict.items():
+
+            if key == raw_material_name:
+
+               if cost_of_one_kg == None:
+
+                  cost_of_one_kg = 0 
+
+                  standard_cost += cost_of_one_kg          
+
+               else:
+
+                  standard_cost += (cost_of_one_kg * value )
+
       print(standard_weight)
 
       print(ratios)
 
-	   ## Divide those cost prices by the specific ratios involved in the standard weight of a product
+      ## Standard cost
 
-      divided_cost_price_dict = {}
+      
+      print(standard_cost)
 
-      loop = 0
+      cost_price = standard_cost / standard_weight
 
-      for raw_material, cost_price in cost_price_dict.items():
-
-         print(raw_material,"",cost_price)
-
-         if raw_material in ratios.keys():
-
-            print("Yes, it exists and if so then...")
-
-	         #divide the cost price of the raw material by the ratio that goes into the standard weight
-
-            # but if cost price
-
-            if cost_price == None:
-
-               cost_price = 0
-
-               divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material])
-
-            else:
-
-               divided_cost_price_dict[raw_material]=int(cost_price/ratios[raw_material]) 
-
-      print(divided_cost_price_dict)
+      return cost_price
 
 
-	   ## Findout the cost prices involved in one kilogram of the product
 
-      standard_cost_price = 0 
-
-      for key , value in divided_cost_price_dict.items():
-
-         standard_cost_price += value
-
-      print(standard_cost_price)
-
-	   # How about the cost price of one kilogram of standard weight of a product
-
-	   # one_kilogram_of_standard_weight = standard_weight/standard_cost_price 
-
-      one_kilogram_of_standard_weight = division(standard_weight , standard_cost_price)
-
-      print(one_kilogram_of_standard_weight)
-
-	   # Mulitply that with the quantity of the product that has been mixed till a particular date.
-
-      #Get date of the first sale of a particular product
-
-      sale = products.objects.filter(product_name__product_name=out_come).first()
-
-      if sale == None:
-
-         cost_price = 0
-
-         return cost_price
-
-      else:
-
-         start_date = sale.date
-
-         #Get amount of the product that had been sold till a particular date
-
-         sales = products.objects.filter(date__range=[picked_date,start_date])
-
-         product_sale_list = []
-
-         if sales == None:
-
-            cost_price = 0 
-
-            return cost_price
-
-         else:
-
-
-            for deal in sales:
-
-               product_sale_list.append(deal.quantity)
-
-               print(deal.quantity)
-
-            print(picked_date)
-
-            print(start_date)
-
-            print(product_sale_list)
-
-            total_deals = sum(product_sale_list)
-
-            cost_price = one_kilogram_of_standard_weight * total_deals
-
-            return cost_price

@@ -307,7 +307,7 @@ def delete_purchases(request):
         
         purchase_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_purchases/')
+    return HttpResponseRedirect('http://127.0.0.1:8000/view_purchase/')
 
 def execute_raw_material_transactions(request):
     context = {}
@@ -904,7 +904,6 @@ def update_employees(request):
 
     return render(request,"update_employees.html",context=context_dict)
 
-
 def make_employee_terms(request):
     context = {}
     # add the dictionary during initialization
@@ -1015,7 +1014,6 @@ def update_advance(request):
 
     return render(request,"update_advance_payments.html",context=context_dict)
 
-
 def delete_advance(request):
     context_dict = {}
     if 'id' in request.GET:
@@ -1045,7 +1043,6 @@ def pay_salary(request):
         context['form'] = form
 
     return render(request, "salary.html",context=context)
-
 
 def view_salary(request):
     
@@ -1079,7 +1076,6 @@ def update_salary(request):
 
     return render(request,"update_salaries.html",context=context_dict)
 
-
 def delete_salary(request):
     context_dict = {}
     if 'id' in request.GET:
@@ -1093,7 +1089,6 @@ def delete_salary(request):
         salary_to_delete.delete()
     
     return HttpResponseRedirect('http://127.0.0.1:8000/view_salaries/')
-
 
 def view_stock_balance(request):
     if request.method == 'POST':
@@ -1128,7 +1123,6 @@ def view_stock_balance(request):
     else:
 
         return render(request,"view_stock_balances.html",{})
-
 
 def view_profit(request):
     if request.method == 'POST':
