@@ -43,6 +43,10 @@ Multiply it with the new cost price
 
 Add the two multiplications together and divide it by total quantity of the specified raw material
 #### Personal Access Tokens for this project
+
+August 30th 2022 - kamanyire computer
+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
+
 August 30th 2022
 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
 
