@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.core.mail import send_mail
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,6 +26,8 @@ SECRET_KEY = 'django-insecure-fbxv98*5i$gssdqlyo7r8v)&vkpm#e4vot!e)80disp17e6hg*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+
 
 ALLOWED_HOSTS = ['yakobo.pythonanywhere.com','127.0.0.1']
 
@@ -155,3 +158,59 @@ REST_FRAMEWORK = {
 
 REPORT_BUILDER_GLOBAL_EXPORT = True
 # REPORT_BUILDER_INCLUDE = ['feedwork.apps.FeedworkConfig.RawMaterialQuantities']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'offdutysystems@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'OffDutyFarm@1' 
+
+EMAIL_PORT = 587 
+
+EMAIL_USE_TLS = True
+
+
+# send_mail(
+#     'Subject here',
+#     'Here is the message.',
+#     'from@example.com',
+#     ['to@example.com'],
+#     fail_silently=False,
+# )
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+
+
+    'handlers': {
+       'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/jay/code/kamanyire_version_3/kamanyire_2022/feedsite/logs/debug.log',
+            
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+
+}

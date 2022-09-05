@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from feedwork.models import *
 import snoop
 import json
+import logging
 @snoop
 def index(request):
     if request.method == 'POST':
@@ -73,7 +74,7 @@ def setup_raw_material_names(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -104,7 +105,7 @@ def update_raw_material_name(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -122,7 +123,7 @@ def delete_raw_material_name(request):
         
         raw_material_name_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_names/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_raw_material_names/')
 
 def enroll_suppliers(request):
     context = {}
@@ -134,7 +135,7 @@ def enroll_suppliers(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -160,7 +161,7 @@ def update_suppliers(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -178,7 +179,7 @@ def delete_suppliers(request):
         
         supplier_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_suppliers/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_suppliers/')
 
 def setup_logistics(request):
     context = {}
@@ -190,7 +191,7 @@ def setup_logistics(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
         # HttpResponse('A Purchase cant be transported more than once' )
@@ -220,7 +221,7 @@ def update_logistics(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -239,7 +240,7 @@ def delete_logistics(request):
         
         logistic_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_logistics/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_logistics/')
 
 def execute_purchases(request):
     context = {}
@@ -251,7 +252,7 @@ def execute_purchases(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -289,7 +290,7 @@ def update_purchases(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -307,7 +308,7 @@ def delete_purchases(request):
         
         purchase_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_purchase/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_purchase/')
 
 def execute_raw_material_transactions(request):
     context = {}
@@ -319,7 +320,7 @@ def execute_raw_material_transactions(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -358,7 +359,7 @@ def update_raw_material_transactions(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -376,7 +377,7 @@ def delete_raw_material_transactions(request):
         
         transaction_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_transactions/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_raw_material_transactions/')
 
 def setup_product_names(request):
     context = {}
@@ -386,7 +387,7 @@ def setup_product_names(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -416,7 +417,7 @@ def update_product_names(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -434,7 +435,7 @@ def delete_product_names(request):
         
         name_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_product_names/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_product_names/')
 
 def setup_products(request):
     context = {}
@@ -444,7 +445,7 @@ def setup_products(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -479,7 +480,7 @@ def update_products(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -497,7 +498,7 @@ def delete_products(request):
         
         product_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_products/')    
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_products/')    
 
 def setup_raw_material_separations(request):
     context = {}
@@ -507,7 +508,7 @@ def setup_raw_material_separations(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -536,7 +537,7 @@ def update_raw_material_separations(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -554,7 +555,7 @@ def delete_raw_material_separations(request):
         
         separation_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_raw_material_separations/') 
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_raw_material_separations/') 
 
 def execute_product_sales(request):
     context = {}
@@ -564,7 +565,7 @@ def execute_product_sales(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -600,7 +601,7 @@ def update_product_sales(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -618,7 +619,7 @@ def delete_product_sales(request):
         
         sale_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_product_sales/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_product_sales/')
 
 def setup_expense_names(request):
     context = {}
@@ -628,7 +629,7 @@ def setup_expense_names(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -657,7 +658,7 @@ def update_expense_names(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -675,7 +676,7 @@ def delete_expense_names(request):
         
         expense_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_names/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_expense_names/')
 
 def setup_expense_units(request):
     context = {}
@@ -685,7 +686,7 @@ def setup_expense_units(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -716,7 +717,7 @@ def delete_expense_units(request):
         
         unit_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_expense_units/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_expense_units/')
 
 def update_expense_units(request):
     context_dict = {}
@@ -732,7 +733,7 @@ def update_expense_units(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -746,7 +747,7 @@ def record_expenses(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -777,7 +778,7 @@ def update_expenses(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -795,7 +796,7 @@ def delete_expenses(request):
         
         expense_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_expenses/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_expenses/')
 
 def record_direct_expenses(request):
     context = {}
@@ -805,7 +806,7 @@ def record_direct_expenses(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -836,7 +837,7 @@ def update_direct_expenses(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -854,7 +855,7 @@ def delete_direct_expenses(request):
         
         expense_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_direct_expenses/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_direct_expenses/')
 
 def enroll_employee(request):
     context = {}
@@ -864,7 +865,7 @@ def enroll_employee(request):
 
         if form.is_valid():   
             form.save()
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -898,7 +899,7 @@ def update_employees(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -914,7 +915,7 @@ def make_employee_terms(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -945,7 +946,7 @@ def updating_employment_terms(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -964,7 +965,7 @@ def deleting_employment_terms(request):
         
         terms_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_employee_terms/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_employee_terms/')
 
 def make_advance(request):
     context = {}
@@ -976,7 +977,7 @@ def make_advance(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -1008,7 +1009,7 @@ def update_advance(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -1026,7 +1027,7 @@ def delete_advance(request):
         
         advance_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_advance_payments/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_advance_payments/')
 
 def pay_salary(request):
     context = {}
@@ -1038,7 +1039,7 @@ def pay_salary(request):
       
             form.save()
 
-            return HttpResponseRedirect('http://127.0.0.1:8000/') 
+            return HttpResponseRedirect('http://yakobo.pythonanywhere.com') 
     else:
         context['form'] = form
 
@@ -1070,7 +1071,7 @@ def update_salary(request):
         if request.method == 'POST':
             if form.is_valid():           
                 form.save()
-                return HttpResponseRedirect('http://127.0.0.1:8000/')   
+                return HttpResponseRedirect('http://yakobo.pythonanywhere.com')   
         else:
             context_dict["form"] = form 
 
@@ -1088,7 +1089,7 @@ def delete_salary(request):
         
         salary_to_delete.delete()
     
-    return HttpResponseRedirect('http://127.0.0.1:8000/view_salaries/')
+    return HttpResponseRedirect('http://yakobo.pythonanywhere.comview_salaries/')
 
 def view_stock_balance(request):
     if request.method == 'POST':
@@ -1105,7 +1106,7 @@ def view_stock_balance(request):
 
             raw_material_stock_balance[name] = stock_balance_for_raw_materials(selected_date,basic_input.raw_material_name)
 
-
+        
         #Stock balance for products
         out_come_names = product_names.objects.all()
 
@@ -1114,7 +1115,7 @@ def view_stock_balance(request):
         for out_come_name in out_come_names:
 
             product_stock_balance[out_come_name.product_name] = stock_balance_for_products(out_come_name.product_name,selected_date)
-            
+
         
         return render(request,"view_stock_balances.html",{'raw_material_stock_balance':raw_material_stock_balance,'product_stock_balance':product_stock_balance})
 

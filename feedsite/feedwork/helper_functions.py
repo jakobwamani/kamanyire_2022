@@ -11,6 +11,16 @@ from decimal import Decimal
 import datetime
 from django.db.models import Avg,Sum
 from django.core.exceptions import ObjectDoesNotExist
+import logging
+
+
+# DEBUG: Low level system information for debugging purposes
+# INFO: General system information
+# WARNING: Information describing a minor problem that has occurred.
+# ERROR: Information describing a major problem that has occurred.
+# CRITICAL: Information describing a critical problem that has occurred.
+
+
 
 def division(x,y):
     try:
@@ -30,7 +40,7 @@ def check_if_query_exists(x,y):
       standard_weight_fit = 0 
 
       return standard_weight_fit
-@snoop
+
 def stock_balance_for_raw_materials(picked_date,basic_input):
    # stock balance of particular raw_material by date
 
@@ -134,7 +144,7 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
 
             return stock_balance
 
-@snoop
+
 def stock_balance_for_products(product,picked_date):
    # Stock balance for a particular product by a particular date
 
@@ -172,6 +182,8 @@ def stock_balance_for_products(product,picked_date):
 
          stock_balance = product_quantity_mixed - 0 
 
+         print(stock_balance)
+
          return stock_balance
 
       else:
@@ -199,7 +211,7 @@ def stock_balance_for_products(product,picked_date):
 
          return stock_balance
 
-@snoop
+
 def cost_price_of_raw_material(picked_date,basic_input):
    
    ## cost price of a particular raw material by date
@@ -272,7 +284,7 @@ def cost_price_of_raw_material(picked_date,basic_input):
 
             return new_cost_price
 
-@snoop
+
 def cost_price_of_raw_material_with_no_date(basic_input):
    
    ## cost price of a particular raw material by date
@@ -345,7 +357,7 @@ def cost_price_of_raw_material_with_no_date(basic_input):
 
             return new_cost_price
                     
-@snoop
+
 def cost_price_of_product(picked_date,out_come):
 
    result_name = product_names.objects.filter(product_name=out_come)
@@ -428,7 +440,7 @@ def cost_price_of_product(picked_date,out_come):
 
       return cost_price
 
-@snoop
+
 def profit_of_raw_material(material,picked_date):
 
    sales_quantity = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = material).filter(date = picked_date).aggregate(Sum('quantity'))['quantity__sum']
@@ -437,6 +449,7 @@ def profit_of_raw_material(material,picked_date):
 
       profit = 0
 
+      print("Calculating profit of Raw Material ",material, " on ",picked_date," which is ",profit)
    else:
 
       unit_price_of_last_sale = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = material).last().unit_price
@@ -449,13 +462,17 @@ def profit_of_raw_material(material,picked_date):
                
          profit = (unit_price_of_last_sale * sales_quantity) - (cost_price * sales_quantity)
 
+         print("Calculating profit of Raw Material ",material, " on ",picked_date," which is ",profit)
+
       else:
 
          profit = (unit_price_of_last_sale * sales_quantity) - (cost_price * sales_quantity)
 
+         print("Calculating profit of Raw Material ",material, " on ",picked_date," which is ",profit)
+
    return profit
 
-@snoop
+
 def profit_of_product(product,picked_date):
    ## Get the unit price of the product sale on a specific date
 
@@ -464,6 +481,9 @@ def profit_of_product(product,picked_date):
    if sales_quantity == None:
 
       profit = 0 
+
+      
+      print("Calculating profit of product ",product, " on ",picked_date," which is ",profit)
 
    else:
 
@@ -477,8 +497,12 @@ def profit_of_product(product,picked_date):
 
          profit = (unit_price_of_last_sale * sales_quantity) - (cost_price * sales_quantity) 
 
+         print("Calculating profit of product ",product, " on ",picked_date," which is ",profit)
+
       else:
 
          profit = (unit_price_of_last_sale * sales_quantity) - (cost_price * sales_quantity)
+
+         print("Calculating profit of product ",product, " on ",picked_date," which is ",profit)
 
    return profit
