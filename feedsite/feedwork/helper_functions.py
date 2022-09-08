@@ -144,7 +144,7 @@ def stock_balance_for_raw_materials(picked_date,basic_input):
 
             return stock_balance
 
-
+@snoop
 def stock_balance_for_products(product,picked_date):
    # Stock balance for a particular product by a particular date
 
@@ -166,7 +166,7 @@ def stock_balance_for_products(product,picked_date):
 
       product_quantity_list = []
 
-      out_comes = out_comes = products.objects.filter(date__range=[start_date,picked_date])
+      out_comes =  products.objects.filter(date__range=[start_date,picked_date]).filter(product_name__product_name=product)
 
       for out_come in out_comes:
 

@@ -1107,6 +1107,7 @@ def delete_salary(request):
     # return HttpResponseRedirect('/view_salaries/')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+@snoop
 def view_stock_balance(request):
     if request.method == 'POST':
     
@@ -1132,7 +1133,7 @@ def view_stock_balance(request):
 
             product_stock_balance[out_come_name.product_name] = stock_balance_for_products(out_come_name.product_name,selected_date)
 
-        
+        print(product_stock_balance)
         return render(request,"view_stock_balances.html",{'raw_material_stock_balance':raw_material_stock_balance,'product_stock_balance':product_stock_balance})
 
         
