@@ -1,130 +1,83 @@
 from feedwork.models import *
 
 
-result_name = product_names.objects.filter(product_name='Layers-mash-with-coconut')
-
-   if result_name == None:
-
-      pass
-
-   else:
-      # Find out the raw materials that are involved in that product
-
-      separations = raw_material_separations.objects.filter(product_name__product_name='Layers-mash-with-coconut')
-
-      names = {}
-
-      for separation in separations:
-
-         names[separation.separation_name]=separation.raw_material_name.raw_material_name
-
-      # understand to which raw material do those separation names belong
-
-      print(names)
 
 
-      # Find the cost prices of the different raw materials involved in that product
+standard_weight  = raw_material_separations.objects.filter(product_name__product_name='Layers-mash-with-coconut').aggregate(Sum('ratio'))['ratio__sum']
 
-      cost_price_dict = {}
+print(standard_weight)
 
-      for key , value in names.items():
+ standard_weight_fit  = raw_material_separations.objects.filter(product_name__product_name='Layers-mash-with-coconut').get(raw_material_name__raw_material_name='Maize-bran').ratio
 
-         cost_price_dict[value]=cost_price_of_raw_material_with_no_date(value)
+print(standard_weight_fit)
 
-      print(cost_price_dict)
+#now find out how much of the layers-mash-with-coconut has been mixed
 
+mixture_weight = products.objects.filter(product_name__product_name='Layers-mash-with-coconut').aggregate(Sum('quantity'))['quantity__sum']
 
-      #Find the weights of different raw material in the product 
-      #Find the standard weight of the product
-      #Get the amount that has been sold 
+print(mixture_weight)
 
-      separations = raw_material_separations.objects.filter(product_name__product_name='Layers-mash-with-coconut')
-
-      ratios = {}
-
-      for separation in separations:
-
-         ratios[separation.raw_material_name.raw_material_name]=separation.ratio
-
-      print(ratios)
-
-      for key, value in ratios.items():
-
-         standard_weight += value
-
-      print(standard_weight)
+mixed_amount = (standard_weight_fit/standard_weight) * mixture_weight
 
 
+def stock_balance_for_raw_materials(picked_date,basic_input):
 
-      divided_weights = {}
+   first_purchase = purchases.objects.filter(raw_material_name__raw_material_name = basic_input).first()
 
-      for key , value in ratios:
+   if first_purchase == None:
 
-         standard_weight = value
+      quantity_of_purchases = 0 
 
-         #How about one kilogram of standard weight
+      first_sale = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = basic_input).first()
 
-         one_kilogram_of_standard_weight = value / standard_weight
+      if first_sale == None:
 
-         #append the divided weights dictionary
-
-         divided_weights[key] = one_kilogram_of_standard_weight
-
-
-      #how about when the weights have increased
-
-      #we can get the weights of different raw materials in a product
-
-      mix = products.objects.filter(product_name__product_name='Layers-mash-with-coconut').first()
-
-      if mix == None:
-
-         total_mixes = 0
-
-         return total_mixes
+         quantity_of_sales = 0 
 
       else:
 
-         start_date = sale.date
+         start_date = first_sale.date
 
-         #Get amount of the product that had been sold till a particular date
+         sales = raw_material_transactions.objects.filter(raw_material_name__raw_material_name = basic_input).filter(date__range=[start_date,picked_date]).aggregate(Sum('quantity'))['quantity__sum']
 
-         mixes = products.objects.filter(date__range=[picked_date,start_date])
-
-         product_sale_list = []
-
-         if mixes == None:
-
-            total_mixes = 0
-
-         else:
+         quantity_of_sales = sales
 
 
-            for mixing in mixes:
+      results = product_names.objects.all()
 
-               product_sale_list.append(mixing.quantity)
+      if len(results_list) == 0:
 
-               print(mixing.quantity)
+         stock_balance = quantity_of_purchases - quantity_of_sales
 
-            print(picked_date)
+         print("stock_balance",stock_balance)
 
-            print(start_date)
+         return stock_balance
 
-            print(product_sale_list)
+      else:
 
-            total_mixes = sum(product_sale_list)
+         total_amount_of_mixed_amounts = []
 
-   
-      # how about when the weights have increased
+         sum_of_mixed_amounts = sum(total_amount_of_mixed_amounts)
 
-      actual_weights = {}
+         for result in results:
 
-      for key, value in divided_weights:
+            standard_weight  = raw_material_separations.objects.filter(product_name__product_name=result.product_name).aggregate(Sum('ratio'))['ratio__sum']
 
-         actual_weights[key] = value * total_mixes
-        
+            standard_weight_fit  = raw_material_separations.objects.filter(product_name__product_name=result.product_name).get(raw_material_name__raw_material_name=basic_input).ratio
 
-     
+            #now find out how much of the layers-mash-with-coconut has been mixed
 
-      
+            mixture_weight = products.objects.filter(product_name__product_name=result.product_name).aggregate(Sum('quantity'))['quantity__sum']
+
+            mixed_amount = (standard_weight_fit/standard_weight) * mixture_weight
+
+            total_amount_of_mixed_amounts.append(mixed_amount)
+
+         # stock Balance
+
+         stock_balance = quantity_of_purchases - quantity_of_sales - 
+
+         print("stock_balance",stock_balance)
+
+         return stock_balance
 

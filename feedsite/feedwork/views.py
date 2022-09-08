@@ -123,7 +123,8 @@ def delete_raw_material_name(request):
         
         raw_material_name_to_delete.delete()
     
-    return HttpResponseRedirect('/view_raw_material_names/')
+    # return HttpResponseRedirect('/view_raw_material_names/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def enroll_suppliers(request):
     context = {}
@@ -179,7 +180,8 @@ def delete_suppliers(request):
         
         supplier_to_delete.delete()
     
-    return HttpResponseRedirect('/view_suppliers/')
+    # return HttpResponseRedirect('/view_suppliers/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def setup_logistics(request):
     context = {}
@@ -240,7 +242,8 @@ def delete_logistics(request):
         
         logistic_to_delete.delete()
     
-    return HttpResponseRedirect('/view_logistics/')
+    # return HttpResponseRedirect('/view_logistics/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def execute_purchases(request):
     context = {}
@@ -308,7 +311,8 @@ def delete_purchases(request):
         
         purchase_to_delete.delete()
     
-    return HttpResponseRedirect('/view_purchase/')
+    # return HttpResponseRedirect('/view_purchase/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def execute_raw_material_transactions(request):
     context = {}
@@ -377,7 +381,8 @@ def delete_raw_material_transactions(request):
         
         transaction_to_delete.delete()
     
-    return HttpResponseRedirect('/view_raw_material_transactions/')
+    # return HttpResponseRedirect('/view_raw_material_transactions/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def setup_product_names(request):
     context = {}
@@ -435,7 +440,8 @@ def delete_product_names(request):
         
         name_to_delete.delete()
     
-    return HttpResponseRedirect('/view_product_names/')
+    # return HttpResponseRedirect('/view_product_names/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def setup_products(request):
     context = {}
@@ -498,7 +504,8 @@ def delete_products(request):
         
         product_to_delete.delete()
     
-    return HttpResponseRedirect('/view_products/')    
+       
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def setup_raw_material_separations(request):
     context = {}
@@ -555,7 +562,8 @@ def delete_raw_material_separations(request):
         
         separation_to_delete.delete()
     
-    return HttpResponseRedirect('/view_raw_material_separations/') 
+    # return HttpResponseRedirect('/view_raw_material_separations/') 
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def execute_product_sales(request):
     context = {}
@@ -619,7 +627,8 @@ def delete_product_sales(request):
         
         sale_to_delete.delete()
     
-    return HttpResponseRedirect('/view_product_sales/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return HttpResponseRedirect('/view_product_sales/')
 
 def setup_expense_names(request):
     context = {}
@@ -676,7 +685,8 @@ def delete_expense_names(request):
         
         expense_to_delete.delete()
     
-    return HttpResponseRedirect('/view_expense_names/')
+    # return HttpResponseRedirect('/view_expense_names/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def setup_expense_units(request):
     context = {}
@@ -717,7 +727,8 @@ def delete_expense_units(request):
         
         unit_to_delete.delete()
     
-    return HttpResponseRedirect('/view_expense_units/')
+    # return HttpResponseRedirect('/view_expense_units/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def update_expense_units(request):
     context_dict = {}
@@ -796,7 +807,8 @@ def delete_expenses(request):
         
         expense_to_delete.delete()
     
-    return HttpResponseRedirect('/view_expenses/')
+    # return HttpResponseRedirect('/view_expenses/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def record_direct_expenses(request):
     context = {}
@@ -855,7 +867,8 @@ def delete_direct_expenses(request):
         
         expense_to_delete.delete()
     
-    return HttpResponseRedirect('/view_direct_expenses/')
+    # return HttpResponseRedirect('/view_direct_expenses/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def enroll_employee(request):
     context = {}
@@ -965,7 +978,8 @@ def deleting_employment_terms(request):
         
         terms_to_delete.delete()
     
-    return HttpResponseRedirect('/view_employee_terms/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return HttpResponseRedirect('/view_employee_terms/')
 
 def make_advance(request):
     context = {}
@@ -1027,7 +1041,8 @@ def delete_advance(request):
         
         advance_to_delete.delete()
     
-    return HttpResponseRedirect('/view_advance_payments/')
+    # return HttpResponseRedirect('/view_advance_payments/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def pay_salary(request):
     context = {}
@@ -1089,7 +1104,8 @@ def delete_salary(request):
         
         salary_to_delete.delete()
     
-    return HttpResponseRedirect('/view_salaries/')
+    # return HttpResponseRedirect('/view_salaries/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def view_stock_balance(request):
     if request.method == 'POST':
