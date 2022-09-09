@@ -166,7 +166,7 @@ def stock_balance_for_products(product,picked_date):
 
       product_quantity_list = []
 
-      #add one more filter here
+      #add one more filter here to filter out the product
       out_comes =  products.objects.filter(date__range=[start_date,picked_date]).filter(product_name__product_name=product)
 
       for out_come in out_comes:
