@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		View Raw Material Names
+	</title>
+    <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+</head>
+<body>
+<h1>View Raw Material Names</h1>
+    <form action="{% url 'view_raw_material_names' %}" method="post">
+                {% csrf_token %}
+               <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
+                    <ul>
+        
+                    <tr>
+                        <th>Raw Material Id</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Raw Material Name</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                       
+                    </tr>
+                    {% for name in raw_material_names %}
+                    <tr>
+                        <td>{{ name.id}} </td>
+                        <td>{{ name.date }} </td>
+                        <td>{{ name.time }} </td>
+                        <td>{{ name.raw_material_name }}</td>
+                        
+                        
+                        <!--I dnot know why i had to back reference it , it just couldn't work with it -->
+                        <td><a href="../update_raw_material_names/?id={{ name.id }}">Update</a></td>
+                        <td><a href="../delete_raw_material_names/?id={{ name.id }}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>                             
+    </form>
+
+                    
+                
+</body>
+<a href="{% url 'index' %}"><p>Home</p></a><br/>
+
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+</html>

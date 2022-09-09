@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		Viewing product names
+	</title>
+	<style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+    </style>
+</head>
+<body>
+<h1>View the product names</h1>
+    <form action="{% url 'view_product_names' %}" method="post">
+                <!-- <label>Childid</label>
+                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
+                <!-- <label>From</label>
+                <input name="start_date" type="date" ><br/><br/>
+                <labe>To</labe>
+                <input name="end_date" type="date" ><br/><br/>
+                <input type="submit" name="submit" value="Search"/>  -->               
+    </form>
+
+     <table style="border:1px">
+                    <ul>
+        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
+        meat_boaster ,egg_boaster  -->
+            <!-- broilers_marsh,chick_marsh,old_pig,growers_marsh,layers_marsh ,young_pig -->
+
+                    <tr>
+                        <th>Id</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Product Name</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                       
+                    </tr>
+                    {% for name in names %}
+                    <tr>
+                        <td>{{ name.id}} </td>
+                        <td>{{ name.date }} </td>
+                        <td>{{ name.time }}</td>
+                        <td>{{ name.product_name }}</td>
+                        <td><a href="../update_product_names/?id={{ name.id }}">Update</a></td>
+                        <td><a href="../delete_product_names/?id={{ name.id }}">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                </table>
+       
+
+</body>
+<div>
+    <a href="{% url 'index' %}"><p>Home</p></a><br/>
+</div>
+
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+</html>

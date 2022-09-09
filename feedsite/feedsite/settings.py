@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.core.mail import send_mail
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,9 @@ SECRET_KEY = 'django-insecure-fbxv98*5i$gssdqlyo7r8v)&vkpm#e4vot!e)80disp17e6hg*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+
+ALLOWED_HOSTS = ['yakobo.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -124,7 +127,7 @@ LANGUAGE_CODE = 'en-us'
 
 # TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'Africa/Kampala' 
+TIME_ZONE = 'Africa/Kampala'
 
 USE_I18N = True
 
@@ -154,4 +157,5 @@ REST_FRAMEWORK = {
 }
 
 REPORT_BUILDER_GLOBAL_EXPORT = True
-# REPORT_BUILDER_INCLUDE = ['feedwork.apps.FeedworkConfig.RawMaterialQuantities'] 
+# REPORT_BUILDER_INCLUDE = ['feedwork.apps.FeedworkConfig.RawMaterialQuantities']
+

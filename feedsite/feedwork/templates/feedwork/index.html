@@ -58,391 +58,100 @@ input[type=submit]:hover {
 } 
 
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+.flex-container {
+  display: flex;
+  
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 20px;
+}
 </style>
      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <body>
     <center><h3>STS POULTRY AND ANIMAL FEEDS</h3></center>
-<div class="container">
-    <div class="navigation"  >
-        <h3>Navigation</h3>
-        <table>
-            <tr style="height:10px">
-                <a href="{% url 'index' %}"><p>Home</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'get_supply' %}"><p>Purchases</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'view_supply' %}"><p>View Purchases</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'expenses' %}"><p>Expenses</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'create_product' %}"><p>Mix Products</p></a>
-            </tr>
-                <a href="{% url 'view_product' %}"><p>View Products</p></a>
-            <tr>
-            </tr>
-            <!-- <tr>
-                <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a>
-            </tr>
-            <tr>
-                 <a href="{% url 'create_product_prices' %}"><p>Set  Product Prices</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p> -->
-            </tr>
-            <tr>
-                <a href="{% url 'product_sales' %}"><p>Product Sales</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a>
-            </tr>
-            <tr>
-                <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a>
-            </tr> 
-            <tr>
-                <a href="{% url 'employee_enrollment' %}"><p>Employees</p></a>
-            </tr> 
-            <tr>
-                <a href="{% url 'view_employees' %}"><p>View Employees</p></a>
-            </tr> 
-            <tr>
-                <a href="{% url 'employee_terms' %}"><p>Employee Terms</p></a>
-            </tr> 
-            <tr>
-                <a href="{% url 'view_employee_terms' %}"><p>View Employee Terms</p></a>
-            </tr> 
-            <tr>
-                <a href="{% url 'advance_payment' %}"><p>Advance Payment</p></a>
-            </tr> 
-            <tr>
-                <a href="{% url 'view_advance_payments' %}"><p>View Advance Payments</p></a>
-            </tr> 
-        </table>
-        
-    </div>	
-
-
-    <div class="raw_material_quantities" >
-        <h3> Raw Material Stock</h3>
-        <form action="{% url 'index' %}" method="post">
+<!-- 
+    <form action="{% url 'index' %}" method="post">
             {% csrf_token %}
                 
                 <label>Date</label>
                 <input name="start_date" type="date" ><br/><br/> 
-                <input type="submit" name="submit" value="COMPILE"/>    
-               
-                 
+                <input type="submit" name="submit" value="COMPILE"/>            
+    </form> -->
+<div class="flex-container">
+    <div>
+            <strong>Navigation</strong>
 
-                <table>
-                    <tr>
-                        <th>Date</th>
-                        <td>{{ raw_material_stock.date }}</td>
-                    </tr>
-                    <tr>
-                        <th>Maize Bran</th>
-                        <td>{{ raw_material_stock.maize_bran }}</td>
-                    </tr>
-                    <tr>
-                        <th>Cotton</th>
-                        <td>{{ raw_material_stock.cotton }}</td>
-                    </tr>
-                    <tr>
-                        <th>Sun Flower</th>
-                        <td>{{ raw_material_stock.sun_flower }}</td>
-                    </tr>
-                    <tr>
-                        <th>Layers' Premix</th>
-                        <td>{{ raw_material_stock.layers_premix }}</td>
-                    </tr>
-                    <tr>
-                        <th>General Purpose Premix</th>
-                        <td>{{ raw_material_stock.general_purpose_premix }}</td>
-                    </tr>
-                    <tr>
-                        <th>Shells</th>
-                        <td>{{ raw_material_stock.shells }}</td>
-                    </tr>
-                    <tr>
-                        <th>Meat Boaster</th>
-                        <td>{{ raw_material_stock.meat_boaster }}</td>
-                    </tr>
-                    <tr>
-                        <th>Egg Boaster</th>
-                        <td>{{ raw_material_stock.egg_boaster }}</td>
-                    </tr>
-                    <tr>
-                        <th>Fish</th>
-                        <td>{{ raw_material_stock.fish }}</td>
-                    </tr>
-                    <tr>
-                        <th>Calcium</th>
-                        <td>{{ raw_material_stock.calcium }}</td>
-                    </tr>
-                    <tr>
-                        <th>Soya Bean</th>
-                        <td>{{ raw_material_stock.soya_bean }}</td>
-                    </tr>
-                    <tr>
-                        <th>Animal Salt</th>
-                        <td>{{ raw_material_stock.animal_salt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Common Salt</th>
-                        <td>{{ raw_material_stock.common_salt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Brown Salt</th>
-                        <td>{{ raw_material_stock.brown_salt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Coconut</th>
-                        <td>{{ raw_material_stock.coconut }}</td>
-                    </tr>
-                    <tr>
-                        <th>Pig concentrate</th>
-                        <td>{{ raw_material_stock.pig_concentrate }}</td>
-                    </tr>
-                    <tr>
-                        <th>Wonder pig</th>
-                        <td>{{ raw_material_stock.wonder_pig }}</td>
-                    </tr>
-                    <tr>
-                        <th>Big pig</th>
-                        <td>{{ raw_material_stock.big_pig }}</td>
-                    </tr>
+             <a href="{% url 'index' %}"><p>Home</p></a>
 
+             <a href="{% url 'view_stock_balance' %}"><p>View Stock Balance</p></a>
 
+             <a href="{% url 'view_profit' %}"><p>View Profits</p></a>
 
-                </table>            
-            </form>
-       
+             <a href="{% url 'setup_raw_materials' %}"><p>Raw Material Names</p></a>
+
+             <a href="{% url 'setup_suppliers' %}"><p>Suppliers</p></a>
+
+             <a href="{% url 'purchases' %}"><p>Purchases</p></a>
+
+             <a href="{% url 'setup_logistics' %}"><p>Logistics</p></a>
+
+             <a href="{% url 'execute_raw_material_sales' %}"><p>Raw Material Sales</p></a>
+
+             <a href="{% url 'setup_product_names' %}"><p>Product Names</p></a>
+
+             <a href="{% url 'setup_raw_material_separations' %}"><p>Product Ratios</p></a>
+
+             <a href="{% url 'setup_products' %}"><p>Products</p></a>
+
+             <a href="{% url 'execute_product_sales' %}"><p>Product Sales</p></a>
+
+             <a href="{% url 'setup_expense_names' %}"><p>Expenses Names</p></a>
+
+             <a href="{% url 'setup_expense_units' %}"><p>Expenses Units</p></a>
+
+             <a href="{% url 'record_direct_expenses' %}"><p> Direct Expenses</p></a> 
+
+            <a href="{% url 'record_expenses' %}"><p> Indirect Expenses</p></a>   
+            
+            <a href="{% url 'enroll_employees' %}"><p> Enroll Employees</p></a> 
+
+            <a href="{% url 'make_employee_terms' %}"><p> Employment Terms</p></a> 
+             
+            <a href="{% url 'make_advance' %}"><p> Advance Payments</p></a>
+
+            <a href="{% url 'pay_salary' %}"><p>Salary Payments</p></a>
     </div>
 
-    <div class="profit_showcase">
-            <h3>Raw Material Profits</h3>
-            
 
-            <form action="{% url 'index' %}" method="post">
-                {% csrf_token %}
-                <!-- <label>Childid</label>
-                <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
-                <label>Date</label>
-                <input name="select_date" type="date" ><br/><br/>
-                
-                <input type="submit" name="submit" value="COMPILE"/>   
-                <table style="border:1px">
-                      
-                    <tr>
-                        <th>Date</th>
+    
 
-                        <th>{{ raw_material_profits.date }} </th>
-                    </tr>
 
-                    <tr>
-                        <th>Maize bran</th>
 
-                        <th>{{ raw_material_profits.maize_bran }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Cotton</th>
-
-                        <th>{{ raw_material_profits.cotton }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Sun Flower</th>
-
-                        <th>{{ raw_material_profits.sun_flower }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Fish</th>
-
-                        <th>{{ raw_material_profits.fish }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>General Purpose Premix</th>
-
-                        <th>{{ raw_material_profits.general_purpose_premix }} </th>
-                    </tr>
-                    
-                    <tr>
-                        <th>Shells</th>
-
-                        <th>{{ raw_material_profits.shells }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Meat Boaster</th>
-
-                        <th>{{ raw_material_profits.meat_boaster }} </th>
-                    </tr>
-                   
-                    <tr>
-                        <th>Egg Boaster</th>
-
-                        <th>{{ raw_material_profits.egg_boaster }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Calcium</th>
-
-                        <th>{{ raw_material_profits.calcium }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Soya Bean</th>
-
-                        <th>{{ raw_material_profits.soya_bean }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Brown Salt</th>
-
-                        <th>{{ raw_material_profits.brown_salt }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Common Salt</th>
-
-                        <th>{{ raw_material_profits.common_salt }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Animal Salt</th>
-
-                        <th>{{ raw_material_profits.animal_salt }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Layers Premix</th>
-
-                        <th>{{ raw_material_profits.layers_premix }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Pig concentrate</th>
-
-                        <th>{{ raw_material_profits.pig_concentrate }} </th>
-                    </tr>
-                    <tr>
-                        <th>Coconut</th>
-
-                        <th>{{ raw_material_profits.coconut }} </th>
-                    </tr>
-                    <tr>
-                        <th>Wonder pig</th>
-
-                        <th>{{ raw_material_profits.wonder_pig }} </th>
-                    </tr>
-                    <tr>
-                        <th>Big Pig</th>
-
-                        <th>{{ raw_material_profits.big_pig }} </th>
-                    </tr>
-                </table>             
-            </form>
-        </div>
-
-<div>
-    <form action="{% url 'index' %}" method="post">
-        {% csrf_token %}
-            <h3> Product Stock</h3>
-            <div class="product_quantities" >
-                        <label>Date</label>
-                                <input name="choosen_date" type="date" ><br/><br/> 
-                                <input type="submit" name="submit" value="COMPILE"/> 
-                          
-
-                            <table th = height: 5px;>
-                                    <tr>
-                                    <th>DATE</th>
-                                    <td>{{ product_stock.date}}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>BROILERS MARSH</th>
-                                    <td>{{ product_stock.broilers_marsh}}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>CHICK MARSH</th>
-                                    <td>{{ product_stock.chick_marsh }}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>GROWER'S MARSH</th>
-                                    <td>{{ product_stock.growers_marsh}}</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                    <th>LAYERS MARSH</th>
-                                    <td>{{ product_stock.layers_marsh}}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>PIG MARSH</th>
-                                    <td>{{ product_stock.pig_marsh }}</td>             
-                            </table>
-            </div>
-    </form>
-</div>
-
-<div>
-    <form action="{% url 'index' %}" method="post">
-        {% csrf_token %}
-            <h3> Product Profits</h3>
-            <div class="product_quantities" >
-                        <label>Date</label>
-                                <input name="pick_date" type="date" ><br/><br/> 
-                                <input type="submit" name="submit" value="COMPILE"/> 
-                          
-
-                            <table th = height: 5px;>
-                                    <tr>
-                                    <th>DATE</th>
-                                    <td>{{ product_profits.date}}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>BROILERS MARSH</th>
-                                    <td>{{ product_profits.broilers_marsh}}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>CHICK MARSH</th>
-                                    <td>{{ product_profits.chick_marsh }}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>GROWER'S MARSH</th>
-                                    <td>{{ product_profits.growers_marsh}}</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                    <th>LAYERS MARSH</th>
-                                    <td>{{ product_profits.layers_marsh}}</td>
-                                    </tr>
-                                    <tr>
-                                    <th>PIG MARSH</th>
-                                    <td>{{ product_profits.pig_marsh }}</td>             
-                            </table>
-            </div>
-    </form>
 </div>
     
-</div>
-
-
-   {{ form.media }}
 </body>
+
 
 <center>
 
@@ -452,6 +161,8 @@ input[type=submit]:hover {
 </footer> 
 
 </center>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 
 </html>

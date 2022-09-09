@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+       {% load static %}  
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>"{% static 'jquery-3.6.0.js' %}"</script>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    {{ form.media }}
+	<meta charset="utf-8">
+	<title>Product Name Setup</title>
+	{% load supply_extras %}
+	<!-- <link 
+     rel="stylesheet"
+     href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <style>
+        .i-am-centered {
+            margin: auto;
+            max-width: 300px;
+            padding-top: 20%;
+        }
+ /* Style the form - display items horizontally */
+ .form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+/* Add some margins for each label */
+.form-inline label {
+  margin: 5px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline input {
+  vertical-align: middle;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+  padding: 10px 20px;
+  background-color: dodgerblue;
+  border: 1px solid #ddd;
+  color: white;
+}
+
+.form-inline button:hover {
+  background-color: royalblue;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+  .form-inline input {
+    margin: 10px 0;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+} 
+
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+    </style>
+	
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<!-- <script type="text/javascript"  src="{% static 'calculation.js' %}"></script> -->
+<link rel="stylesheet" href="{% static 'calculation.js' %}">
+</head>
+<body>
+	<h3>Product Name Setup</h3>
+
+<div>
+  <form method="POST"  enctype="multipart/form-data" autocomplete="on" >
+  <!-- Security token  Make sure you put this immediately after the form tag-->
+  {% csrf_token %}
+  {{ form.as_p }}
+
+    <input type="submit" value="Submit">
+  
+</form>
+{{ form.as_media }}
+</div>
+
+
+<div>
+	<a href="{% url 'index' %}"><p>Home</p></a><br/>
+  <a href="{% url 'view_product_names' %}"><p>View Product Names</p></a><br/>
+	
+</div>	
+</body>
+
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+</html>

@@ -1,0 +1,79 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> View Raw Material Separations </title>
+	{% load supply_extras %}
+    <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <h1>View Raw Material Separations</h1>
+  <form action="{% url 'view_raw_material_separations' %}" method="post">
+                {% csrf_token %}                     
+    </form>
+
+     <table style="border:1px">
+                    <ul>
+                    
+                    <tr>
+                        <th>Id</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Raw Material</th>
+                        <th>Product</th>
+                        <th>Separation name</th>
+                        <th>Ratio</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                       
+                    </tr>
+                    {% for separation in seperations %}
+                    <tr>
+                        <td>{{ separation.id}} </td>
+                        <td>{{ separation.date}} </td>
+                        <td>{{ separation.time }}</td>
+                        <td>{{ separation.raw_material_name }}</td>
+                        <td>{{ separation.product_name }}</td>
+                        <td>{{ separation.separation_name }}</td>
+                        <td>{{ separation.ratio }}</td>
+                        
+                        <td><a href="../update_raw_material_separations/?id={{ separation.id }}">Update</a></td>
+                        <td><a href="../delete_raw_material_separations/?id={{ separation.id }}">Delete</a></td>
+                        <!-- <td><a href="update_supply/?id={{ supply.id }}">Update</a></td> -->
+
+                    </tr>
+                    
+                    {% endfor %}
+                    
+                
+                </table>
+</body>
+ 	
+    <div>
+     <a href="{% url 'index' %}"><p>Home</p></a><br/>
+
+    </div>
+    
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+</html>

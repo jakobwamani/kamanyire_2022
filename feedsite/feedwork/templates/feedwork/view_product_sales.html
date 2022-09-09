@@ -20,104 +20,50 @@
                 <input name="child" type="text" required placeholder="Childid..."><br/><br/> -->
                 <label>From</label>
                 <input name="start_date" type="date" ><br/><br/>
-                <labe>To</labe>
-                <input name="end_date" type="date" ><br/><br/>
-                <label for="product">Choose product</label>
-
-                <select name="product_option" id="raw_material_opt">
-                  <option value="broilers_marsh">Broilers Marsh</option>
-                  <option value="chick_marsh">Chick Marsh</option>
-                  <option value="growers_marsh">Growers Marsh</option>
-                  <option value="old_pig">Old Pig</option>
-                  <option value="layers_marsh">Layers Marsh</option>
-                  <option value="young_pig">Young Pig</option>
-                </select> 
+                <label>To</label>
+                <input name="end_date" type="date" ><br/><br/> 
                 <br/>
+                <label for="raw_material_name">Raw Material:</label>
+
+                        <select name="product" id="product_name">
+                            {% for name in input_names %} 
+                                <option value={{ name.product_name }}>{{ name.product_name }}</option>
+                            {% endfor %}  
+                        </select>  
                 <input type="submit" name="submit" value="Search"/>                
     </form>
 
      <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
                     <ul>
-        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
-        meat_boaster ,egg_boaster  -->
+        
                     <tr>
-                        <th>Product Id</th>
+                        <th>Id</th>
                         <th>Date</th>
-                        <th>Product</th>
+                        <th>Time</th>
+                        <th>Product Name</th>
                         <th>Quantity</th>
-                        <th>Selling_Price</th>
-                        <th>Total</th>
                         <th>Update</th>
                         <th>Delete</th>
                        
                     </tr>
-                    {% for item in p_sales %}
+                    {% for sale in sales %}
                     <tr>
-                        <td>{{ item.id}} </td>
-                        <td>{{ item.date }} </td>
-                        <th>{{ item.product }}
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.selling_price }}</td>
-                        <td>{{ item.total }}</td>
+                        <td>{{ sale.id}} </td>
+                        <td>{{ sale.date }} </td>
+                        <th>{{ sale.time }}
+                        <td>{{ sale.product_name }}</td>
+                        <td>{{ sale.quantity }}</td>
                         
-                        <!--I dnot know why i had to back reference it , it just couldn't work with it -->
-                        <td><a href="../update_product_sales/?id={{ item.id }}">Update</a></td>
-                        <td><a href="../delete_product_sales/?id={{ item.id }}">Delete</a></td>
+                        <td><a href="../update_product_sales/?id={{ sale.id }}">Update</a></td>
+                        <td><a href="../delete_product_sales/?id={{ sale.id }}">Delete</a></td>
 
                     </tr>
-                    
                     {% endfor %}
-                <p> Total sales of {{ item.product }} is {{ total_sales }} ugx</p>
                 </table>
 
-                <center><h4>Amount of Stock Sold for a specified period of time</h4></center>
-            <table  width="100%" border="0" cellspacing="0" cellpadding="0" >
-                    <ul>
-        <!-- maize_bran,cotton,sun_flower,fish,salt,general_purpose_premix,layers_premix ,shells 
-        meat_boaster ,egg_boaster  -->
-                    <tr>
-                        <th>Broilers_Marsh</th>
-                        <th>Chick_Marsh</th>
-                        <th>Growers_Marsh</th>
-                        <th>Old_Pig</th>
-                        <th>Layer's_Marsh</th>
-                        <th>Young_Pig</th>
-                        
-                       
-                    </tr>
-                    
-                    <tr>
-                        <td>{{ product_sales_dictionary.broilers_marsh }} </td>
-                        <td>{{ product_sales_dictionary.chick_marsh }} </td>
-                        <th>{{ product_sales_dictionary.growers_marsh }}
-                        <td>{{ product_sales_dictionary.old_pig }}</td>
-                        <td>{{ product_sales_dictionary.layers_marsh }}</td>
-                        <td>{{ product_sales_dictionary.young_pig }}</td>
-
-                    </tr>
-                    
-                
-                </table>
-       
+               
 </body>
 <a href="{% url 'index' %}"><p>Home</p></a><br/>
-<a href="{% url 'get_supply' %}"><p>Purchases</p></a><br/>
-     <a href="{% url 'view_supply' %}"><p>View Purchases</p></a><br/>
-     <a href="{% url 'create_product' %}"><p>Mix Products</p></a><br/>
-         <a href="{% url 'expenses' %}"><p>Expenses</p></a><br/>
-             <a href="{% url 'view_expenses' %}"><p>View_Expenses</p></a><br/>
-
-     <a href="{% url 'view_product' %}"><p>View Products</p></a><br/>
-   <!--   <a href="{% url 'raw_material_prices' %}"><p>Raw Material Price</p></a><br/>
-     <a href="{% url 'view_raw_material_prices' %}"><p>View Raw Material Prices</p></a><br/>
-     <a href="{% url 'create_product_prices' %}"><p>Set Product Prices</p></a><br/>
-     <a href="{% url 'view_product_prices' %}"><p>View Product Prices</p><br/> -->
-     <a href="{% url 'product_sales' %}"><p>Product Sales</p></a><br/>
-     <a href="{% url 'view_product_sales' %}"><p>View Product Sales</p></a><br/>
-     <a href="{% url 'raw_material_sales' %}"><p>Raw Material Sales</p></a><br/>
-     <a href="{% url 'view_raw_material_sales' %}"><p>View Raw Material Sales</p></a><br/>
-
-
 <center>
 
      <footer>

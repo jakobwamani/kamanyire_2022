@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<title>Employee Enrollment</title>
+		<style>
+			 /* Style the form - display items horizontally */
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+/* Add some margins for each label */
+.form-inline label {
+  margin: 5px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline input {
+  vertical-align: middle;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+  padding: 10px 20px;
+  background-color: dodgerblue;
+  border: 1px solid #ddd;
+  color: white;
+}
+
+.form-inline button:hover {
+  background-color: royalblue;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+  .form-inline input {
+    margin: 10px 0;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+} 
+
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+		</style>
+	</head>
+	<body>
+		<h3>Employee Enrollment</h3> 
+		<form method="POST" enctype="multipart/form-data" class="form-inline">
+	<!-- Security token  Make sure you put this immediately after the form tag-->
+	{% csrf_token %}
+	
+     <!-- Using the formset -->
+    {{ form.as_p }}
+	
+	<input type="submit" value="Enroll"> 
+</form>
+	</body>
+	<div>
+		<a href="{% url 'index' %}"><p>Home</p></a><br/>
+
+    <a href="{% url 'view_employees' %}"><p>View Employees</p></a><br/>
+	</div>
+	 
+
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+</html>

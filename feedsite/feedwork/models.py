@@ -1,231 +1,140 @@
 from django.db import models
 from decimal import Decimal
 from django.utils import timezone
-
 from datetimewidget.widgets import DateTimeWidget
 import datetime
-# Create your models here.
-# declare a new model with a name "GeeksModel"
-class RawMaterial(models.Model):
 
-	# fields of the model
-	# date,receiptnumber,supplier,item,unit,quantity,amount
+class raw_materials(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
-	receipt_number = models.CharField(max_length = 100)
-	supplier = models.CharField(max_length = 100)
-	
-	item = models.CharField(max_length = 50)
-	# models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	loading = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	off_loading = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	transport = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	unit_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	#Am making this a null True because when the user is entering the supply data , am not able to make it appear
-	total = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	
-	def save(self, *args, **kwargs):
-        # Using the regular field, set the value of the read-only field.
-        
-		self.total = (self.quantity * self.unit_price) + (self.loading + self.off_loading + self.transport)
-		# call the parent's save() method
-		self.unit_price = self.total / self.quantity
+	raw_material_name = models.CharField(max_length=50)
 		
-		super(RawMaterial, self).save(*args, **kwargs)
+	def __str__(self):		   
+		return ' {}'.format(self.raw_material_name)
 
-	
-
-	def __str__(self):
-		   
-		return '{}'.format(self.date)
-
-class Product(models.Model):
+class suppliers(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
-	product = models.CharField(max_length = 100)
-	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	animal_salt = models.DecimalField(max_digits=10 , decimal_places=3 ,default=0.0)
-	common_salt = models.DecimalField(max_digits=10 , decimal_places=3 ,default=0.0)
-	brown_salt = models.DecimalField(max_digits=10 , decimal_places=3 ,default=0.0)
-	coconut = models.DecimalField(max_digits=10 , decimal_places=3 ,default=0.0)
-	pig_concentrate = models.DecimalField(max_digits=10 , decimal_places=3 ,default=0.0)
-	wonder_pig = models.DecimalField(max_digits=10 , decimal_places=3 , default=0.0)
-	big_pig	= models.DecimalField(max_digits=10 , decimal_places=3 ,default=0.0)
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class RawMaterialQuantities(models.Model):
-	date = models.DateField()
-	time = models.TimeField()
-	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
-	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	common_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	animal_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	pig_concentrate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	coconut = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class ProductQuantities(models.Model):
-	date = models.DateField()
-	time = models.TimeField()
-	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	growers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	layers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	
-	
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class ProductPrices(models.Model):
-	date = models.DateTimeField()
-	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	
-	growers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	layers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class RawMaterialPrices(models.Model):
-	date = models.DateTimeField()
-	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	
-	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	animal_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	common_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	pig_concentrate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	coconut = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class ProductSales(models.Model):
-	date = models.DateField()
-	time = models.TimeField()
-	product = models.CharField(max_length = 50)
-	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	selling_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	total = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class RawMaterialSales(models.Model):
-	date = models.DateField()
-	time = models.TimeField()
-	raw_material = models.CharField(max_length = 50)
-	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	selling_price = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	total = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-
-	def __str__(self):
-		return '{}'.format(self.date)
-
-class Expenses(models.Model):
-	date = models.DateField()
-	time = models.TimeField()
-	expense = models.CharField(max_length = 50)
-	raw_material = models.CharField(max_length = 50)
-	supplier = models.CharField(max_length= 50)
-	unit = models.CharField(max_length= 50)
-	quantity = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	rate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	amount = models.DecimalField(max_digits = 10 , decimal_places=3 , default = 0.0)
-
-	def save(self, *args, **kwargs):
-        # Using the regular field, set the value of the read-only field.
-        
-		self.amount = (self.quantity * self.rate)
+	supplier_name = models.CharField(max_length=50)
 		
-		
-		super(Expenses, self).save(*args, **kwargs)
+	def __str__(self):		   
+		return '{}'.format(self.supplier_name)
 
-	
-	def __str__(self):
-		return '{}'.format(self.date)	
-
-
-
-      
-class RawMaterialProfits(models.Model):
+class purchases(models.Model):
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	supplier = models.ForeignKey(suppliers, on_delete=models.CASCADE)
+	# logistics = models.ForeignKey(logistics, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
-	maize_bran = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
-	cotton = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	sun_flower = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0 , null=True)
-	fish = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0, null=True)
-	general_purpose_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	layers_premix = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	shells = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	meat_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	egg_boaster = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	calcium = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	soya_bean = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	brown_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	animal_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	common_salt = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	pig_concentrate = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	coconut = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	wonder_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
-	big_pig = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0,null=True)
+	unit_price = models.IntegerField()
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
 
 	def __str__(self):
-		return '{}'.format(self.date)
+		return 'Purchase id: {} :Purchase Date: {} :Purchase Time: {} : Raw Material: {} : Supplier: {} : Unit Price: {} : Quantity: {}'.format(self.id,self.date,self.time,self.raw_material_name,self.supplier,self.unit_price,self.quantity)
 
-class ProductProfits(models.Model):
-	date = models.DateField(default=datetime.date.today())
-	time = models.TimeField(default=timezone.now)
-	broilers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	chick_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	pig_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	growers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
-	layers_marsh = models.DecimalField(max_digits=10, decimal_places=3 , default=0.0)
+class logistics(models.Model):
+	purchase = models.ForeignKey(purchases,on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	loading = models.IntegerField()
+	off_loading = models.IntegerField()
+	transport = models.IntegerField()
+
+	def __str__(self):		   
+		return ' {} : {} : {}'.format(self.date,self.time,self.purchase)
+
+	
+class raw_material_transactions(models.Model):
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	quantity = models.DecimalField(max_digits=10, decimal_places=2 , default=0.0)
+	unit_price = models.IntegerField()
+	
 	def __str__(self):
-		return '{}'.format(self.date)
+		return 'id : {} : Date : {} : Time : {}  Raw Material : {}  : Unit_price : {} : Quantity : {}'.format(self.id,self.date,self.time,self.raw_material_name,self.unit_price,self.quantity)
 
-class employee_enrollment(models.Model):
+
+class product_names(models.Model):
+	date = models.DateField()
+	time = models.TimeField()
+	product_name = models.CharField(max_length=50 )
+
+	def __str__(self):
+		return '{}'.format(self.product_name)
+
+class products(models.Model):
+	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+
+	def __str__(self):
+		return 'date : {} : product_name : {} : quantity : {}'.format(self.id,self.date,self.product_name,self.quantity)
+
+class raw_material_separations(models.Model):
+	raw_material_name = models.ForeignKey(raw_materials, on_delete=models.CASCADE)
+	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	separation_name = models.CharField(max_length=50)
+	ratio = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+
+	def __str__(self):
+		return '{} : {} : {} : {} : {}'.format(self.id,self.product_name,self.raw_material_name,self.separation_name,self.ratio)
+
+
+
+class product_sales(models.Model):
+	product_name = models.ForeignKey(product_names, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	unit_price = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	def __str__(self):
+		return '{} : {} : {} : {}'.format(self.id,self.product_name,self.quantity,self.unit_price)
+
+class expense_names(models.Model):
+	date = models.DateField()
+	time = models.TimeField()
+	expense_name = models.CharField(max_length=50)
+
+	def __str__(self):
+		return '{}'.format(self.expense_name)
+
+class expense_units(models.Model):
+	date = models.DateField()
+	time = models.TimeField()
+	unit_name = models.CharField(max_length=50)
+
+	def __str__(self):
+		return '{}'.format(self.unit_name)
+
+class indirect_expenses(models.Model):
+	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE)
+	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	unit_price = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+
+	def __str__(self):
+		return 'id : {} : expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.expense_name,self.unit_price,self.quantity)
+
+
+class direct_expenses(models.Model):
+	purchase = models.ForeignKey(purchases,on_delete=models.CASCADE)
+	expense_name = models.ForeignKey(expense_names, on_delete=models.CASCADE)
+	expense_unit = models.ForeignKey(expense_units, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	unit_price = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+	quantity = models.DecimalField(max_digits=10, decimal_places=4 , default=0.0)
+
+	def __str__(self):
+		return 'id : {} Purchase : {} : expense : {} : unit_price : {} : quantity : {}'.format(self.id,self.purchase,self.expense_name,self.unit_price,self.quantity)
+
+class employee(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	first_name = models.CharField(max_length = 50)
@@ -236,10 +145,10 @@ class employee_enrollment(models.Model):
 	employment_start_date = models.DateField()
 
 	def __str__(self):
-		return '{}: {} {}'.format(self.id,self.first_name,self.last_name)
+		return '{} : {} : {}'.format(self.id,self.first_name,self.last_name)
 
 class employment_terms(models.Model):
-	employee_id = models.ForeignKey(employee_enrollment, on_delete=models.CASCADE)
+	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
 	agreed_salary = models.IntegerField()
@@ -247,17 +156,26 @@ class employment_terms(models.Model):
 	salary_end_date = models.DateField()
 
 	def __str__(self):
-		return '{}'.format(self.date)
+		return '{} : {} : {}'.format(self.id,self.employee_id,self.agreed_salary)
 
 	
-class advance_payment(models.Model):
-	employee_id = models.ForeignKey(employee_enrollment, on_delete=models.CASCADE)
+class advance_payments(models.Model):
+	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
 	date = models.DateField()
 	time = models.TimeField()
 	advance = models.IntegerField()
 	
 	def __str__(self):
-		return '{}'.format(self.date)
+		return '{} : {} : {}'.format(self.id,self.employee_id,self.advance)
+
+class salary_payments(models.Model):
+	employee_id = models.ForeignKey(employee, on_delete=models.CASCADE)
+	date = models.DateField()
+	time = models.TimeField()
+	salary_amount = models.IntegerField()
+	
+	def __str__(self):
+		return '{} : {} : {} : {}'.format(self.id,self.date,self.employee_id,self.salary)
 
 
 	

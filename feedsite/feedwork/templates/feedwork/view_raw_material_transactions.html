@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        View Raw Materials
+    </title>
+    {% load supply_extras %}
+    
+    {% load mathfilters %}
+    <style type="text/css">
+        table, th, td {
+  border: 1px solid black;
+
+}
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+    </style>
+</head>
+<body>
+<h1>View Raw Material Sales</h1>
+    <form action="{% url 'view_raw_material_sales' %}" method="post">
+                {% csrf_token %}
+                <label>From</label>
+                <input name="start_date" type="date" ><br/><br/>
+                <labe>To</labe>
+                <input name="end_date" type="date" ><br/><br/>
+
+                <label for="raw_material_name">Raw Material:</label>
+
+                        <select name="raw_material" id="raw_material_name">
+                            {% for name in input_names %} 
+                                <option value={{ name.raw_material_name }}>{{ name.raw_material_name }}</option>
+                            {% endfor %}  
+                        </select>  
+                        
+                <input type="submit" name="submit" value="Search"/>                
+    </form>
+
+     <table>
+                    <ul>
+       
+                    <tr>
+                        <th>Purchase Id</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Raw Material</th>
+                        
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                       
+                    </tr>
+                    {% for value in material_sales %}
+                    <tr>
+                        <td>{{ value.id}} </td>
+                        <td>{{ value.date }} </td>
+                        <th>{{ value.time }}</th>
+                        <th>{{ value.raw_material_name}}</th>
+                        
+                        <td>{{ value.unit_price }}</td>
+                        <td>{{ value.quantity }}</td>
+                        <td>{{ value.unit_price|mul:value.quantity }}</td>
+                        <td><a href="../update_raw_material_transactions/?id={{ value.id }}">Update</a></td>
+                        <td><a href="../delete_raw_material_transactions/?id={{ value.id }}">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                </table>
+       
+</body>
+<a href="{% url 'index' %}"><p>Home</p></a><br/>
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+
+</html>

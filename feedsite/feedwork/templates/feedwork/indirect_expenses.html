@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Indirect Expenses</title>
+	<style>
+		input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+	</style>
+</head>
+<body>
+<form method="POST" enctype="multipart/form-data" autocomplete="on">
+    <!-- Security token  Make sure you put this immediately after the form tag-->
+    {% csrf_token %}
+            
+    <h1>Indirect Expenses</h1>
+            
+    {{ form.as_p }}
+
+    <br/>
+ 
+    <input type="submit" value="Submit"> 
+</form>
+
+<div>
+	<a href="{% url 'index' %}"><p>Home</p></a><br/>
+</div>	
+</body>
+<div>
+    
+    <a href="{% url 'view_expenses' %}"><p>View Indirect Expenses</p></a><br/>
+</div> 
+<center>
+	<footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+     
+</html>

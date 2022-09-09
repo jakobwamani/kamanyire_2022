@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		Delete a Direct Expense
+	</title>
+</head>
+<body>
+   <h1>Delete a Direct Expense</h1>
+    <form>
+       
+        <form method="post">{% csrf_token %}
+            Are you sure you want to delete "{{ object }}" ?
+            <input type="submit" value="Submit" />
+        </form>
+        </div> 
+    </form>
+</body>
+<div>
+    <a href="{% url 'index' %}"><p>Home</p></a><br/>
+
+</div>
+
+    <center>
+        <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+    </center>
+
+     
+
+</html>

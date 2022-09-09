@@ -1,0 +1,195 @@
+<html>
+<head>
+	<title>View Stock Balance</title>
+            {% load static %}  
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="{% static 'js/classie.js' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    {{ form.media }}
+</head>
+<style type="text/css">
+        th, td { border: 1px solid black;}
+        .container{
+            display: flex;
+            max-height:100vh
+
+        }
+       
+        .container > .navigation {
+            flex: 4; /*grow*/
+            
+        }
+        .container > .raw_material_quantities{
+            flex: 4;
+        }
+        .container > .product_quantities{
+            flex: 4;
+        }
+        .container > .profit_showcase{
+            flex: 4;
+        }
+         /* Style inputs */
+  input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  width: 100%;
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add a background color to the submit button on mouse-over */
+input[type=submit]:hover {
+  background-color: #45a049;
+} 
+
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+.flex-container {
+  display: flex;
+  
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 20px;
+}
+</style>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<body>
+    <center><h3>Stock Balance</h3></center>
+
+    <form action="{% url 'view_stock_balance' %}" method="post">
+            {% csrf_token %}
+                
+                <label>Date</label>
+                <input name="start_date" type="date" ><br/><br/> 
+                <input type="submit" name="submit" value="COMPILE"/>            
+    </form>
+<div class="flex-container">
+    <div>
+            <strong>Navigation</strong>
+
+             <a href="{% url 'index' %}"><p>Home</p></a>
+
+             <a href="{% url 'view_stock_balance' %}"><p>View Stock Balance</p></a>
+
+             <a href="{% url 'view_profit' %}"><p>View Profits</p></a>
+
+             <a href="{% url 'setup_raw_materials' %}"><p>Raw Material Names</p></a>
+
+             <a href="{% url 'setup_suppliers' %}"><p>Suppliers</p></a>
+
+             <a href="{% url 'purchases' %}"><p>Purchases</p></a>
+
+             <a href="{% url 'setup_logistics' %}"><p>Logistics</p></a>
+
+             <a href="{% url 'execute_raw_material_sales' %}"><p>Raw Material Sales</p></a>
+
+             <a href="{% url 'setup_product_names' %}"><p>Product Names</p></a>
+
+             <a href="{% url 'setup_products' %}"><p>Products</p></a>
+
+             <a href="{% url 'setup_raw_material_separations' %}"><p>Product Ratios</p></a>
+
+             <a href="{% url 'execute_product_sales' %}"><p>Product Sales</p></a>
+
+             <a href="{% url 'setup_expense_names' %}"><p>Expenses Names</p></a>
+
+             <a href="{% url 'setup_expense_units' %}"><p>Expenses Units</p></a>
+
+             <a href="{% url 'record_direct_expenses' %}"><p> Direct Expenses</p></a> 
+
+            <a href="{% url 'record_expenses' %}"><p> Indirect Expenses</p></a>   
+            
+            <a href="{% url 'enroll_employees' %}"><p> Enroll Employees</p></a> 
+
+            <a href="{% url 'make_employee_terms' %}"><p> Employment Terms</p></a> 
+             
+            <a href="{% url 'make_advance' %}"><p> Advance Payments</p></a>
+
+            <a href="{% url 'pay_salary' %}"><p>Salary Payments</p></a>
+    </div>
+
+
+    <div>
+            <strong>Raw Material Stock Balance</strong>
+        <table>
+        {% for key , value in raw_material_stock_balance.items %}
+        
+            
+            <p>{{ key }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ value }}</p>
+            
+        {% endfor %}
+        </table>
+    </div>
+
+
+
+    
+    <div>
+        <strong>Product Stock Balance</strong>
+        <table>
+        {% for key , value in product_stock_balance.items %}
+        
+            
+            <p>{{ key }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ value }}</p>
+            
+        {% endfor %}
+        </table>
+    </div>
+
+    
+
+
+
+</div>
+    
+</body>
+
+
+<center>
+
+     <footer>
+  <p>Developed by Wamani Jacob  Email:nicobwan@gmail.com 0770594160 ,  0752055172 </p>
+  <p></p>
+</footer> 
+
+</center>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+</html>
