@@ -4,8 +4,12 @@ from feedwork import views
 from django.contrib import admin
 from django.conf.urls import url
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 urlpatterns = [
 
+    path('sentry-debug/', trigger_error),
     path('', views.index, name='index'),
     
     path('raw_material_names/',views.setup_raw_material_names,name="setup_raw_materials"),
