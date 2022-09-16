@@ -14,6 +14,7 @@ from feedwork.models import *
 import snoop
 import json
 import logging
+
 @snoop
 def index(request):
     if request.method == 'POST':
@@ -64,6 +65,9 @@ def index(request):
 
     else:
         return render(request,"index.html",{})
+
+
+
 def setup_raw_material_names(request):
     context = {}
     # add the dictionary during initialization
