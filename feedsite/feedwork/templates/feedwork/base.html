@@ -1,0 +1,61 @@
+>
+      {% block sb_admin_content %}
+      <div class="alert alert-secondary alert-dismissable show">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-info-circle"></i>  <strong>Django SB Admin</strong> This and everything below is inside <code>sb_admin_content</code> block.
+      </div>
+      <h2 class="page-header">Django SB Admin</h2>
+      <p class="lead">Reusable Django application providing SB Admin dashboard theme.</p>
+      <h3>Links</h3>
+      <ul>
+        <li><a href="https://github.com/bluszcz/django-sb-admin">django-sb-admin</a> project page on github</li>
+        <li><a href="https://startbootstrap.com/templates/sb-admin/">sb-admin</a> original project page</li>
+      </ul>
+
+  {# {% include "django_sb_admin/login.html" %}                #}
+  {% endblock sb_admin_content %}
+    </div><!-- cfluid -->
+  </div><!-- content wrapper -->
+  <!-- Sticky Footer -->
+  <footer class="sticky-footer">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>{% block sb_admin_copyright %}Copyright © Your Website 2019{% endblock sb_admin_copyright %}</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- wrapper end -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- jQuery -->
+<script src="{% static "js/jquery.js"%}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static "js/bootstrap.min.js"%}"></script>
+{% block sb_admin_custom_js %}{% endblock sb_admin_custom_js %}
+<!-- Bootstrap core JavaScript-->
+<script src="{% static "vendor/jquery/jquery.min.js"%}"></script>
+<script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js"%}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static "vendor/jquery-easing/jquery.easing.min.js"%}"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="{% static "vendor/chart.js/Chart.min.js"%}"></script>
+<script src="{% static "vendor/datatables/jquery.dataTables.js"%}"></script>
+<script src="{% static "vendor/datatables/dataTables.bootstrap4.js"%}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static "js/sb-admin.min.js"%}"></script>
+
+<!-- Demo scripts for this page-->
+<script src="{% static "js/demo/datatables-demo.js"%}"></script>
+<script src="{% static "js/demo/chart-area-demo.js"%}"></script>
+
+
+</body>
+
+</html>

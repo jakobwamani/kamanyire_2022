@@ -95,7 +95,7 @@ tr:nth-child(even) {
             {% csrf_token %}
                 
                 <label>Date</label>
-                <input name="start_date" type="date" ><br/><br/> 
+                <input name="start_date" type="date" id='date-time' ><br/><br/> 
                 <input type="submit" name="submit" value="CHECK"/>            
     </form>
 <div class="flex-container">
@@ -190,6 +190,13 @@ tr:nth-child(even) {
 </center>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+
+  var dt = new Date().toISOString().substring(0,10)
+  
+  document.getElementById('date-time').innerHTML=dt;
+
+</script>
 
 
 </html>
