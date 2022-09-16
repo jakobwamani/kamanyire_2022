@@ -43,6 +43,9 @@ Multiply it with the new cost price
 
 Add the two multiplications together and divide it by total quantity of the specified raw material
 #### Personal Access Tokens for this project
+token for python anywhere
+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
+
 September 3rd 2022
 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
 
